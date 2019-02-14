@@ -1,0 +1,34 @@
+{
+  "name": "greenfield",
+  "version": "1.0.0",
+  "description": "hobby-sharing web app",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "mocha spec/index.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psychonauts/Greenfield.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/psychonauts/Greenfield/issues"
+  },
+  "homepage": "https://github.com/psychonauts/Greenfield#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "passport": "^0.4.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "sequelize": "^4.42.0",
+    "underscore": "^1.9.1",
+    "webpack": "^4.29.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
