@@ -4,7 +4,9 @@
   "description": "hobby-sharing web app",
   "main": "server/server.js",
   "scripts": {
-    "test": "mocha spec/index.spec.js"
+    "test": "mocha spec/index.spec.js",
+    "react-dev": "webpack -d --watch",
+    "server-dev": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "nodemon": "^1.18.10",
     "passport": "^0.4.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
