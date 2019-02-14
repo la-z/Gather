@@ -114,6 +114,37 @@ const ThreadComment = sequelize.define('thread_comment', {
   }
 });
 
+const Group = sequelize.define('group', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: Sequelize.STRING,
+});
 
+const GroupsUsers = sequelize.define('groups_users', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  id_user: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+    }
+  },
+  id_group: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Group,
+      key: 'id',
+      deferrable: Sequelize.deferrable.INITIALLY_IMMEDIATE
+    }
+  }
+});
 
 sequelize.sync();
