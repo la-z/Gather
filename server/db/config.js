@@ -9,11 +9,6 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: 'postgres',
-  ssl: true,
-  dialectOptions: {
-    ssl: true,
-    
-  }
 });
 
 const User = sequelize.define('user', {
@@ -156,3 +151,5 @@ module.exports = {
   Group,
   GroupsUsers
 };
+
+User.create({username: 'alexa', password: 'hello'});
