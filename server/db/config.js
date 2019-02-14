@@ -87,6 +87,33 @@ const Comment = sequelize.define('comment', {
       deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   }
-})
+});
+
+const ThreadComment = sequelize.define('thread_comment', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  body: Sequelize.STRING,
+  id_user: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+    }
+  },
+  id_comment: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Comment,
+      key: 'id',
+      deferrable: Sequelize.deferrable.INITIALLY_IMMEDIATE
+    }
+  }
+});
+
+
 
 sequelize.sync();
