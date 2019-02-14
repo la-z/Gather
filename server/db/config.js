@@ -1,10 +1,19 @@
+require('dotenv').config();
+
+const fs = require('fs');
+
 const pg = require('pg');
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('hobbyist', process.env.DB_USER, process.env.DP_PASS, {
+const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
-  dialect: 'postgres'
+  dialect: 'postgres',
+  ssl: true,
+  dialectOptions: {
+    ssl: true,
+    
+  }
 });
 
 const User = sequelize.define('user', {
@@ -137,5 +146,3 @@ const GroupsUsers = sequelize.define('groups_users', {
     }
   }
 });
-
-sequelize.sync();
