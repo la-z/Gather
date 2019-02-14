@@ -21,6 +21,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "passport": "^0.4.0",
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "sequelize": "^4.42.0",
