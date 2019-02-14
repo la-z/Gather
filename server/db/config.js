@@ -18,7 +18,9 @@ const User = sequelize.define('user', {
     autoIncrement: true
   },
   username: Sequelize.STRING,
-  password: Sequelize.STRING // needs hashing
+  password: Sequelize.STRING, // needs hashing
+  email: Sequelize.STRING,
+  telephone: Sequelize.STRING
 });
 
 const Event = sequelize.define('event', {
@@ -30,6 +32,7 @@ const Event = sequelize.define('event', {
   category: Sequelize.STRING,
   title: Sequelize.STRING,
   description: Sequelize.STRING,
+  private: Sequelize.BOOLEAN,
   time: Sequelize.DATE,
   lat: Sequelize.NUMERIC,
   long: Sequelize.NUMERIC,
@@ -42,13 +45,13 @@ const Event = sequelize.define('event', {
   }
 });
 
-const FollowedEvent = sequelize.define('followed_event', {
+const InterestedEvent = sequelize.define('interested_event', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  attending: Sequelize.BOOLEAN,
+  rsvp: Sequelize.BOOLEAN,
   id_user: {
     type: Sequelize.INTEGER,
     references: {
@@ -88,7 +91,7 @@ const Comment = sequelize.define('comment', {
   }
 });
 
-const ThreadComment = sequelize.define('thread_comment', {
+const ReplyComment = sequelize.define('reply_comment', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
