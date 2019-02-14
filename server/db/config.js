@@ -39,4 +39,29 @@ const Event = sequelize.define('event', {
   }
 });
 
+FollowedEvent = sequelize.define('followed_event', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  attending: Sequelize.BOOLEAN,
+  id_user: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+    }
+  },
+  id_event: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Event,
+      key: 'id',
+      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+    }
+  }
+})
+
 sequelize.sync();
