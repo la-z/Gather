@@ -34,7 +34,6 @@ const Event = sequelize.define('event', {
     references: {
       model: User,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   }
 });
@@ -51,7 +50,6 @@ const FollowedEvent = sequelize.define('followed_event', {
     references: {
       model: User,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   },
   id_event: {
@@ -59,7 +57,6 @@ const FollowedEvent = sequelize.define('followed_event', {
     references: {
       model: Event,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   }
 });
@@ -76,7 +73,6 @@ const Comment = sequelize.define('comment', {
     references: {
       model: User,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   },
   id_event: {
@@ -84,7 +80,6 @@ const Comment = sequelize.define('comment', {
     references: {
       model: Event,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   }
 });
@@ -101,7 +96,6 @@ const ThreadComment = sequelize.define('thread_comment', {
     references: {
       model: User,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   },
   id_comment: {
@@ -109,7 +103,6 @@ const ThreadComment = sequelize.define('thread_comment', {
     references: {
       model: Comment,
       key: 'id',
-      deferrable: Sequelize.deferrable.INITIALLY_IMMEDIATE
     }
   }
 });
@@ -134,7 +127,6 @@ const GroupsUsers = sequelize.define('groups_users', {
     references: {
       model: User,
       key: 'id',
-      deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
     }
   },
   id_group: {
@@ -142,7 +134,6 @@ const GroupsUsers = sequelize.define('groups_users', {
     references: {
       model: Group,
       key: 'id',
-      deferrable: Sequelize.deferrable.INITIALLY_IMMEDIATE
     }
   }
 });
