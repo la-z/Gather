@@ -146,3 +146,13 @@ const GroupsUsers = sequelize.define('groups_users', {
     }
   }
 });
+
+module.exports = {
+  User,
+  Event,
+  FollowedEvent,
+  Comment,
+  ThreadComment,
+  Group,
+  GroupsUsers
+};
