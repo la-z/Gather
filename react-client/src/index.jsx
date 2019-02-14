@@ -5,8 +5,18 @@ import axios from 'axios';
 //import PropTypes from 'prop-types';
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  
   render() {
-    return <h1>Hello World</h1>;
+    return (
+      <h1>Hello World</h1>
+    )
   }
 }
 
