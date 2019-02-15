@@ -25,6 +25,15 @@ module.exports.save = ({
 });
 
 /*
+delete
+removes user from db
+@params
+  userId: Integer
+returns: Promise (Integer -- number of rows deleted (should always be 1))
+*/
+
+
+/*
 followEvent
 creates new entry in table InterestedEvent, linking user and event
 initializes "rsvp" to false
