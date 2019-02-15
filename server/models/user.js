@@ -69,7 +69,7 @@ module.exports.unfollowEvent = (userId, eventModel) => InterestedEvent.destroy({
 });
 
 /*
-rsvpEventToggle
+toggleRsvp
 finds entry in InterestedEvent corresponding to given user and event
 flips InterestedEvent instance's rsvp property, saves to db
 @params
@@ -77,7 +77,7 @@ flips InterestedEvent instance's rsvp property, saves to db
   eventModel: Sequelize.Model
 returns: Promise (Array: number updated rows, updated InterestedEvent)
 */
-module.exports.rsvpEventToggle = (userId, eventModel) => InterestedEvent.update({ rsvp: Sequelize.literal('NOT rsvp') },
+module.exports.toggleRsvp = (userId, eventModel) => InterestedEvent.update({ rsvp: Sequelize.literal('NOT rsvp') },
   {
     where: {
       user_id: userId,
