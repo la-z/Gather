@@ -53,7 +53,9 @@ const Group = sequelize.define('group', {
 
 // creating foreign keys
 
-
+Event.hasOne(User);
+Event.belongsToMany(User, { through: InterestedEvent });
+User.belongsToMany(Event, { through: InterestedEvent });
 
 module.exports = {
   User,
