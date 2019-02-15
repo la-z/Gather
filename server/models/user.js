@@ -31,7 +31,11 @@ removes user from db
   userId: Integer
 returns: Promise (Integer -- number of rows deleted (should always be 1))
 */
-
+module.exports.delete = userId => User.destroy({
+  where: {
+    id: userId,
+  },
+});
 
 /*
 followEvent
