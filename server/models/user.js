@@ -1,4 +1,4 @@
-const User = require('../db/config');
+const { User, InterestedEvent } = require('../db/config');
 
 /*
 save
@@ -32,6 +32,8 @@ initializes "rsvp" to false
   eventModel: Sequelize.Model
 returns: Promise (new Model)
 */
-module.exports.followEvent = (userModel, eventModel) => {
-
-};
+module.exports.followEvent = (userModel, eventModel) => InterestedEvent.create({
+  user_id: userModel.get('id'),
+  event_id: eventModel.get('id'),
+  rsvp: false,
+});
