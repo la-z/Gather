@@ -19,7 +19,7 @@ delete
 removes user from db
 @params
   userId: Integer
-returns: Promise (Integer -- number of rows deleted (should always be 1))
+returns: Promise (Integer -- number of rows deleted)
 */
 module.exports.delete = userId => User.destroy({
   where: {
@@ -37,8 +37,8 @@ initializes "rsvp" to false
 returns: Promise (new InterestedEvent)
 */
 module.exports.followEvent = (userId, eventModel) => InterestedEvent.create({
-  user_id: userId,
-  event_id: eventModel.get('id'),
+  userId,
+  eventId: eventModel.get('id'),
   rsvp: false,
 });
 
@@ -53,7 +53,7 @@ returns: Promise (Integer -- number of rows deleted (should always be 1))
 
 module.exports.unfollowEvent = (userId, eventModel) => InterestedEvent.destroy({
   where: {
-    user_id: userId,
+    userId,
     event_id: eventModel.id,
   },
 });
@@ -70,8 +70,8 @@ returns: Promise (Array: number updated rows, updated InterestedEvent)
 module.exports.toggleRsvp = (userId, eventModel) => InterestedEvent.update({ rsvp: Sequelize.literal('NOT rsvp') },
   {
     where: {
-      user_id: userId,
-      event_id: eventModel.id,
+      userId,
+      eventId: eventModel.id,
     },
     returning: true, // forces sequelize to return affected rows with postgres, default false
     limit: 1, // just in case somehow multiple instances match (should never be the case)
