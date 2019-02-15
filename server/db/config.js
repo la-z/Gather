@@ -1,9 +1,5 @@
 require('dotenv').config();
 
-const fs = require('fs');
-
-const pg = require('pg');
-
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_PASS, {
@@ -15,7 +11,7 @@ const User = sequelize.define('user', {
   username: Sequelize.STRING,
   password: Sequelize.STRING, // needs hashing
   email: Sequelize.STRING,
-  telephone: Sequelize.STRING
+  telephone: Sequelize.STRING,
 });
 
 const Event = sequelize.define('event', {
@@ -43,8 +39,8 @@ const ReplyComment = sequelize.define('reply_comment', {
     references: {
       model: Comment,
       key: 'id',
-    }
-  }
+    },
+  },
 });
 
 const Group = sequelize.define('group', {
@@ -60,11 +56,9 @@ User.belongsToMany(Event, { through: InterestedEvent });
 module.exports = {
   User,
   Event,
-  FollowedEvent,
+  InterestedEvent,
   Comment,
-  ThreadComment,
+  ReplyComment,
   Group,
-  GroupsUsers
+  GroupsUsers,
 };
-
-User.create({username: 'alexa', password: 'hello'});
