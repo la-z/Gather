@@ -61,4 +61,4 @@ module.exports = {
   Group,
 };
 
-sequelize.sync();
+// sequelize.sync();
