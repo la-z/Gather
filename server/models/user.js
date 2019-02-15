@@ -48,6 +48,13 @@ deletes the entry in InterestedEvent corresponding to given user and event
 returns: Promise (Integer -- number of rows deleted (should always be 1))
 */
 
+module.exports.unfollowEvent = (userId, eventModel) => InterestedEvent.destroy({
+  where: {
+    user_id: userId,
+    event_id: eventModel.id,
+  },
+});
+
 /*
 rsvpEventToggle
 finds entry in InterestedEvent corresponding to given user and event
