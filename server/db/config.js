@@ -34,13 +34,6 @@ const Comment = sequelize.define('comment', {
 
 const ReplyComment = sequelize.define('reply_comment', {
   body: Sequelize.STRING,
-  id_comment: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Comment,
-      key: 'id',
-    },
-  },
 });
 
 const Group = sequelize.define('group', {
@@ -52,6 +45,12 @@ const Group = sequelize.define('group', {
 Event.hasOne(User);
 Event.belongsToMany(User, { through: InterestedEvent });
 User.belongsToMany(Event, { through: InterestedEvent });
+Comment.hasOne(Event);
+Comment.hasOne(User);
+ReplyComment.hasOne(Comment);
+ReplyComment.hasOne(User);
+Group.belongsToMany(User, { through: 'groupsUsers' });
+User.belongsToMany(Group, { through: 'groupsUsers' });
 
 module.exports = {
   User,
@@ -60,5 +59,6 @@ module.exports = {
   Comment,
   ReplyComment,
   Group,
-  GroupsUsers,
 };
+
+sequelize.sync();
