@@ -8,23 +8,12 @@ creates a new Event and saves to db
     category: String
     title: String
     description: String
+    private: Bool
     time: Datetime
     lat: Float
     long: Float
-    isPrivate: Bool
-    user_id: Integer
+    id_user: Integer
 returns: Promise (new Model)
 */
 
-module.exports.save = ({
-  category,
-  title,
-  description,
-  time,
-  lat,
-  long,
-  isPrivate,
-  user_id,
-}) => {
-
-};
+module.exports.save = options => Event.create(options);
