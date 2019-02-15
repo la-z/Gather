@@ -8,7 +8,7 @@ const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_
 });
 
 const User = sequelize.define('user', {
-  username: Sequelize.STRING,
+  username: { type: Sequelize.STRING, unique: true },
   password: Sequelize.STRING, // needs hashing
   email: Sequelize.STRING,
   telephone: Sequelize.STRING,
