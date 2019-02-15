@@ -12,17 +12,7 @@ creates new instance of User model and saves in db
     telephone: string
 returns: Promise (new Model)
 */
-module.exports.save = ({
-  username,
-  password,
-  email,
-  telephone,
-}) => User.create({
-  username,
-  password,
-  email,
-  telephone,
-});
+module.exports.save = options => User.create(options);
 
 /*
 delete
