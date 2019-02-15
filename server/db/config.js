@@ -26,60 +26,18 @@ const Event = sequelize.define('event', {
   time: Sequelize.DATE,
   lat: Sequelize.NUMERIC,
   long: Sequelize.NUMERIC,
-  id_user: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    }
-  }
 });
 
 const InterestedEvent = sequelize.define('interested_event', {
   rsvp: Sequelize.BOOLEAN,
-  id_user: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    }
-  },
-  id_event: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Event,
-      key: 'id',
-    }
-  }
 });
 
 const Comment = sequelize.define('comment', {
   body: Sequelize.STRING,
-  id_user: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    }
-  },
-  id_event: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Event,
-      key: 'id',
-    }
-  }
 });
 
 const ReplyComment = sequelize.define('reply_comment', {
   body: Sequelize.STRING,
-  id_user: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    }
-  },
   id_comment: {
     type: Sequelize.INTEGER,
     references: {
@@ -93,22 +51,9 @@ const Group = sequelize.define('group', {
   name: Sequelize.STRING,
 });
 
-const GroupsUsers = sequelize.define('groups_users', {
-  id_user: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id',
-    }
-  },
-  id_group: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Group,
-      key: 'id',
-    }
-  }
-});
+// creating foreign keys
+
+
 
 module.exports = {
   User,
