@@ -1,6 +1,6 @@
 import React from 'react';
 const Navbar = () => (
-  <h3>hell yea</h3>
+  <h2>Navbar</h2>
 );
 
 export default Navbar;
