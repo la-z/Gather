@@ -23,4 +23,15 @@ module.exports.save = ({
   telephone,
 });
 
-module.exports.followEvent
+/*
+followEvent
+creates new entry in table InterestedEvent, linking user and event
+initializes "rsvp" to false
+@params
+  userModel: Sequelize.Model
+  eventModel: Sequelize.Model
+returns: Promise (new Model)
+*/
+module.exports.followEvent = (userModel, eventModel) => {
+
+};
