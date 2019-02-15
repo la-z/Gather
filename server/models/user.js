@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const { User, InterestedEvent } = require('../db/config');
 
 /*
@@ -39,11 +40,20 @@ module.exports.followEvent = (userModel, eventModel) => InterestedEvent.create({
 });
 
 /*
-rsvpEvent
+rsvpEventToggle
 finds entry in InterestedEvent corresponding to given user and event
 flips InterestedEvent instance's rsvp property, saves to db
 @params
   userModel: Sequelize.Model
   eventModel: Sequelize.Model
-returns: Promise (updated InterestedEvent)
+returns: Promise (Array: number updated rows, updated InterestedEvent)
 */
+module.exports.rsvpEventToggle = (userModel, eventModel) => InterestedEvent.update({ rsvp: Sequelize.literal('NOT rsvp') },
+  {
+    where: {
+      user_id: userModel.id,
+      event_id: eventModel.id,
+    },
+    returning: true, // forces sequelize to return affected rows with postgres, default false
+    limit: 1, // just in case somehow multiple instances match (should never be the case)
+  });
