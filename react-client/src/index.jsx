@@ -1,6 +1,9 @@
 /* eslint import/extensions: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Navbar from './components/navbar.jsx';
+import Categories from './components/categories.jsx';
+import EventList from './components/eventList.jsx';
 import axios from 'axios';
 // import PropTypes from 'prop-types';
 
@@ -11,7 +14,14 @@ class App extends React.Component {
   }
 
   render() {
-    return <h1>Hello World</h1>;
+  return (
+      <div>
+        <h1>Gather</h1>
+        <Navbar />
+        <Categories />
+        <EventList />
+      </div>
+    );
   }
 }
 
