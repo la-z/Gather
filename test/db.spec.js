@@ -5,11 +5,11 @@ const {
   sequelize,
   dataTypes,
   checkModelName,
-  checkUniqueIndex,
   checkPropertyExists,
 } = require('sequelize-test-helpers');
 const UserModel = require('../server/models/user');
 const EventModel = require('../server/models/event');
+const CommentModel = require('../server/models/comment');
 
 const { expect } = chai;
 chai.use(sinonChai);
@@ -46,10 +46,6 @@ describe('User', () => {
         through: InterestedEvent,
       });
     });
-
-    context('indexes', () => {
-      ['username', 'email', 'telephone'].forEach(checkUniqueIndex(User));
-    });
   });
 });
 
@@ -85,6 +81,43 @@ describe('Event', () => {
     it('defined a belongsToMany association with User through InterestedEvent', () => {
       expect(Event.belongsToMany).to.have.been.calledWith(User, {
         through: InterestedEvent,
+      });
+    });
+
+    it('has an instanceMethod called togglePrivate', () => {
+      expect(event.togglePrivate).to.exist();
+    });
+  });
+});
+
+describe('Comment', () => {
+  const Comment = CommentModel(sequelize, dataTypes);
+  const comment = new Comment();
+  checkModelName(comment, 'Comment');
+
+  context('properties', () => {
+    checkPropertyExists(comment)('body');
+  });
+
+  context('associations', () => {
+    const User = 'another test dummy';
+    const Event = 'not going';
+
+    before(() => {
+      Comment.associate({ User, Event, Comment });
+    });
+
+    it('defined a hasOne association with User', () => {
+      expect(Comment.hasOne).to.have.been.calledWith(User);
+    });
+
+    it('defined a hasOne association with Event', () => {
+      expect(Comment.hasOne).to.have.been.calledWith(Event);
+    });
+
+    it('defined a hasOne association with Comment as parentComment', () => {
+      expect(Comment.hasOne).to.have.been.calledWith(Comment, {
+        as: 'parentComment',
       });
     });
   });
