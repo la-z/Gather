@@ -1,19 +1,11 @@
-const { Event } = require('../db/config');
-
-/*
-save
-creates a new Event and saves to db
-@params
-  options => object
-    category: String
-    title: String
-    description: String
-    private: Bool
-    time: Datetime
-    lat: Float
-    long: Float
-    id_user: Integer
-returns: Promise (new Model)
-*/
-
-module.exports.save = options => Event.create(options);
+module.exports = (sequelize, DataTypes) => {
+  const Event = sequelize.define('event', {
+    category: DataTypes.STRING,
+    title: DataTypes.STRING,
+    description: DataTypes.STRING,
+    private: DataTypes.BOOLEAN,
+    time: DataTypes.DATE,
+    lat: DataTypes.NUMERIC,
+    long: DataTypes.NUMERIC,
+  });
+};
