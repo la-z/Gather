@@ -9,6 +9,7 @@ const {
   checkPropertyExists,
 } = require('sequelize-test-helpers');
 const UserModel = require('../server/models/user');
+const EventModel = require('../server/models/event');
 
 const { expect } = chai;
 chai.use(sinonChai);
@@ -33,7 +34,7 @@ describe('User', () => {
     const InterestedEvent = 'another dummy';
 
     before(() => {
-      User.associate({ Event });
+      User.associate({ Event, InterestedEvent });
     });
 
     it('defined a hasMany association with Event', () => {
@@ -48,6 +49,43 @@ describe('User', () => {
 
     context('indexes', () => {
       ['username', 'email', 'telephone'].forEach(checkUniqueIndex(User));
+    });
+  });
+});
+
+describe('Event', () => {
+  const Event = EventModel(sequelize, dataTypes);
+  const event = new Event();
+  checkModelName(event, 'Event');
+
+  context('properties', () => {
+    [
+      'category',
+      'title',
+      'description',
+      'private',
+      'time',
+      'lat',
+      'long',
+    ].forEach(checkPropertyExists(event));
+  });
+
+  context('associations', () => {
+    const User = 'lol';
+    const InterestedEvent = 'pls';
+
+    before(() => {
+      Event.associate({ User, InterestedEvent });
+    });
+
+    it('defined a hasOne association with User', () => {
+      expect(Event.hasOne).to.have.been.calledWith(User);
+    });
+
+    it('defined a belongsToMany association with User through InterestedEvent', () => {
+      expect(Event.belongsToMany).to.have.been.calledWith(User, {
+        through: InterestedEvent,
+      });
     });
   });
 });
