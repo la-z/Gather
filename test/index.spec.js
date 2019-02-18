@@ -1,10 +1,8 @@
 /* global describe, beforeEach, afterEach, it */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
-require('dotenv').config({ path: './.env' });
 const { expect } = require('chai');
 const { user, event } = require('../server/models/index');
-const db = require('../server/db/config');
 
 describe('db', () => {
   // tests db methods in isolation of server
