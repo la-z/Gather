@@ -1,19 +1,18 @@
-const { Event } = require('../db/config');
+module.exports = (sequelize, DataTypes) => {
+  const Event = sequelize.define('event', {
+    category: DataTypes.STRING,
+    title: DataTypes.STRING,
+    description: DataTypes.STRING,
+    private: DataTypes.BOOLEAN,
+    time: DataTypes.DATE,
+    lat: DataTypes.NUMERIC,
+    long: DataTypes.NUMERIC,
+  });
 
-/*
-save
-creates a new Event and saves to db
-@params
-  options => object
-    category: String
-    title: String
-    description: String
-    private: Bool
-    time: Datetime
-    lat: Float
-    long: Float
-    id_user: Integer
-returns: Promise (new Model)
-*/
-
-module.exports.save = options => Event.create(options);
+  Event.associate = (models) => {
+    Event.belongsToMany(models.User, { through: models.InterestedEvent });
+    // this gives instances of Event the methods getUsers, setUsers, addUser, and addUsers
+    Event.hasOne(models.User);
+  };
+  return Event;
+};
