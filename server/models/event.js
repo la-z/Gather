@@ -8,4 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     lat: DataTypes.NUMERIC,
     long: DataTypes.NUMERIC,
   });
+
+  Event.associate = (models) => {
+    Event.belongsToMany(models.User, { through: models.InterestedEvent });
+    // this gives instances of Event the methods getUsers, setUsers, addUser, and addUsers
+    Event.hasOne(models.User);
+  };
+  return Event;
 };
