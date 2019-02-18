@@ -41,4 +41,51 @@ describe('db', () => {
         .catch(err => done(err));
     });
   });
+  describe('Event', () => {
+    beforeEach((done) => {
+      user.save({ id: 1, username: 'alexa', password: '1234' })
+        .then(() => event.save({
+          id: 1,
+          category: 'ham',
+          title: 'spam',
+          description: 'spam ham',
+          userId: 1,
+        }))
+        .then(() => done())
+        .catch(err => done(err));
+    });
+    afterEach((done) => {
+      event.delete(1)
+        .then(() => done())
+        .catch(err => done(err));
+    });
+    it('should store events in the database', (done) => {
+      db.Event.find({})
+        .then((queryResult) => {
+          expect(queryResult).to.exist;
+          expect(queryResult.category).to.equal('ham');
+        })
+        .catch(err => done(err));
+    });
+    it('should remove events from the database', (done) => {
+      event.delete(1)
+        .then((removed) => {
+          expect(removed).to.equal(1);
+          return db.Event.findAndCountAll({});
+        })
+        .then((queryResult) => {
+          expect(queryResult.count).to.equal(0);
+          done();
+        })
+        .catch(err => done(err));
+    });
+    it('should associate events with users', (done) => {
+      db.Event.getUsers({ where: { id: 1 } })
+        .then((user) => {
+          expect(user.username).to.equal('alexa');
+          done();
+        })
+        .catch(err => done(err));
+    });
+  });
 });
