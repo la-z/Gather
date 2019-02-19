@@ -27,3 +27,4 @@ const events = [
     long: -1000
   }
 ]
+export default events;
