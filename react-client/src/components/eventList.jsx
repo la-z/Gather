@@ -1,9 +1,11 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
-import EventListEntry from './eventListEntry.jsx'
-const EventList = (props) => (
+import EventListEntry from './eventListEntry';
+
+const EventList = ({ events }) => (
   <div>
     <h2>EventList</h2>
-    {props.events.map((event) => <EventListEntry key={event.title} event={event}/>)}
+    {events.map(event => <EventListEntry key={event.title} event={event} />)}
   </div>
 );
 export default EventList;
