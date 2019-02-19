@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: events
+      events: events,
     };
   }
 
@@ -22,7 +22,7 @@ class App extends React.Component {
         <h1>Gather</h1>
         <Navbar />
         <Categories />
-        <EventList events={this.state.events}/>
+        <EventList />
       </div>
     );
   }
