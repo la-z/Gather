@@ -49,6 +49,16 @@ describe('User', () => {
       });
     });
   });
+  context('methods', () => {
+    it('should have a method hashPassword that sets the user\'s password property to a hashed version', (done) => {
+      user.hashPassword('password123')
+        .then((hash) => {
+          expect(hash).to.exist;
+          expect(hash).to.not.equal('password123');
+          done();
+        });
+    });
+  });
 });
 
 describe('Event', () => {
