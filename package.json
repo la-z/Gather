@@ -4,7 +4,7 @@
   "description": "hobby-sharing web app",
   "main": "server/server.js",
   "scripts": {
-    "test": "mocha spec/index.spec.js",
+    "test": "mocha test/db.spec.js --timeout 10000",
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js"
   },
@@ -44,6 +44,10 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "mocha": "^5.2.0",
+    "proxyquire": "^2.1.0",
+    "sequelize-test-helpers": "^1.0.9",
+    "sinon": "^7.2.3",
+    "sinon-chai": "^3.3.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
