@@ -4,7 +4,9 @@
   "description": "hobby-sharing web app",
   "main": "server/server.js",
   "scripts": {
-    "test": "mocha test/db.spec.js --timeout 10000",
+    "test": "find ./test -name '*_spec.js' | xargs mocha -R spec",
+    "test-db": "mocha ./test/db.spec.js",
+    "test-auth": "mocha ./test/auth.spec.js",
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js"
   },
@@ -49,6 +51,7 @@
     "sequelize-test-helpers": "^1.0.9",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.3.0",
+    "supertest": "^3.4.2",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
