@@ -22,7 +22,7 @@ class App extends React.Component {
         <h1>Gather</h1>
         <Navbar />
         <Categories />
-        <EventList />
+        <EventList events={this.state.events}/>
       </div>
     );
   }
