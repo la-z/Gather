@@ -1,4 +1,5 @@
 /* eslint import/extensions: 0 */
+import events from './mockEvents.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Navbar from './components/navbar.jsx';
@@ -10,7 +11,9 @@ import axios from 'axios';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      events: events
+    };
   }
 
   render() {
@@ -19,7 +22,7 @@ class App extends React.Component {
         <h1>Gather</h1>
         <Navbar />
         <Categories />
-        <EventList />
+        <EventList events={this.state.events}/>
       </div>
     );
   }
