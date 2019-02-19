@@ -83,10 +83,6 @@ describe('Event', () => {
         through: InterestedEvent,
       });
     });
-
-    it('has an instanceMethod called togglePrivate', () => {
-      expect(event.togglePrivate).to.exist();
-    });
   });
 });
 
