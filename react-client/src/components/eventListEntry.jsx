@@ -1,7 +1,8 @@
 import React from 'react';
-const EventListEntry = () => (
+const EventListEntry = ({event}) => (
   <div>
-    <h3>EventListEntry</h3>
+    <h3>{event.title}</h3>
+    <p>{event.description}</p>
   </div>
 );
 export default EventListEntry;
