@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('event', {
     category: DataTypes.STRING,
@@ -9,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     long: DataTypes.NUMERIC,
   });
 
-  Event.prototype.togglePrivate = () => {
-    this.update({ private: !this.get('private') });
+  Event.prototype.togglePrivate = function () {
+    this.update({ private: !this.private });
   };
 
   Event.associate = (models) => {
