@@ -26,5 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       });
   };
 
+  User.prototype.checkPassword = function (plainTextPassword) {
+    return bcrypt.compare(plainTextPassword, this.password);
+  };
+
   return User;
 };
