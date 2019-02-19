@@ -1,4 +1,5 @@
 /* global describe, context, before, it */
+/* eslint-disable no-unused-expressions */
 const chai = require('chai');
 const sinonChai = require('sinon-chai');
 const {
@@ -10,6 +11,7 @@ const {
 const UserModel = require('../server/models/user');
 const EventModel = require('../server/models/event');
 const CommentModel = require('../server/models/comment');
+const InterestedEventModel = require('../server/models/interestedEvent');
 
 const { expect } = chai;
 chai.use(sinonChai);
@@ -83,10 +85,11 @@ describe('Event', () => {
         through: InterestedEvent,
       });
     });
-
-    it('has an instanceMethod called togglePrivate', () => {
-      expect(event.togglePrivate).to.exist();
-    });
+  });
+  it('has a method called tooglePrivate that toggles the \'private\' boolean property', () => {
+    event.private = false;
+    event.togglePrivate();
+    expect(event.update).to.have.been.calledOnceWith({ private: true });
   });
 });
 
@@ -120,5 +123,20 @@ describe('Comment', () => {
         as: 'parentComment',
       });
     });
+  });
+});
+
+describe('InterestedEvent', () => {
+  const InterestedEvent = InterestedEventModel(sequelize, dataTypes);
+  const interestedEvent = new InterestedEvent();
+
+  context('properties', () => {
+    checkPropertyExists(interestedEvent)('rsvp');
+  });
+
+  it('should have a method toggleRsvp that toggles the \'rsvp\' boolean property', () => {
+    interestedEvent.rsvp = false;
+    interestedEvent.toggleRsvp();
+    expect(interestedEvent.update).to.have.been.calledOnceWith({ rsvp: true });
   });
 });
