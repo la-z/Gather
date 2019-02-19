@@ -1,4 +1,5 @@
 /* global describe, context, before, it */
+/* eslint-disable no-unused-expressions */
 const chai = require('chai');
 const sinonChai = require('sinon-chai');
 const {
@@ -10,6 +11,7 @@ const {
 const UserModel = require('../server/models/user');
 const EventModel = require('../server/models/event');
 const CommentModel = require('../server/models/comment');
+const InterestedEventModel = require('../server/models/interestedEvent');
 
 const { expect } = chai;
 chai.use(sinonChai);
@@ -83,6 +85,10 @@ describe('Event', () => {
         through: InterestedEvent,
       });
     });
+  });
+  it('has a method called tooglePrivate that toggles the \'private\' boolean property', () => {
+    event.togglePrivate();
+    expect(event.update).to.have.been.calledOnce;
   });
 });
 
