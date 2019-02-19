@@ -49,6 +49,43 @@ describe('User', () => {
       });
     });
   });
+  context('methods', () => {
+    it('should have a method hashPassword that sets the user\'s password property to a hashed version', (done) => {
+      user.hashPassword('password123')
+        .then((hash) => {
+          expect(hash).to.exist;
+          expect(hash).to.not.equal('password123');
+          done();
+        })
+        .catch(err => done(err));
+    });
+    context('checkPassword', () => {
+      it('should have a method checkPassword that compares a given password with the user\'s hashed password and returns true if they match', (done) => {
+        user.hashPassword('password123')
+          .then((hash) => {
+            user.password = hash;
+            return user.checkPassword('password123');
+          })
+          .then((isValid) => {
+            expect(isValid).to.be.true;
+            done();
+          })
+          .catch(err => done(err));
+      });
+      it('should have a method checkPassword that compares a given password with the user\'s hashed password and returns false if they do not match', (done) => {
+        user.hashPassword('password123')
+          .then((hash) => {
+            user.password = hash;
+            return user.checkPassword('passwrod123');
+          })
+          .then((isValid) => {
+            expect(isValid).to.be.false;
+            done();
+          })
+          .catch(err => done(err));
+      });
+    });
+  });
 });
 
 describe('Event', () => {
