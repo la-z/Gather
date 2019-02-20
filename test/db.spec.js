@@ -108,6 +108,7 @@ describe('Event', () => {
   context('associations', () => {
     const User = 'lol';
     const InterestedEvent = 'pls';
+    
 
     before(() => {
       Event.associate({ User, InterestedEvent });
