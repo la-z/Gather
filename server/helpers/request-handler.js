@@ -1,7 +1,7 @@
-const requestHandler = {
-  login(req, res) {
+/* eslint-disable no-unused-expressions */
 
-  },
+
+const requestHandler = {
   logout(req, res) {
 
   },
