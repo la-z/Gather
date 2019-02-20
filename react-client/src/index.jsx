@@ -1,12 +1,13 @@
 /* eslint import/extensions: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
+// uncomment when working with server
 // import axios from 'axios';
 import data from './mockEvents.js';
 import Navbar from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
-import currentlyClickedEvent from './components/CurrentlyClickedEvent.jsx';
+import CurrentlyClickedEvent from './components/CurrentlyClickedEvent.jsx';
 // import PropTypes from 'prop-types';
 
 class App extends React.Component {
@@ -16,6 +17,7 @@ class App extends React.Component {
       events: data,
       clickedEvent: null,
     };
+    this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
   }
 
   renderClickedEventTitle(object) {
@@ -33,7 +35,7 @@ class App extends React.Component {
           clickedEvent !== null ? (
             <div>
               <Navbar />
-              <currentlyClickedEvent event={clickedEvent} />
+              <CurrentlyClickedEvent event={clickedEvent} />
             </div>
           )
             : (
