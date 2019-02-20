@@ -5,12 +5,14 @@ module.exports = (passport) => {
   passport.use(new LocalStrategy((username, password, done) => {
   // passport needs to "use" a "strategy" http://www.passportjs.org/docs/configure/
     db.User.findOne({ where: { username } })
-      .then(user => user.checkPassword(password))
+      .then((user) => {
+        if (user) return user.checkPassword(password);
+      })
       .then((isValid) => {
         if (isValid) {
           return done(null, user);
         }
-        return done(null, false, { message: 'Incorrect username or password.' });
+        return done(null, false);
       })
       .catch(err => done(err));
   }));
