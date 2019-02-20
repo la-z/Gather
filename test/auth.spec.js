@@ -47,8 +47,8 @@ describe('signup', () => {
           .catch(err => done(err));
       });
   });
-});
 
-describe('sessions', () => {
-
+  context('sessions', () => {
+    
+  });
 });
