@@ -39,7 +39,8 @@ describe('signup', () => {
 
   afterEach((done) => {
     db.User.destroy({ where: { username: newUser.username } })
-      .then(done);
+      .then(done)
+      .catch(err => done(err));
   });
 
   it('should store a new user in the db with a hashed password', (done) => {
