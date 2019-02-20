@@ -1,4 +1,4 @@
-/* global describe, context, before, beforeEach, afterEach, it */
+/* global describe, before, after, it */
 /* eslint-disable no-unused-expressions */
 
 // these are LIVE TESTS that deal with the actual database!
@@ -74,5 +74,13 @@ describe('login', () => {
       .post('/signup')
       .send(newUser)
       .expect(200, done);
+  });
+
+  it('should redirect a user to / on a successful login', (done) => {
+    request(app)
+      .post('/login')
+      .send(newUser)
+      .expect(302)
+      .expect('Location', '/', done);
   });
 });
