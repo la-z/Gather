@@ -11,7 +11,12 @@ const app = require('../server/server');
 const db = require('../server/models');
 
 const { expect } = chai;
-const testSession = session(app);
+let testSession = session(app);
+let authenticatedSession;
+
+before(() => {
+  testSession = session(app);
+});
 
 const newUser = {
   username: 'barf',
@@ -19,8 +24,6 @@ const newUser = {
 };
 
 describe('signup', () => {
-  let authenticatedSession;
-
   before((done) => {
     testSession.post('/signup')
       .send(newUser)
@@ -93,5 +96,18 @@ describe('login', () => {
       })
       .expect(302)
       .expect('Location', '/', done);
+  });
+
+  it('should associate a login with a new session', (done) => {
+    testSession.post('/login')
+      .send(newUser)
+      .end((err) => {
+        if (err) return done(err);
+        authenticatedSession = testSession;
+        return authenticatedSession.cookies.find((cookie) => {
+          expect(cookie).to.exist;
+          return done();
+        });
+      });
   });
 });
