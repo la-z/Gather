@@ -83,4 +83,15 @@ describe('login', () => {
       .expect(302)
       .expect('Location', '/', done);
   });
+
+  it('should redirect a user to /login on a failed login', (done) => {
+    request(app)
+      .post('/login')
+      .send({
+        username: 'blarney',
+        password: 'bingleborfs',
+      })
+      .expect(302)
+      .expect('Location', '/login', done);
+  });
 });
