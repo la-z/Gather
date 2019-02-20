@@ -11,19 +11,17 @@ const app = require('../server/server');
 const db = require('../server/models');
 
 const { expect } = chai;
-let testSession = null;
-
-testSession = session(app);
+const testSession = session(app);
 
 const newUser = {
-  username: 'abcdefg123',
-  password: 'hellothisispassword',
+  username: 'barf',
+  password: 'sampson',
 };
 
 describe('signup', () => {
   let authenticatedSession;
 
-  beforeEach((done) => {
+  before((done) => {
     testSession.post('/signup')
       .send(newUser)
       .set('Accept', 'application/json')
@@ -37,7 +35,7 @@ describe('signup', () => {
       });
   });
 
-  afterEach((done) => {
+  after((done) => {
     db.User.destroy({ where: { username: newUser.username } })
       .then(done)
       .catch(err => done(err));
@@ -70,6 +68,11 @@ describe('signup', () => {
   });
 });
 
-context('sessions', () => {
-
+describe('login', () => {
+  before((done) => {
+    request(app)
+      .post('/signup')
+      .send(newUser)
+      .expect(200, done);
+  });
 });
