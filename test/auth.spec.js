@@ -51,7 +51,7 @@ describe('signup', () => {
       .catch(err => done(err));
   });
 
-  it('should redirect a user to /signup if their username is already taken', (done) => {
+  it('should redirect a user to / if their username is already taken', (done) => {
     request(app)
       .post('/signup')
       .send(newUser)
@@ -76,15 +76,15 @@ describe('login', () => {
       .expect(200, done);
   });
 
-  it('should redirect a user to / on a successful login', (done) => {
+  it('should redirect a user to /:username/profile on a successful login', (done) => {
     request(app)
       .post('/login')
       .send(newUser)
       .expect(302)
-      .expect('Location', '/', done);
+      .expect('Location', `/${newUser.username}/profile`, done);
   });
 
-  it('should redirect a user to /login on a failed login', (done) => {
+  it('should redirect a user to / on a failed login', (done) => {
     request(app)
       .post('/login')
       .send({
@@ -92,6 +92,6 @@ describe('login', () => {
         password: 'bingleborfs',
       })
       .expect(302)
-      .expect('Location', '/login', done);
+      .expect('Location', '/', done);
   });
 });
