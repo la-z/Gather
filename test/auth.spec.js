@@ -5,11 +5,17 @@
 // as such, they are subject to some unpredictable behavior
 // if the testing username actually becomes taken, the tests will fail to function
 const request = require('supertest');
+const session = require('supertest-session');
 const chai = require('chai');
 const app = require('../server/server');
 const db = require('../server/models');
 
 const { expect } = chai;
+let testSession = null;
+
+beforeEach(() => {
+  testSession = session(app);
+});
 
 const newUser = {
   username: 'abcdefg123',
@@ -17,13 +23,21 @@ const newUser = {
 };
 
 describe('signup', () => {
+
+  let authenticatedSession;
+
   beforeEach((done) => {
-    request(app)
-      .post('/signup')
+    testSession.post('/signup')
       .send(newUser)
       .set('Accept', 'application/json')
       .expect(200)
-      .end(done);
+      .end((err) => {
+        if (err) {
+          return done(err);
+        }
+        authenticatedSession = testSession;
+        return done();
+      });
   });
 
   afterEach((done) => {
@@ -49,6 +63,8 @@ describe('signup', () => {
       .expect(200)
       .expect('Location', '/signup')
       .end(done);
+  });
+  it('should assign a session object to the new user on signup', (done) => {
 
   });
 });
