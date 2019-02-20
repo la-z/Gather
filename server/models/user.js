@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (user) => {
+        // beforeCreate happens before a new instance is saved
         user.hashPassword(user.password)
           .then((hash) => {
             user.password = hash;
