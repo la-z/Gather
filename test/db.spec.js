@@ -8,10 +8,10 @@ const {
   checkModelName,
   checkPropertyExists,
 } = require('sequelize-test-helpers');
-const UserModel = require('../server/models/user');
-const EventModel = require('../server/models/event');
-const CommentModel = require('../server/models/comment');
-const InterestedEventModel = require('../server/models/interestedEvent');
+const UserModel = require('../server/models/User');
+const EventModel = require('../server/models/Event');
+const CommentModel = require('../server/models/Comment');
+const InterestedEventModel = require('../server/models/InterestedEvent');
 
 const { expect } = chai;
 chai.use(sinonChai);
