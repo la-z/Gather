@@ -18,6 +18,13 @@ class App extends React.Component {
       clickedEvent: null,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
+    this.setClickEventBackToNull = this.setClickEventBackToNull.bind(this);
+  }
+
+  setClickEventBackToNull() {
+    this.setState({
+      clickedEvent: null,
+    });
   }
 
   renderClickedEventTitle(object) {
@@ -26,15 +33,16 @@ class App extends React.Component {
     });
   }
 
+
   render() {
     const { events, clickedEvent } = this.state;
     return (
       <div>
         <h1>Gather</h1>
+        <Navbar setClickEventBackToNull={this.setClickEventBackToNull} />
         {
           clickedEvent !== null ? (
             <div>
-              <Navbar />
               <CurrentlyClickedEvent event={clickedEvent} />
             </div>
           )
