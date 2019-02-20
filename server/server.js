@@ -17,10 +17,9 @@ app.get('/insertSomethingHere', (req, res, next) => {
   requestHandler(req, res, next);
 });
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/alexa/profile',
   failureRedirect: '/',
   failureFlash: true,
-}));
+}), (req, res) => res.redirect(`/${req.user.username}/profile`));
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
