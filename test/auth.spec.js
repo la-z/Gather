@@ -32,23 +32,27 @@ describe('signup', () => {
   });
 
   it('should store a new user in the db with a hashed password', (done) => {
+    db.User.findOne({ username: newUser.username })
+      .then(foundUser => foundUser.checkPassword(newUser.password, foundUser.password))
+      .then((isValidPass) => {
+        expect(isValidPass).to.be.true;
+        done();
+      })
+      .catch(err => done(err));
+  });
+
+  it('should redirect a user to /signup if their username is already taken', (done) => {
     request(app)
       .post('/signup')
       .send(newUser)
       .set('Accept', 'application/json')
       .expect(200)
-      .end(() => {
-        db.User.findOne({ username: newUser.username })
-          .then(foundUser => foundUser.checkPassword(newUser.password, foundUser.password))
-          .then((isValidPass) => {
-            expect(isValidPass).to.be.true;
-            done();
-          })
-          .catch(err => done(err));
-      });
-  });
+      .expect('Location', '/signup')
+      .end(done);
 
-  context('sessions', () => {
-    
   });
+});
+
+context('sessions', () => {
+
 });
