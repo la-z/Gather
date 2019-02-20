@@ -23,7 +23,6 @@ const newUser = {
 };
 
 describe('signup', () => {
-
   let authenticatedSession;
 
   beforeEach((done) => {
@@ -65,7 +64,10 @@ describe('signup', () => {
       .end(done);
   });
   it('should assign a session object to the new user on signup', (done) => {
-
+    authenticatedSession.cookies.find((cookie) => {
+      expect(cookie).to.exist;
+      return done();
+    });
   });
 });
 
