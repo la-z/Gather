@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
-import EventListEntry from './eventListEntry';
+import EventListEntry from './eventListEntry.jsx';
 
 const EventList = ({ events }) => (
   <div>

@@ -6,6 +6,7 @@ import Navbar from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import axios from 'axios';
+import EventPage from './components/eventPage.jsx';
 // import PropTypes from 'prop-types';
 
 class App extends React.Component {
@@ -23,6 +24,7 @@ class App extends React.Component {
         <Navbar />
         <Categories />
         <EventList events={this.state.events}/>
+        <EventPage />
       </div>
     );
   }
