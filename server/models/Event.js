@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Event.associate = (models) => {
     Event.belongsToMany(models.User, { through: models.InterestedEvent });
     // this gives instances of Event the methods getUsers, setUsers, addUser, and addUsers
-    Event.hasOne(models.User, { constraints: false });
+    Event.belongsTo(models.User, { constraints: false });
   };
 
   return Event;
