@@ -13,9 +13,7 @@ const db = require('../server/models');
 const { expect } = chai;
 let testSession = null;
 
-beforeEach(() => {
-  testSession = session(app);
-});
+testSession = session(app);
 
 const newUser = {
   username: 'abcdefg123',
@@ -40,7 +38,7 @@ describe('signup', () => {
   });
 
   afterEach((done) => {
-    db.User.destroy({ username: newUser.username })
+    db.User.destroy({ where: { username: newUser.username } })
       .then(done);
   });
 
@@ -59,7 +57,7 @@ describe('signup', () => {
       .post('/signup')
       .send(newUser)
       .set('Accept', 'application/json')
-      .expect(200)
+      .expect(302)
       .expect('Location', '/signup')
       .end(done);
   });

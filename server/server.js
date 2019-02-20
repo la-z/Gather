@@ -13,3 +13,5 @@ app.get('/insertSomethingHere', (req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
 });
+
+module.exports = app;
