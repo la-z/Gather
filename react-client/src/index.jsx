@@ -1,17 +1,30 @@
 /* eslint import/extensions: 0 */
+import events from './mockEvents.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Navbar from './components/navbar.jsx';
+import Categories from './components/categories.jsx';
+import EventList from './components/eventList.jsx';
 import axios from 'axios';
 // import PropTypes from 'prop-types';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      events: events,
+    };
   }
 
   render() {
-    return <h1>Hello World</h1>;
+  return (
+      <div>
+        <h1>Gather</h1>
+        <Navbar />
+        <Categories />
+        <EventList events={this.state.events}/>
+      </div>
+    );
   }
 }
 
