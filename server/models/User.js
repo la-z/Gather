@@ -46,7 +46,9 @@ module.exports = (sequelize, DataTypes) => {
     Promise(bool)
   */
   User.prototype.checkPassword = function (plainTextPassword) {
-    return bcrypt.compare(plainTextPassword, this.password);
+    return bcrypt.compare(plainTextPassword, this.password)
+      .then(isValid => [isValid, this]);
+  // ugly hack to pass the user model along to our login handler
   };
 
   return User;
