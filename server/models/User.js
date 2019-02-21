@@ -1,4 +1,4 @@
-/* eslint-disable func-names, no-param-reassign */
+/* eslint-disable func-names, no-param-reassign, arrow-body-style */
 const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
@@ -7,16 +7,14 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING, // needs hashing
     email: DataTypes.STRING,
     telephone: DataTypes.STRING,
-  }, {
-    hooks: {
-      beforeCreate: (user) => {
-        // beforeCreate happens before a new instance is saved
-        user.hashPassword(user.password)
-          .then((hash) => {
-            user.password = hash;
-          });
-      },
-    },
+  });
+
+  User.beforeCreate((user) => {
+    // beforeCreate happens before a new instance is saved
+    return user.hashPassword(user.password)
+      .then((hash) => {
+        user.password = hash;
+      });
   });
 
   User.associate = (models) => {
