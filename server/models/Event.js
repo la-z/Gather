@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
-  const Event = sequelize.define('event', {
+  const Event = sequelize.define('Event', {
     category: DataTypes.STRING,
     title: DataTypes.STRING,
     description: DataTypes.STRING,
