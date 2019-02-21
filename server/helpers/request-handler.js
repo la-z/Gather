@@ -11,7 +11,7 @@ const requestHandler = {
       .then((returnedUser) => {
         req.login({ username: returnedUser.username, id: returnedUser.id }, (err) => {
           if (err) return next(err);
-          return res.redirect(`/${req.user.username}/profile`);
+          return res.redirect(`/users/${req.user.username}/profile`);
         });
       })
       .catch((err) => {
@@ -29,7 +29,7 @@ const requestHandler = {
 
   },
   getProfile(req, res) {
-
+    res.send(200, 'welcome to your profile');
   },
   getNewEvent(req, res) {
 
