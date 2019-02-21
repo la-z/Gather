@@ -11,18 +11,20 @@ module.exports = (passport) => {
       })
       .then(([isValid, user]) => {
         if (isValid) {
-          return done(null, user);
+          return done(null, { username: user.username, id: user.id });
         }
         return done(null, false);
       })
       .catch(err => done(err));
   }));
 
-  passport.serializeUser((user, done) => done(null, user.id));
+  passport.serializeUser((user, done) => {
+    return done(null, user.id);
+  });
   // saves user id on session
 
-  passport.deserializeUser((id, done) => {
-    db.User.findById(id, done);
-  });
+  passport.deserializeUser((id, done) => db.User.findOne({ where: { id } })
+    .then(user => done(null, user))
+    .catch(err => done(err)));
   // associates session with user
 };
