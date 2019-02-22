@@ -249,6 +249,14 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
+  /*
+  rsvpEvent
+  expects body => {
+    rsvp: ['interested', 'going', or 'attended']
+  }
+  adds entry to InterestedEvents with corresponding rsvp value
+  }
+  */
   rsvpEvent(req, res) {
     const { user, body } = req;
     const { eventId } = req.params;
@@ -259,6 +267,8 @@ const requestHandler = {
       })
       .then(() => res.send(200));
   },
+
+
 };
 
 module.exports = requestHandler;
