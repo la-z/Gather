@@ -157,7 +157,16 @@ const requestHandler = {
   },
 
   editEvent(req, res) {
-
+    const { user } = req;
+    const { eventId } = req.params;
+    const { body } = req;
+    db.Event.findOne({ where: { id: eventId, userId: user.id } })
+      .then(event => event.update(body))
+      .then(() => res.send(200))
+      .catch((err) => {
+        console.error(err);
+        res.send(500);
+      })
   },
 
   deleteUser(req, res) {
