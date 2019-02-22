@@ -260,15 +260,39 @@ const requestHandler = {
   rsvpEvent(req, res) {
     const { user, body } = req;
     const { eventId } = req.params;
-    db.User.find({ where: { id: user.id } })
+    db.User.findOne({ where: { id: user.id } })
       .then((foundUser) => {
         foundUser.addEvent(eventId, { through: { rsvp: body.rsvp } });
         return foundUser.save();
       })
-      .then(() => res.send(200));
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
   },
 
+  /*
+  updateRsvp
+  expects same pattern as rsvpEvent
+  */
+  updateRsvp(req, res) {
+    const { user, body } = req;
+    const { eventId } = req.params;
+    db.InterestedEvent.findOne({ where: { UserId: user.id, EventId: eventId } })
+      .then(interestedEvent => interestedEvent.update({ rsvp: body.rsvp }))
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
+  },
 
+  /*
+  removeRsvp
+  deletes record in InterestedEvents corresponding to user and event
+  */
+  removeRsvp(req, res) {
+    const { user } = req;
+    const { eventId } = req.params;
+    db.InterestedEvent.destroy({ where: { UserId: user.id, EventId: eventId } })
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
+  },
 };
 
 module.exports = requestHandler;
