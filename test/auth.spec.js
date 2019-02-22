@@ -167,4 +167,40 @@ describe('session persistence', () => {
         .expect(403, done);
     });
   });
+
+  context('authorized users', () => {
+    before((done) => {
+      testSession.post('/login')
+        .send(newUser)
+        .end((err) => {
+          if (err) return done(err);
+          authenticatedSession = testSession;
+          return done();
+        });
+    });
+
+    it('should allow authorized users to create new events', (done) => {
+      authenticatedSession.put('/events')
+        .send({ category: 'tabletop', title: 'a', description: 'b' })
+        .expect(200, done);
+    });
+
+    it('should allow authorized users to create comments', (done) => {
+      authenticatedSession.put('/events/world/comments')
+        .send({ body: 'lol this event sucks' })
+        .expect(200, done);
+    });
+
+    it('should allow authorized users to edit events', (done) => {
+      authenticatedSession.patch('/events/world')
+        .send({ private: true })
+        .expect(200, done);
+    });
+
+    it('should allow authorized users to show interest in events', (done) => {
+      authenticatedSession.post('/events/world/interested')
+        .send({ username: newUser.username })
+        .expect(200, done);
+    });
+  });
 });
