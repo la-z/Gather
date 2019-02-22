@@ -27,7 +27,12 @@ const requestHandler = {
 
   },
   getCategory(req, res) {
-
+    const { category } = req.body;
+    db.Event.find({ where: { category } })
+      .then((events) => {
+        res.status(200);
+        res.json(events);
+      });
   },
   getProfile(req, res) {
     res.send(200, 'welcome to your profile');
