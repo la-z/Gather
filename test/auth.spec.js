@@ -170,7 +170,7 @@ describe('session persistence', () => {
   });
 
   context('authorized users', () => {
-    let sessionCookie;
+    let sessionCookieValue;
     before((done) => {
       testSession.post('/login')
         .send(newUser)
@@ -178,7 +178,7 @@ describe('session persistence', () => {
           if (err) return done(err);
           authenticatedSession = testSession;
           return authenticatedSession.cookies.find((cookie) => {
-            sessionCookie = cookie;
+            sessionCookieValue = cookie.value;
             return done();
           });
         });
@@ -234,10 +234,13 @@ describe('session persistence', () => {
       authenticatedSession.get('/logout')
         .end((err) => {
           if (err) return done(err);
-          return authenticatedSession.cookies.find((cookie) => {
-            expect(cookie.value).to.not.equal(sessionCookie.value);
-            return done();
-          });
+          return authenticatedSession.get('/')
+            .then(() => {
+              return authenticatedSession.cookies.find((cookie) => {
+                expect(cookie.value).to.not.equal(sessionCookieValue);
+                return done();
+              });
+            });
         });
     });
   });
