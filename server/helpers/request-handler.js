@@ -41,7 +41,7 @@ const requestHandler = {
   getCategory(req, res) {
     const { category, page, sortBy } = req.params;
     db.Event.find({
-      where: { category },
+      where: { category, private: false },
       attributes: ['title', 'description', 'time'],
       order: sortBy,
       limit: 10,
