@@ -13,7 +13,14 @@ const { checkAuthentication } = require('./helpers/auth');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(session({ secret: '29187264' }));
+app.use(session({
+  secret: '29187264',
+  cookie: {
+    maxAge: 432000000, // 5 days
+    resave: false, // fixes some issues with logout not happening
+    saveUninitialized: false, // another fix
+  },
+}));
 // literally just random numbers
 app.use(passport.initialize());
 app.use(passport.session());
