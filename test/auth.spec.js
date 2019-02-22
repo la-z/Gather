@@ -1,4 +1,4 @@
-/* global describe, before, after, it */
+/* global describe, before, after, it, context */
 /* eslint-disable no-unused-expressions */
 
 // these are LIVE TESTS that deal with the actual database!
@@ -115,6 +115,26 @@ describe('login', () => {
 
 describe('session persistence', () => {
   before((done) => {
+    db.User.destroy({ where: { username: newUser.username } })
+      .then(() => db.User.create(newUser))
+      .then(() => {
+        request(app)
+          .get('/logout')
+          .end(done);
+      });
+  });
 
-  })
+  after((done) => {
+    db.User.destroy({ where: { username: newUser.username } })
+      .then(() => done());
+  });
+
+  context('unauthenticated users', () => {
+    it('should not allow unauthorized users access to create new events', (done) => {
+      request(app)
+        .put('/events')
+        .send({ category: 'tabletop', title: 'a', description: 'b' })
+        .expect(403, done);
+    });
+  });
 });
