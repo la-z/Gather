@@ -67,7 +67,7 @@ describe('User', () => {
             return user.checkPassword('password123');
           })
           .then((isValid) => {
-            expect(isValid).to.be.true;
+            expect(isValid[0]).to.be.true;
             done();
           })
           .catch(err => done(err));
@@ -79,7 +79,7 @@ describe('User', () => {
             return user.checkPassword('passwrod123');
           })
           .then((isValid) => {
-            expect(isValid).to.be.false;
+            expect(isValid[0]).to.be.false;
             done();
           })
           .catch(err => done(err));
