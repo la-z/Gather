@@ -121,7 +121,7 @@ const requestHandler = {
     const { user } = req;
     const { commentId } = req.params;
     db.Comment.findOne({ where: { id: commentId, userId: user.id } })
-      .then(comment => comment.deleteThread())  
+      .then(comment => comment.deleteThread())
       .then(() => res.send(200))
       .catch((err) => {
         console.error(err);
@@ -145,7 +145,15 @@ const requestHandler = {
   deleteEvent(req, res) {
     const { user } = req;
     const { eventId } = req.params;
-    db.Event.findOne({ where: { id: eventId, userId: user.id } })
+    db.Event.destroy({ where: { id: eventId, userId: user.id } })
+      .then((destroyedCount) => {
+        if (destroyedCount) return res.send(200);
+        return res.send(500);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.send(500);
+      });
   },
 
   editEvent(req, res) {
