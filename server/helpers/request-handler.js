@@ -25,13 +25,20 @@ const requestHandler = {
   },
   getEventsByUser(req, res) {
     const { user } = req;
+    // user is put directly on req by passport
+    // user => object with props username, id
     const { page, sortBy } = req.params;
+    // page, sortBy are Number and String respectively
     db.Event.find({
       where: { userId: user.id },
       order: sortBy,
       limit: 10,
+      // don't want to send all events -- what if there are thousands?
       offset: page * 10,
+      // so we can get a particular slice of events
+      // page is 0-indexed
       include: [db.User.username],
+      // include data from join table
     })
       .then((events) => {
         res.status(200);
@@ -42,6 +49,7 @@ const requestHandler = {
     const { category, page, sortBy } = req.params;
     db.Event.find({
       where: { category, private: false },
+      // we don't want private events here
       attributes: ['title', 'description', 'time'],
       order: sortBy,
       limit: 10,
@@ -53,9 +61,11 @@ const requestHandler = {
         res.json(events);
       });
   },
+
   getProfile(req, res) {
     res.send(200, 'welcome to your profile');
   },
+
   makeNewEvent(req, res) {
     const { body } = req.body;
     const { username } = req.user;
@@ -64,10 +74,13 @@ const requestHandler = {
       .then((event) => {
         newEvent = event;
         return db.User.find({ where: { username } });
+        // need to associate event with creating user immediately
       })
       .then((foundUser) => {
         newEvent.setUser(foundUser);
+        // doesn't actually save
         return newEvent.save();
+        // does actually save
       })
       .then(() => res.send(200));
   },
@@ -84,6 +97,7 @@ const requestHandler = {
       .then((foundUser) => {
         newComment.setUser(foundUser);
         return db.Event.find({ where: { title: eventName } });
+        // need to associate comment with both user and event
       })
       .then((event) => {
         newComment.setEvent(event);
@@ -93,17 +107,22 @@ const requestHandler = {
   },
 
   deleteComment(req, res) {
+    const { comment } = req.params;
 
   },
+
   editComment(req, res) {
 
   },
+
   deleteEvent(req, res) {
 
   },
+
   editEvent(req, res) {
 
   },
+
   deleteUser(req, res) {
 
   },
