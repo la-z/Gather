@@ -72,7 +72,7 @@ const requestHandler = {
   },
 
   makeNewEvent(req, res) {
-    const { body } = req.body;
+    const { body } = req;
     const { username } = req.user;
     let newEvent;
     db.Event.create(body)
@@ -91,7 +91,7 @@ const requestHandler = {
   },
 
   submitNewComment(req, res) {
-    const { eventName, commentId } = req.params;
+    const { eventId, commentId } = req.params;
     const { user, body } = req;
     let newComment;
     db.Comment.create(body)
@@ -101,7 +101,7 @@ const requestHandler = {
       })
       .then((foundUser) => {
         newComment.setUser(foundUser);
-        return db.Event.findOne({ where: { title: eventName } });
+        return db.Event.findOne({ where: { id: eventId } });
         // need to associate comment with both user and event
       })
       .then((event) => {

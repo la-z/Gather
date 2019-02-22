@@ -20,7 +20,17 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '../react-client/dist')));
 
+app.get('/events/category/:categoryName', (req, res) => {
+  requestHandler.getCategory(req, res);
+});
+
 app.get('/users/:username/profile', checkAuthentication, requestHandler.getProfile);
+
+app.put('/events', checkAuthentication, requestHandler.makeNewEvent);
+
+app.put('/events/:eventId/comments', checkAuthentication, requestHandler.submitNewComment);
+
+app.put('/events/:eventId/comments/:commentId', checkAuthentication, requestHandler.submitNewComment);
 
 app.post('/login', passport.authenticate('local', {
   failureRedirect: '/',
