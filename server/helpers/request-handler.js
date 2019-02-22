@@ -249,7 +249,16 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
-  
+  rsvpEvent(req, res) {
+    const { user, body } = req;
+    const { eventId } = req.params;
+    db.User.find({ where: { id: user.id } })
+      .then((foundUser) => {
+        foundUser.addEvent(eventId, { through: { rsvp: body.rsvp } });
+        return foundUser.save();
+      })
+      .then(() => res.send(200));
+  },
 };
 
 module.exports = requestHandler;
