@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
-  const Event = sequelize.define('event', {
+  const Event = sequelize.define('Event', {
     category: DataTypes.STRING,
     title: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Event.associate = (models) => {
     Event.belongsToMany(models.User, { through: models.InterestedEvent });
     // this gives instances of Event the methods getUsers, setUsers, addUser, and addUsers
-    Event.hasOne(models.User, { constraints: false });
+    Event.belongsTo(models.User, { constraints: false });
   };
 
   return Event;

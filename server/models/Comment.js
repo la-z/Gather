@@ -3,9 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     body: DataTypes.STRING,
   });
   Comment.associate = (models) => {
-    Comment.hasOne(models.User);
-    Comment.hasOne(models.Event);
-    Comment.hasOne(models.Comment, { as: 'parentComment' });
+    Comment.belongsTo(models.User);
+    Comment.belongsTo(models.Event);
+    Comment.belongsTo(models.Comment, { as: 'parentComment' });
   };
   return Comment;
 };
