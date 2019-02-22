@@ -3,7 +3,8 @@ const db = require('../models');
 
 const requestHandler = {
   logout(req, res) {
-
+    req.logout();
+    res.redirect('/');
   },
   signup(req, res, next) {
     const newUser = req.body;
