@@ -169,13 +169,17 @@ describe('session persistence', () => {
   });
 
   context('authorized users', () => {
+    let sessionCookie;
     before((done) => {
       testSession.post('/login')
         .send(newUser)
         .end((err) => {
           if (err) return done(err);
           authenticatedSession = testSession;
-          return done();
+          return authenticatedSession.cookies.find((cookie) => {
+            sessionCookie = cookie;
+            return done();
+          });
         });
     });
 
@@ -201,6 +205,17 @@ describe('session persistence', () => {
       authenticatedSession.post('/events/world/interested')
         .send({ username: newUser.username })
         .expect(200, done);
+    });
+
+    it('should log out authorized users', (done) => {
+      authenticatedSession.get('/logout')
+        .end((err) => {
+          if (err) return done(err);
+          return authenticatedSession.cookies.find((cookie) => {
+            expect(cookie.value).to.not.equal(sessionCookie.value);
+            return done();
+          });
+        });
     });
   });
 });
