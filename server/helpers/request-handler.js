@@ -1,6 +1,14 @@
 /* eslint-disable no-unused-expressions */
 const db = require('../models');
 
+const errorHandler = (req, res, err) => {
+  console.error(err);
+  if (err.message === 'Validation Error') {
+    return res.redirect('/');
+  }
+  return res.send(500, 'Something went wrong on our part');
+};
+
 const requestHandler = {
   logout(req, res) {
     req.logout();
@@ -85,7 +93,7 @@ const requestHandler = {
         res.status(200);
         res.json(events);
       })
-      .catch(err => this.errorHandler(req, res, err));
+      .catch(err => errorHandler(req, res, err));
   },
 
   getProfile(req, res) {
@@ -170,7 +178,7 @@ const requestHandler = {
     db.Comment.findOne({ where: { id: commentId, userId: user.id } })
       .then(comment => comment.deleteThread())
       .then(() => res.send(200))
-      .catch(err => this.errorHandler(req, res, err));
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -188,7 +196,7 @@ const requestHandler = {
     db.Comment.findOne({ where: { id: commentId, userId: user.id } })
       .then(comment => comment.update({ body }))
       .then(() => res.send(200))
-      .catch(err => this.errorHandler(req, res, err));
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -203,7 +211,7 @@ const requestHandler = {
         if (destroyedCount) return res.send(200);
         return res.send(500);
       })
-      .catch(err => this.errorHandler(req, res, err));
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -227,7 +235,7 @@ const requestHandler = {
     db.Event.findOne({ where: { id: eventId, userId: user.id } })
       .then(event => event.update(body))
       .then(() => res.send(200))
-      .catch(err => this.errorHandler(req, res, err));
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -238,16 +246,10 @@ const requestHandler = {
     const { user } = req;
     db.User.destroy({ where: { id: user.Id } })
       .then(() => this.logout(req, res))
-      .catch(err => this.errorHandler(req, res, err));
+      .catch(err => errorHandler(req, res, err));
   },
 
-  errorHandler(req, res, err) {
-    console.error(err);
-    if (err.message === 'Validation Error') {
-      return res.redirect('/');
-    }
-    return res.send(500, 'Something went wrong on our part');
-  }
+  
 };
 
 module.exports = requestHandler;
