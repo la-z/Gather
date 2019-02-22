@@ -119,7 +119,8 @@ const requestHandler = {
 
   deleteComment(req, res) {
     const { commentId } = req.params;
-    db.Comment.destroy({ where: { id: commentId } })
+    db.Comment.findOne({ where: { id: commentId } })
+      .then(comment => comment.deleteThread())
       .then(() => res.send(200))
       .catch((err) => {
         console.error(err);

@@ -32,6 +32,8 @@ app.put('/events/:eventId/comments', checkAuthentication, requestHandler.submitN
 
 app.put('/events/:eventId/comments/:commentId', checkAuthentication, requestHandler.submitNewComment);
 
+app.delete('/events/:eventId/comments/:commentId', checkAuthentication, requestHandler.deleteComment);
+
 app.post('/login', passport.authenticate('local', {
   failureRedirect: '/',
   failureFlash: true,
