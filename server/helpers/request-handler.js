@@ -9,6 +9,17 @@ const errorHandler = (req, res, err) => {
   return res.send(500, 'Something went wrong on our part');
 };
 
+/*
+getCommentsByEvent
+gets all comments referencing given eventId
+@params
+  eventId: Integer
+@return
+  Promise(Array[Comment])
+
+*/
+const getCommentsByEvent = eventId => db.Comment.findAll({ where: { EventId: eventId } });
+
 const requestHandler = {
   logout(req, res) {
     req.logout();
@@ -71,6 +82,22 @@ const requestHandler = {
         res.status(200);
         res.json(events);
       });
+  },
+
+  /*
+  getEvent
+  fetches details of individual event in req.params, including all associated comments
+  */
+  getEvent(req, res) {
+    const { eventId } = req.params;
+    let comments;
+    getCommentsByEvent(eventId)
+      .then((foundComments) => {
+        comments = foundComments;
+        return db.Event.findOne({ where: { id: eventId } });
+      })
+      .then(event => res.status(200).json(Object.assign(event, { comments })))
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -196,17 +223,6 @@ const requestHandler = {
     db.Comment.findOne({ where: { id: commentId, UserId: user.id } })
       .then(comment => comment.update({ body }))
       .then(() => res.send(200))
-      .catch(err => errorHandler(req, res, err));
-  },
-
-  /*
-  getCommentsByEvent
-  gets all comments referencing event in params
-  */
-  getCommentsByEvent(req, res) {
-    const { eventId } = req.params;
-    db.Comment.findAll({ where: { EventId: eventId } })
-      .then(comments => res.send(200).json(comments))
       .catch(err => errorHandler(req, res, err));
   },
 
