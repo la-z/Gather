@@ -118,8 +118,13 @@ const requestHandler = {
   },
 
   deleteComment(req, res) {
-    const { comment } = req.params;
-
+    const { commentId } = req.params;
+    db.Comment.destroy({ where: { id: commentId } })
+      .then(() => res.send(200))
+      .catch((err) => {
+        console.error(err);
+        res.send(500);
+      });
   },
 
   editComment(req, res) {
