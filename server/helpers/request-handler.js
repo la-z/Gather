@@ -27,8 +27,15 @@ const requestHandler = {
 
   },
   getCategory(req, res) {
-    const { category } = req.body;
-    db.Event.find({ where: { category } })
+    const { category, page, sortBy } = req.params;
+    db.Event.find({
+      where: { category },
+      attributes: ['title', 'description', 'time'],
+      order: sortBy,
+      limit: 10,
+      offset: page * 10,
+      include: [db.User.username],
+    })
       .then((events) => {
         res.status(200);
         res.json(events);
