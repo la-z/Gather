@@ -159,5 +159,12 @@ describe('session persistence', () => {
         .send({ private: true })
         .expect(403, done);
     });
+
+    it('should not allow unauthorized users to show interest in events', (done) => {
+      request(app)
+        .post('/events/world/interested')
+        .send({ username: null })
+        .expect(403, done);
+    });
   });
 });
