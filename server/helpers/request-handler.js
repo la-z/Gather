@@ -129,7 +129,15 @@ const requestHandler = {
   },
 
   editComment(req, res) {
-
+    const { commentId } = req.params;
+    const { body } = req.body;
+    db.Comment.findOne({ where: { id: commentId } })
+      .then(comment => comment.update({ body }))
+      .then(() => res.send(200))
+      .catch((err) => {
+        console.error(err);
+        res.send(500);
+      });
   },
 
   deleteEvent(req, res) {
