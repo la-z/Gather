@@ -12,20 +12,20 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lng: -90,
-      lat: 30,
-      zoom: 13,
-      points: {},
+      lng: this.props.event.long,
+      lat: this.props.event.lat,
+      zoom: 17,
     };
   }
 
   componentDidMount() {
-    this.setState({ points: {lati: this.props.event.lat, long: this.props.event.long} });
-    const { lng, lat, zoom, lati, long } = this.state;
+    // this.setState({ points: {lati: this.props.event.lat, long: this.props.event.long} });
+    const { lng, lat, zoom } = this.state;
+    // console.log(lati, long);
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom,
     });

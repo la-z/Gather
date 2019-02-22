@@ -23,8 +23,8 @@ const events = [
     description: 'EXAMPLE2',
     private: false,
     time: "Mon Feb 18 2020 12:33:54 GMT-0600 (Central Standard Time)",
-    lat: 1000,
-    long: -1000
+    lat: 30.0044912,
+    long: -90.1794587,
   }
 ]
 export default events;
