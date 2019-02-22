@@ -1,22 +1,20 @@
-/* eslint-disable func-names, no-param-reassign */
+/* eslint-disable func-names, no-param-reassign, arrow-body-style */
 const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    username: DataTypes.STRING,
+    username: { type: DataTypes.STRING, unique: true },
     password: DataTypes.STRING, // needs hashing
     email: DataTypes.STRING,
     telephone: DataTypes.STRING,
-  }, {
-    hooks: {
-      beforeCreate: (user) => {
-        // beforeCreate happens before a new instance is saved
-        user.hashPassword(user.password)
-          .then((hash) => {
-            user.password = hash;
-          });
-      },
-    },
+  });
+
+  User.beforeCreate((user) => {
+    // beforeCreate happens before a new instance is saved
+    return user.hashPassword(user.password)
+      .then((hash) => {
+        user.password = hash;
+      });
   });
 
   User.associate = (models) => {
@@ -48,7 +46,9 @@ module.exports = (sequelize, DataTypes) => {
     Promise(bool)
   */
   User.prototype.checkPassword = function (plainTextPassword) {
-    return bcrypt.compare(plainTextPassword, this.password);
+    return bcrypt.compare(plainTextPassword, this.password)
+      .then(isValid => [isValid, this]);
+  // ugly hack to pass the user model along to our login handler
   };
 
   return User;
