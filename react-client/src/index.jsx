@@ -9,7 +9,7 @@ import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import axios from 'axios';
 import EventPage from './components/eventPage.jsx';
-import CurrentlyClickedEvent from './components/CurrentlyClickedEvent.jsx';
+import Eventage from './components/eventage.jsx';
 // import PropTypes from 'prop-types';
 
 class App extends React.Component {
@@ -45,7 +45,7 @@ class App extends React.Component {
         {
           clickedEvent !== null ? (
             <div>
-              <CurrentlyClickedEvent event={clickedEvent} />
+              <Eventage event={clickedEvent} />
             </div>
           )
             : (

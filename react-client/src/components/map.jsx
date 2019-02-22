@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
+//import geojson from '../mockGeoJson.js';
+
+
+// https://tools.ietf.org/html/rfc7159
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -10,12 +14,14 @@ class Map extends React.Component {
     this.state = {
       lng: -90,
       lat: 30,
-      zoom: 10,
+      zoom: 13,
+      points: {},
     };
   }
 
   componentDidMount() {
-    const { lng, lat, zoom } = this.state;
+    this.setState({ points: {lati: this.props.event.lat, long: this.props.event.long} });
+    const { lng, lat, zoom, lati, long } = this.state;
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -23,6 +29,9 @@ class Map extends React.Component {
       center: [lng, lat],
       zoom,
     });
+    // map.on('style.load', () => {
+    //   map.addSource('geojson', { type: 'geojson', data: '../mockGeoJson.geojson' });
+    // });
 
     map.on('move', () => {
       const { lng, lat } = map.getCenter();
@@ -33,6 +42,18 @@ class Map extends React.Component {
         zoom: map.getZoom().toFixed(2),
       });
     });
+    // add markers to map
+    // geojson.features.forEach((marker) => {
+    //   console.log(marker);
+    //   // create a HTML element for each feature
+    //   const el = React.createElement('div');
+    //   el.className = 'marker';
+
+    //   // make a marker for each feature and add to the map
+    //   new mapboxgl.Marker(el)
+    //     .setLngLat(marker.geometry.coordinates)
+    //     .addTo(map);
+    // });
   }
 
   render() {
@@ -43,7 +64,7 @@ class Map extends React.Component {
         <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
           <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom}`}</div>
         </div>
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
+        <div ref={(el) => { this.mapContainer = el; }} className="absolute top right left bottom" />
       </div>
     );
   }
