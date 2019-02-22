@@ -118,9 +118,10 @@ const requestHandler = {
   },
 
   deleteComment(req, res) {
+    const { user } = req;
     const { commentId } = req.params;
-    db.Comment.findOne({ where: { id: commentId } })
-      .then(comment => comment.deleteThread())
+    db.Comment.findOne({ where: { id: commentId, userId: user.id } })
+      .then(comment => comment.deleteThread())  
       .then(() => res.send(200))
       .catch((err) => {
         console.error(err);
@@ -129,9 +130,10 @@ const requestHandler = {
   },
 
   editComment(req, res) {
+    const { user } = req;
     const { commentId } = req.params;
     const { body } = req.body;
-    db.Comment.findOne({ where: { id: commentId } })
+    db.Comment.findOne({ where: { id: commentId, userId: user.id } })
       .then(comment => comment.update({ body }))
       .then(() => res.send(200))
       .catch((err) => {
@@ -141,7 +143,9 @@ const requestHandler = {
   },
 
   deleteEvent(req, res) {
-
+    const { user } = req;
+    const { eventId } = req.params;
+    db.Event.findOne({ where: { id: eventId, userId: user.id } })
   },
 
   editEvent(req, res) {
