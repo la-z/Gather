@@ -121,6 +121,7 @@ describe('session persistence', () => {
       .then((createdUser) => {
         user = createdUser;
         return db.Event.create({
+          id: 9999,
           category: 'hello',
           title: 'world',
           description: 'you',
@@ -148,21 +149,21 @@ describe('session persistence', () => {
 
     it('should not allow unauthorized users to create comments', (done) => {
       request(app)
-        .put('/events/world/comments')
+        .put('/events/9999/comments')
         .send({ body: 'lol this event sucks' })
         .expect(403, done);
     });
 
     it('should not allow unauthorized users to edit events', (done) => {
       request(app)
-        .patch('/events/world')
+        .patch('/events/9999')
         .send({ private: true })
         .expect(403, done);
     });
 
     it('should not allow unauthorized users to show interest in events', (done) => {
       request(app)
-        .post('/events/world/interested')
+        .post('/events/9999/interested')
         .send({ username: null })
         .expect(403, done);
     });
@@ -196,30 +197,31 @@ describe('session persistence', () => {
     });
 
     it('should allow authorized users to create comments', (done) => {
-      authenticatedSession.put('/events/world/comments')
+      authenticatedSession.put('/events/9999/comments')
         .send({ body: 'lol this event sucks' })
         .expect(200, done);
     });
 
     it('should allow authorized users to edit events', (done) => {
-      authenticatedSession.patch('/events/world')
+      authenticatedSession.patch('/events/9999')
         .send({ private: true })
         .expect(200, done);
     });
 
     it('should allow authorized users to show interest in events', (done) => {
-      authenticatedSession.post('/events/world/interested')
+      authenticatedSession.post('/events/9999/interested')
         .send({ username: newUser.username })
         .expect(200, done);
     });
 
     it('should not allow authorized users to change others\' events', (done) => {
       db.Event.create({
+        id: 11111,
         category: 'hello',
         title: 'no',
         description: 'oof',
       }).then(() => {
-        authenticatedSession.patch('/events/no')
+        authenticatedSession.patch('/events/11111')
           .send({ private: true })
           .expect(403)
           .then(() => db.Event.destroy({ where: { title: 'no' } }))
