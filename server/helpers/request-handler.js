@@ -58,25 +58,40 @@ const requestHandler = {
   },
   makeNewEvent(req, res) {
     const { body } = req.body;
-    const { user } = req.user;
+    const { username } = req.user;
     let newEvent;
     db.Event.create(body)
       .then((event) => {
         newEvent = event;
-        return db.User.find({ where: { username: user.username } });
+        return db.User.find({ where: { username } });
       })
       .then((foundUser) => {
         newEvent.setUser(foundUser);
         return newEvent.save();
       })
-      .then(() => {
-        res.send(200);
-      });
-
+      .then(() => res.send(200));
   },
+
   submitNewComment(req, res) {
-
+    const { eventName } = req.params;
+    const { user, body } = req;
+    let newComment;
+    db.Comment.create(body)
+      .then((comment) => {
+        newComment = comment;
+        return db.User.find({ where: { username: user.username } });
+      })
+      .then((foundUser) => {
+        newComment.setUser(foundUser);
+        return db.Event.find({ where: { title: eventName } });
+      })
+      .then((event) => {
+        newComment.setEvent(event);
+        return newComment.save();
+      })
+      .then(() => res.send(200));
   },
+
   deleteComment(req, res) {
 
   },
