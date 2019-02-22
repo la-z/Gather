@@ -115,27 +115,27 @@ describe('login', () => {
 
 describe('session persistence', () => {
   before((done) => {
+    let user;
     db.User.destroy({ where: { username: newUser.username } })
       .then(() => db.User.create(newUser))
-      .then(() => db.Event.create({
-        category: 'hello',
-        title: 'world',
-        description: 'you',
-        time: new Date(),
-        lat: 123,
-        long: 134,
-        private: false,
-      }))
+      .then((createdUser) => {
+        user = createdUser;
+        return db.Event.create({
+          category: 'hello',
+          title: 'world',
+          description: 'you',
+          time: new Date(),
+          lat: 123,
+          long: 134,
+          private: false,
+        });
+      })
+      .then(event => event.setUser(user))
       .then(() => {
         request(app)
           .get('/logout')
           .end(done);
       });
-  });
-
-  after((done) => {
-    db.User.destroy({ where: { username: newUser.username } })
-      .then(() => done());
   });
 
   context('unauthenticated users', () => {
@@ -183,6 +183,12 @@ describe('session persistence', () => {
         });
     });
 
+    after((done) => {
+      return db.User.destroy({ where: newUser })
+        .then(() => db.Event.destroy({ where: { title: 'world' } }))
+        .then(() => done());
+    });
+
     it('should allow authorized users to create new events', (done) => {
       authenticatedSession.put('/events')
         .send({ category: 'tabletop', title: 'a', description: 'b' })
@@ -205,6 +211,20 @@ describe('session persistence', () => {
       authenticatedSession.post('/events/world/interested')
         .send({ username: newUser.username })
         .expect(200, done);
+    });
+
+    it('should not allow authorized users to change others\' events', (done) => {
+      db.Event.create({
+        category: 'hello',
+        title: 'no',
+        description: 'oof',
+      }).then(() => {
+        authenticatedSession.patch('/events/no')
+          .send({ private: true })
+          .expect(403)
+          .then(() => db.Event.destroy({ where: { title: 'no' } }))
+          .then(() => done());
+      });
     });
 
     it('should log out authorized users', (done) => {
