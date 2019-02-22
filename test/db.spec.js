@@ -171,10 +171,4 @@ describe('InterestedEvent', () => {
   context('properties', () => {
     checkPropertyExists(interestedEvent)('rsvp');
   });
-
-  it('should have a method toggleRsvp that toggles the \'rsvp\' boolean property', () => {
-    interestedEvent.rsvp = false;
-    interestedEvent.toggleRsvp();
-    expect(interestedEvent.update).to.have.been.calledOnceWith({ rsvp: true });
-  });
 });
