@@ -46,19 +46,24 @@ const requestHandler = {
       });
   },
   getCategory(req, res) {
-    const { category, page, sortBy } = req.params;
-    db.Event.find({
-      where: { category, private: false },
+    const { categoryName } = req.params;
+    const { page, sortBy } = req.query;
+    db.Event.findAll({
+      where: { category: categoryName, private: false },
       // we don't want private events here
       attributes: ['title', 'description', 'time'],
-      order: sortBy,
+      order: [[sortBy, 'DESC']],
       limit: 10,
       offset: page * 10,
-      include: [db.User.username],
+      include: [db.User],
     })
       .then((events) => {
         res.status(200);
         res.json(events);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.send(500);
       });
   },
 
@@ -73,7 +78,7 @@ const requestHandler = {
     db.Event.create(body)
       .then((event) => {
         newEvent = event;
-        return db.User.find({ where: { username } });
+        return db.User.findOne({ where: { username } });
         // need to associate event with creating user immediately
       })
       .then((foundUser) => {
@@ -92,16 +97,16 @@ const requestHandler = {
     db.Comment.create(body)
       .then((comment) => {
         newComment = comment;
-        return db.User.find({ where: { username: user.username } });
+        return db.User.findOne({ where: { username: user.username } });
       })
       .then((foundUser) => {
         newComment.setUser(foundUser);
-        return db.Event.find({ where: { title: eventName } });
+        return db.Event.findOne({ where: { title: eventName } });
         // need to associate comment with both user and event
       })
       .then((event) => {
         newComment.setEvent(event);
-        if (commentId) return db.Comment.find({ where: { id: commentId } });
+        if (commentId) return db.Comment.findOne({ where: { id: commentId } });
         // commentId represents comment is child of another comment
         return null;
       })
