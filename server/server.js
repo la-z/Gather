@@ -12,6 +12,7 @@ const {
   signup,
   getEventsByUser,
   getCategory,
+  getEvent,
   makeNewEvent,
   submitNewComment,
   deleteComment,
@@ -66,6 +67,8 @@ app.delete('/users/:userId', checkAuthentication, deleteUser);
 app.get('/events/category/:categoryName', (req, res) => {
   getCategory(req, res);
 });
+
+app.get('/events/:eventId', checkAuthentication, getEvent);
 
 app.put('/events', checkAuthentication, makeNewEvent);
 
