@@ -114,8 +114,8 @@ describe('Event', () => {
       Event.associate({ User, InterestedEvent });
     });
 
-    it('defined a hasOne association with User', () => {
-      expect(Event.hasOne).to.have.been.calledWith(User);
+    it('defined a belongsTo association with User', () => {
+      expect(Event.belongsTo).to.have.been.calledWith(User);
     });
 
     it('defined a belongsToMany association with User through InterestedEvent', () => {
@@ -148,16 +148,16 @@ describe('Comment', () => {
       Comment.associate({ User, Event, Comment });
     });
 
-    it('defined a hasOne association with User', () => {
-      expect(Comment.hasOne).to.have.been.calledWith(User);
+    it('defined a belongsTo association with User', () => {
+      expect(Comment.belongsTo).to.have.been.calledWith(User);
     });
 
-    it('defined a hasOne association with Event', () => {
-      expect(Comment.hasOne).to.have.been.calledWith(Event);
+    it('defined a belongsTo association with Event', () => {
+      expect(Comment.belongsTo).to.have.been.calledWith(Event);
     });
 
-    it('defined a hasOne association with Comment as parentComment', () => {
-      expect(Comment.hasOne).to.have.been.calledWith(Comment, {
+    it('defined a belongsTo association with Comment as parentComment', () => {
+      expect(Comment.belongsTo).to.have.been.calledWith(Comment, {
         as: 'parentComment',
       });
     });
