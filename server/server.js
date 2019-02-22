@@ -12,7 +12,6 @@ const {
   signup,
   getEventsByUser,
   getCategory,
-  getProfile,
   makeNewEvent,
   submitNewComment,
   deleteComment,
@@ -20,6 +19,9 @@ const {
   deleteEvent,
   editEvent,
   deleteUser,
+  rsvpEvent,
+  updateRsvp,
+  removeRsvp,
 } = require('./helpers/request-handler');
 const { checkAuthentication } = require('./helpers/auth');
 
@@ -53,7 +55,9 @@ app.get('/logout', logout);
 
 app.post('/signup', signup);
 
-// delete user
+// users
+
+app.get('/users/:username/profile', checkAuthentication, getEventsByUser);
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
@@ -69,6 +73,14 @@ app.patch('/events/:eventId', checkAuthentication, editEvent);
 
 app.delete('/events/:eventId', checkAuthentication, deleteEvent);
 
+// rsvp events
+
+app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
+
+app.patch('/events/:eventId/rsvp', checkAuthentication, updateRsvp);
+
+app.delete('/event/eventId/rsvp', checkAuthentication, removeRsvp);
+
 // comments
 
 app.put('/events/:eventId/comments', checkAuthentication, submitNewComment);
@@ -79,7 +91,6 @@ app.patch('/events/:eventId/comments/:commentId', checkAuthentication, editComme
 
 app.delete('/events/:eventId/comments/:commentId', checkAuthentication, deleteComment);
 
-app.get('/users/:username/profile', checkAuthentication, getProfile);
 
 app.all('*', (req, res) => {
   console.log('idk what happened');
