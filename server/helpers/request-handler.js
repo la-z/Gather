@@ -6,6 +6,14 @@ const requestHandler = {
     req.logout();
     res.redirect('/');
   },
+
+  /*
+  signup
+  expects:
+    req.body: JSON => { "username", "password" }
+  if username in db: redirect /
+  else on creation: redirect /users/<username>/profile
+  */
   signup(req, res, next) {
     const newUser = req.body;
     db.User.create(newUser)
@@ -23,11 +31,20 @@ const requestHandler = {
         res.send(500, 'Something went wrong on our end.');
       });
   },
+
+  /*
+  getEventsByUser
+  expects:
+    req.user => created by passport
+    req.query => page, 0 indexed, indicates which subset of events desired
+                  sortBy, string => property of Event model
+    returns: JSON [ Event ]
+  */
   getEventsByUser(req, res) {
     const { user } = req;
     // user is put directly on req by passport
     // user => object with props username, id
-    const { page, sortBy } = req.params;
+    const { page, sortBy } = req.query;
     // page, sortBy are Number and String respectively
     db.Event.find({
       where: { userId: user.id },
@@ -45,6 +62,11 @@ const requestHandler = {
         res.json(events);
       });
   },
+
+  /*
+  getCategory
+  see getEventsByUser, except by category here
+  */
   getCategory(req, res) {
     const { categoryName } = req.params;
     const { page, sortBy } = req.query;
@@ -68,6 +90,20 @@ const requestHandler = {
     res.send(200, 'welcome to your profile');
   },
 
+  /*
+  makeNewEvent
+  expects body => {
+    category,
+    title,
+    description,
+    time (Date obj),
+    lat (Number),
+    long (Number),
+    private (bool, default false),
+    duration (Integer, minutes)
+  }
+  associates event with logged in user
+  */
   makeNewEvent(req, res) {
     const { body } = req;
     const { username } = req.user;
@@ -87,6 +123,13 @@ const requestHandler = {
       .then(() => res.send(200));
   },
 
+  /*
+  submitNewComment
+  expects body => {
+    body (String)
+  }
+  associates comment with event and user
+  */
   submitNewComment(req, res) {
     const { eventId, commentId } = req.params;
     const { user, body } = req;
@@ -114,6 +157,11 @@ const requestHandler = {
       .then(() => res.send(200));
   },
 
+  /*
+  deleteComment
+  deletes comment associated with both logged in user and commentId in params
+  also deletes child comments
+  */
   deleteComment(req, res) {
     const { user } = req;
     const { commentId } = req.params;
@@ -123,6 +171,14 @@ const requestHandler = {
       .catch(err => this.errorHandler(req, res, err));
   },
 
+  /*
+  editComment
+  expects body => {
+    body (String)
+  }
+  updates comment associated with both logged in user and commentId in params
+  changes body
+  */
   editComment(req, res) {
     const { user } = req;
     const { commentId } = req.params;
@@ -133,6 +189,10 @@ const requestHandler = {
       .catch(err => this.errorHandler(req, res, err));
   },
 
+  /*
+  deleteEvent
+  deletes event associated with both user and eventId in params
+  */
   deleteEvent(req, res) {
     const { user } = req;
     const { eventId } = req.params;
@@ -144,6 +204,20 @@ const requestHandler = {
       .catch(err => this.errorHandler(req, res, err));
   },
 
+  /*
+  editEvent
+  expects body with one or more of => {
+    category,
+    title,
+    description,
+    time (Date obj),
+    lat (Number),
+    long (Number),
+    private (bool, default false),
+    duration (Integer, minutes)
+  }
+  updates event associated with both logged in user and eventId in params
+  */
   editEvent(req, res) {
     const { user } = req;
     const { eventId } = req.params;
@@ -154,6 +228,10 @@ const requestHandler = {
       .catch(err => this.errorHandler(req, res, err));
   },
 
+  /*
+  deleteUser
+  deletes user record corresponding to req.user, then logs out
+  */
   deleteUser(req, res) {
     const { user } = req;
     db.User.destroy({ where: { id: user.Id } })
