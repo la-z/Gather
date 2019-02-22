@@ -6,8 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     private: DataTypes.BOOLEAN,
     time: DataTypes.DATE,
+    duration: DataTypes.INTEGER,
+    // duration in minutes
     lat: DataTypes.NUMERIC,
     long: DataTypes.NUMERIC,
+    done: DataTypes.BOOLEAN,
   });
 
   Event.prototype.togglePrivate = function () {
