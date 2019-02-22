@@ -25,30 +25,33 @@ const newUser = {
 
 describe('signup', () => {
   before((done) => {
-    testSession.post('/signup')
-      .send(newUser)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .end((err) => {
-        if (err) {
-          return done(err);
-        }
-        authenticatedSession = testSession;
-        return done();
-      });
+    db.User.destroy({ where: { username: newUser.username } })
+      .then(() => {
+        testSession.post('/signup')
+          .send(newUser)
+          .expect(302)
+          .end((err) => {
+            if (err) {
+              return done(err);
+            }
+            authenticatedSession = testSession;
+            return done();
+          });
+      })
+      .catch(err => done(err));
   });
 
   after((done) => {
     db.User.destroy({ where: { username: newUser.username } })
-      .then(done)
+      .then(() => done())
       .catch(err => done(err));
   });
 
   it('should store a new user in the db with a hashed password', (done) => {
-    db.User.findOne({ username: newUser.username })
+    db.User.findOne({ where: { username: newUser.username } })
       .then(foundUser => foundUser.checkPassword(newUser.password, foundUser.password))
       .then((isValidPass) => {
-        expect(isValidPass).to.be.true;
+        expect(isValidPass[0]).to.be.true;
         done();
       })
       .catch(err => done(err));
@@ -58,9 +61,8 @@ describe('signup', () => {
     request(app)
       .post('/signup')
       .send(newUser)
-      .set('Accept', 'application/json')
       .expect(302)
-      .expect('Location', '/signup')
+      .expect('Location', '/')
       .end(done);
   });
   it('should assign a session object to the new user on signup', (done) => {
@@ -76,7 +78,7 @@ describe('login', () => {
     request(app)
       .post('/signup')
       .send(newUser)
-      .expect(200, done);
+      .expect(302, done);
   });
 
   it('should redirect a user to /:username/profile on a successful login', (done) => {
@@ -84,7 +86,7 @@ describe('login', () => {
       .post('/login')
       .send(newUser)
       .expect(302)
-      .expect('Location', `/${newUser.username}/profile`, done);
+      .expect('Location', `/users/${newUser.username}/profile`, done);
   });
 
   it('should redirect a user to / on a failed login', (done) => {
