@@ -117,6 +117,15 @@ describe('session persistence', () => {
   before((done) => {
     db.User.destroy({ where: { username: newUser.username } })
       .then(() => db.User.create(newUser))
+      .then(() => db.Event.create({
+        category: 'hello',
+        title: 'world',
+        description: 'you',
+        time: new Date(),
+        lat: 123,
+        long: 134,
+        private: false,
+      }))
       .then(() => {
         request(app)
           .get('/logout')
@@ -130,10 +139,24 @@ describe('session persistence', () => {
   });
 
   context('unauthenticated users', () => {
-    it('should not allow unauthorized users access to create new events', (done) => {
+    it('should not allow unauthorized users to create new events', (done) => {
       request(app)
         .put('/events')
         .send({ category: 'tabletop', title: 'a', description: 'b' })
+        .expect(403, done);
+    });
+
+    it('should not allow unauthorized users to create comments', (done) => {
+      request(app)
+        .put('/events/world/comments')
+        .send({ body: 'lol this event sucks' })
+        .expect(403, done);
+    });
+
+    it('should not allow unauthorized users to edit events', (done) => {
+      request(app)
+        .patch('/events/world')
+        .send({ private: true })
         .expect(403, done);
     });
   });
