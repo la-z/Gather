@@ -4,5 +4,5 @@ module.exports.checkAuthentication = (req, res, next) => {
     // method exposed on req in passport
     return next();
   }
-  return res.redirect('/login');
+  return res.send(403);
 };

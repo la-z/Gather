@@ -184,7 +184,7 @@ describe('session persistence', () => {
     });
 
     after((done) => {
-      return db.User.destroy({ where: newUser })
+      db.User.destroy({ where: newUser })
         .then(() => db.Event.destroy({ where: { title: 'world' } }))
         .then(() => done());
     });
@@ -223,7 +223,8 @@ describe('session persistence', () => {
           .send({ private: true })
           .expect(403)
           .then(() => db.Event.destroy({ where: { title: 'no' } }))
-          .then(() => done());
+          .then(() => done())
+          .catch(err => done(err));
       });
     });
 

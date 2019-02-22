@@ -7,7 +7,7 @@ module.exports = (passport) => {
     db.User.findOne({ where: { username } })
       .then((user) => {
         if (user) return user.checkPassword(password);
-        return false;
+        return [false, null];
       })
       .then(([isValid, user]) => {
         if (isValid) {

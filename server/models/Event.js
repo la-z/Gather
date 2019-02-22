@@ -6,9 +6,15 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     private: { type: DataTypes.BOOLEAN, default: false },
     time: DataTypes.DATE,
+    duration: DataTypes.INTEGER,
+    // duration in minutes
     lat: DataTypes.NUMERIC,
     long: DataTypes.NUMERIC,
+<<<<<<< HEAD
     done: { type: DataTypes.BOOLEAN, default: false },
+=======
+    done: DataTypes.BOOLEAN,
+>>>>>>> cdabe0abd0e36727f7012318f8fcf8a16e452917
   });
 
   Event.associate = (models) => {
