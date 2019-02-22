@@ -103,8 +103,7 @@ describe('login', () => {
   it('should associate a login with a new session', (done) => {
     testSession.post('/login')
       .send(newUser)
-      .end((err) => {
-        if (err) return done(err);
+      .then(() => {
         authenticatedSession = testSession;
         return authenticatedSession.cookies.find((cookie) => {
           expect(cookie).to.exist;
@@ -112,4 +111,10 @@ describe('login', () => {
         });
       });
   });
+});
+
+describe('session persistence', () => {
+  before((done) => {
+
+  })
 });
