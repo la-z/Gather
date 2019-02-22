@@ -175,7 +175,7 @@ const requestHandler = {
   deleteComment(req, res) {
     const { user } = req;
     const { commentId } = req.params;
-    db.Comment.findOne({ where: { id: commentId, userId: user.id } })
+    db.Comment.findOne({ where: { id: commentId, UserId: user.id } })
       .then(comment => comment.deleteThread())
       .then(() => res.send(200))
       .catch(err => errorHandler(req, res, err));
@@ -193,7 +193,7 @@ const requestHandler = {
     const { user } = req;
     const { commentId } = req.params;
     const { body } = req.body;
-    db.Comment.findOne({ where: { id: commentId, userId: user.id } })
+    db.Comment.findOne({ where: { id: commentId, UserId: user.id } })
       .then(comment => comment.update({ body }))
       .then(() => res.send(200))
       .catch(err => errorHandler(req, res, err));
@@ -206,7 +206,7 @@ const requestHandler = {
   deleteEvent(req, res) {
     const { user } = req;
     const { eventId } = req.params;
-    db.Event.destroy({ where: { id: eventId, userId: user.id } })
+    db.Event.destroy({ where: { id: eventId, UserId: user.id } })
       .then((destroyedCount) => {
         if (destroyedCount) return res.send(200);
         return res.send(500);
@@ -232,7 +232,7 @@ const requestHandler = {
     const { user } = req;
     const { eventId } = req.params;
     const { body } = req;
-    db.Event.findOne({ where: { id: eventId, userId: user.id } })
+    db.Event.findOne({ where: { id: eventId, UserId: user.id } })
       .then(event => event.update(body))
       .then(() => res.send(200))
       .catch(err => errorHandler(req, res, err));
