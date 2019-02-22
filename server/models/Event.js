@@ -11,10 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     done: { type: DataTypes.BOOLEAN, default: false },
   });
 
-  Event.prototype.togglePrivate = function () {
-    this.update({ private: !this.private });
-  };
-
   Event.associate = (models) => {
     Event.belongsToMany(models.User, { through: models.InterestedEvent });
     // this gives instances of Event the methods getUsers, setUsers, addUser, and addUsers

@@ -124,11 +124,6 @@ describe('Event', () => {
       });
     });
   });
-  it('has a method called tooglePrivate that toggles the \'private\' boolean property', () => {
-    event.private = false;
-    event.togglePrivate();
-    expect(event.update).to.have.been.calledOnceWith({ private: true });
-  });
 });
 
 describe('Comment', () => {
