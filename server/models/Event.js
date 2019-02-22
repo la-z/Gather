@@ -4,10 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.STRING,
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    private: DataTypes.BOOLEAN,
+    private: { type: DataTypes.BOOLEAN, default: false },
     time: DataTypes.DATE,
     lat: DataTypes.NUMERIC,
     long: DataTypes.NUMERIC,
+    done: { type: DataTypes.BOOLEAN, default: false },
   });
 
   Event.prototype.togglePrivate = function () {
