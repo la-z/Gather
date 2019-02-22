@@ -23,8 +23,20 @@ const requestHandler = {
         res.send(500, 'Something went wrong on our end.');
       });
   },
-  getEvent(req, res) {
-
+  getEventsByUser(req, res) {
+    const { user } = req;
+    const { page, sortBy } = req.params;
+    db.Event.find({
+      where: { userId: user.id },
+      order: sortBy,
+      limit: 10,
+      offset: page * 10,
+      include: [db.User.username],
+    })
+      .then((events) => {
+        res.status(200);
+        res.json(events);
+      });
   },
   getCategory(req, res) {
     const { category, page, sortBy } = req.params;
