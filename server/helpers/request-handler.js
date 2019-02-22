@@ -86,7 +86,7 @@ const requestHandler = {
   },
 
   submitNewComment(req, res) {
-    const { eventName } = req.params;
+    const { eventName, commentId } = req.params;
     const { user, body } = req;
     let newComment;
     db.Comment.create(body)
@@ -101,6 +101,12 @@ const requestHandler = {
       })
       .then((event) => {
         newComment.setEvent(event);
+        if (commentId) return db.Comment.find({ where: { id: commentId } });
+        // commentId represents comment is child of another comment
+        return null;
+      })
+      .then((comment) => {
+        if (comment) newComment.setParentComment(comment);
         return newComment.save();
       })
       .then(() => res.send(200));

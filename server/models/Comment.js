@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   Comment.associate = (models) => {
     Comment.belongsTo(models.User);
     Comment.belongsTo(models.Event);
-    Comment.belongsTo(models.Comment, { as: 'parentComment' });
+    Comment.belongsTo(models.Comment, { as: 'ParentComment' });
   };
   return Comment;
 };

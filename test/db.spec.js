@@ -158,7 +158,7 @@ describe('Comment', () => {
 
     it('defined a belongsTo association with Comment as parentComment', () => {
       expect(Comment.belongsTo).to.have.been.calledWith(Comment, {
-        as: 'parentComment',
+        as: 'ParentComment',
       });
     });
   });
