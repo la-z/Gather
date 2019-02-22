@@ -56,10 +56,22 @@ const requestHandler = {
   getProfile(req, res) {
     res.send(200, 'welcome to your profile');
   },
-  getNewEvent(req, res) {
-
-  },
   makeNewEvent(req, res) {
+    const { body } = req.body;
+    const { user } = req.user;
+    let newEvent;
+    db.Event.create(body)
+      .then((event) => {
+        newEvent = event;
+        return db.User.find({ where: { username: user.username } });
+      })
+      .then((foundUser) => {
+        newEvent.setUser(foundUser);
+        return newEvent.save();
+      })
+      .then(() => {
+        res.send(200);
+      });
 
   },
   submitNewComment(req, res) {
