@@ -200,6 +200,17 @@ const requestHandler = {
   },
 
   /*
+  getCommentsByEvent
+  gets all comments referencing event in params
+  */
+  getCommentsByEvent(req, res) {
+    const { eventId } = req.params;
+    db.Comment.findAll({ where: { EventId: eventId } })
+      .then(comments => res.send(200).json(comments))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
   deleteEvent
   deletes event associated with both user and eventId in params
   */
