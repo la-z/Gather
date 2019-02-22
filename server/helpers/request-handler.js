@@ -166,11 +166,17 @@ const requestHandler = {
       .catch((err) => {
         console.error(err);
         res.send(500);
-      })
+      });
   },
 
   deleteUser(req, res) {
-
+    const { user } = req;
+    db.User.destroy({ where: { id: user.Id } })
+      .then(() => this.logout(req, res))
+      .catch((err) => {
+        console.error(err);
+        res.send(500);
+      })
   },
 };
 
