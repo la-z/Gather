@@ -7,7 +7,7 @@ import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 
 import data from './mockEvents.js';
-import Navbar from './components/navbar.jsx';
+import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
@@ -46,7 +46,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Gather</h1>
-        <Navbar clickHome={this.clickHome} />
+        <NavbarComp clickHome={this.clickHome} />
         <ChildComponentHolder>
           <Geocoder />
           {/* 
