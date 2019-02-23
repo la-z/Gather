@@ -1,5 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
+import Map from './map.jsx';
 
 class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class CurrentlyClickedEvent extends React.Component {
         <p>
           {event.description}
         </p>
+        <Map event={event} />
       </div>
     );
   }
