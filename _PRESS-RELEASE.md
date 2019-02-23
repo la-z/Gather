@@ -17,22 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  <!-- > Name the product in a way the reader (i.e. your target customers) will understand. -->
+  Gather - a place to meet and greet for meet and greets
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  <!-- > Describe who the market for the product is and what benefit they get. One sentence only underneath the title. -->
+  Those who want to connect with people who share the same obscure interests
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  <!-- > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good. -->
+  An app that doesnt make money from your personal information. An open forum for people with diverse interests. Find Others, make groups, share thoughts, plan events, have fun!
 
 ## Problem ##
-  > Describe the problem your product solves.
+  <!-- > Describe the problem your product solves. -->
+  Craigslist is ugly and unsecure. Facebook is bloated and exploitative.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  <!-- > Describe how your product elegantly solves the problem. -->
+  We're putting the user back in control of the forum. Make groups, set permissions, invite others.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  <!-- > A quote from a spokesperson in your company. -->
+  "We really wanted to give people something they could use without feeling like they have to sell all their personal data just to use the platform, and wanted to make some aesthecially pleasing and easy to use."
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
@@ -41,4 +47,4 @@ Once the project moves into development, the press release can be used as a touc
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  <!-- > Wrap it up and give pointers where the reader should go next. -->
