@@ -121,6 +121,7 @@ describe('session persistence', () => {
       .then((createdUser) => {
         user = createdUser;
         return db.Event.create({
+          id: 9999,
           category: 'hello',
           title: 'world',
           description: 'you',
@@ -148,28 +149,28 @@ describe('session persistence', () => {
 
     it('should not allow unauthorized users to create comments', (done) => {
       request(app)
-        .put('/events/world/comments')
+        .put('/events/9999/comments')
         .send({ body: 'lol this event sucks' })
         .expect(403, done);
     });
 
     it('should not allow unauthorized users to edit events', (done) => {
       request(app)
-        .patch('/events/world')
+        .patch('/events/9999')
         .send({ private: true })
         .expect(403, done);
     });
 
     it('should not allow unauthorized users to show interest in events', (done) => {
       request(app)
-        .post('/events/world/interested')
+        .post('/events/9999/interested')
         .send({ username: null })
         .expect(403, done);
     });
   });
 
   context('authorized users', () => {
-    let sessionCookie;
+    let sessionCookieValue;
     before((done) => {
       testSession.post('/login')
         .send(newUser)
@@ -177,7 +178,7 @@ describe('session persistence', () => {
           if (err) return done(err);
           authenticatedSession = testSession;
           return authenticatedSession.cookies.find((cookie) => {
-            sessionCookie = cookie;
+            sessionCookieValue = cookie.value;
             return done();
           });
         });
@@ -196,30 +197,31 @@ describe('session persistence', () => {
     });
 
     it('should allow authorized users to create comments', (done) => {
-      authenticatedSession.put('/events/world/comments')
+      authenticatedSession.put('/events/9999/comments')
         .send({ body: 'lol this event sucks' })
         .expect(200, done);
     });
 
     it('should allow authorized users to edit events', (done) => {
-      authenticatedSession.patch('/events/world')
+      authenticatedSession.patch('/events/9999')
         .send({ private: true })
         .expect(200, done);
     });
 
     it('should allow authorized users to show interest in events', (done) => {
-      authenticatedSession.post('/events/world/interested')
+      authenticatedSession.post('/events/9999/interested')
         .send({ username: newUser.username })
         .expect(200, done);
     });
 
     it('should not allow authorized users to change others\' events', (done) => {
       db.Event.create({
+        id: 11111,
         category: 'hello',
         title: 'no',
         description: 'oof',
       }).then(() => {
-        authenticatedSession.patch('/events/no')
+        authenticatedSession.patch('/events/11111')
           .send({ private: true })
           .expect(403)
           .then(() => db.Event.destroy({ where: { title: 'no' } }))
@@ -232,10 +234,13 @@ describe('session persistence', () => {
       authenticatedSession.get('/logout')
         .end((err) => {
           if (err) return done(err);
-          return authenticatedSession.cookies.find((cookie) => {
-            expect(cookie.value).to.not.equal(sessionCookie.value);
-            return done();
-          });
+          return authenticatedSession.get('/')
+            .then(() => {
+              return authenticatedSession.cookies.find((cookie) => {
+                expect(cookie.value).to.not.equal(sessionCookieValue);
+                return done();
+              });
+            });
         });
     });
   });
