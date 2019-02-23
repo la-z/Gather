@@ -35,6 +35,7 @@ class SignupForm extends React.Component {
   }
 
   handleSignup() {
+    console.log('handle signup');
     const { username, password, email, tel } = this.state;
     const params = {
       username,
@@ -56,7 +57,7 @@ class SignupForm extends React.Component {
         <input type="text" name="password" placeholder="Password" value={password} onChange={this.handlePasswordChange} />
         <input type="text" name="email" placeholder="Email" value={email} onChange={this.handleEmailChange} />
         <input type="tel" name="tel" placeholder="504555555" value={tel} onChange={this.handleTelChange} />
-        <Button type="button" onClick={this.handleSignUp}>Sign Up!!</Button>
+        <Button type="button" onClick={this.handleSignup}>Sign Up!!</Button>
       </form>
     );
   }

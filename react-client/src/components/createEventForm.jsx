@@ -10,6 +10,7 @@ class Geocoder extends React.Component {
       geocodedLong: null,
       title: '',
       description: '',
+      address: '',
     };
     this.setGeocodeSearch = this.setGeocodeSearch.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -19,10 +20,10 @@ class Geocoder extends React.Component {
 
   // eslint-disable-next-line react/sort-comp
   handleFormSubmit(submitEvent) {
-    const { title, description, } = this.state;
+    const { title, description, address } = this.state;
     submitEvent.preventDefault();
     console.log('You Clicked Submit', submitEvent);
-    this.setState({address: this.state.htmlFormAddress});
+    //this.setState({address2: this.state.htmlFormAddress});
     // const geocoder = new MapboxGeocoder({
     //     accessToken: mapboxgl.accessToken,
     // })
@@ -32,7 +33,7 @@ class Geocoder extends React.Component {
     {                    api address               } / {         address in english      } .json ? {        access token       }
     http://api.mapbox.com/geocoding/v5/mapbox.places/2539 Columbus st new orleans la 70113.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g
     */
-    axios.get(` http://api.mapbox.com/geocoding/v5/mapbox.places/${this.state.htmlFormAddress.value}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
+    axios.get(` http://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
       .then((geocodedResults) => {
         const latNlongArr = geocodedResults.data.features[0].center;
         this.setState({geocodedLong: latNlongArr[0], geocodedLat: latNlongArr[1]});
@@ -48,8 +49,8 @@ class Geocoder extends React.Component {
     // console.log(title, description);
   }
 
-  setGeocodeSearch(inputReference) {
-    this.setState({ htmlFormAddress: inputReference.value });
+  setGeocodeSearch(e) {
+    this.setState({ address: e.target.value });
   }
 
   handleTitleChange(e) {
@@ -67,15 +68,7 @@ class Geocoder extends React.Component {
   render() {
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
-      Address: 
-        <input
-          type="text"
-          className="form-control input-lg"
-          id="address"
-          placeholder="1337 nerd lane"
-          ref={this.setGeocodeSearch}
-          // required
-        />
+        <input type="text" name="address" placeholder="address" value={this.state.address} onChange={this.setGeocodeSearch} />
         <input type="text" name="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
         <input type="text" name="description" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange} />
       
