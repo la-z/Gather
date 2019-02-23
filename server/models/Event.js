@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.STRING,
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    private: DataTypes.BOOLEAN,
+    private: { type: DataTypes.BOOLEAN, default: false },
     time: DataTypes.DATE,
     duration: DataTypes.INTEGER,
     // duration in minutes
@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     long: DataTypes.NUMERIC,
     done: DataTypes.BOOLEAN,
   });
-
-  Event.prototype.togglePrivate = function () {
-    this.update({ private: !this.private });
-  };
 
   Event.associate = (models) => {
     Event.belongsToMany(models.User, { through: models.InterestedEvent });

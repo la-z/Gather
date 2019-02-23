@@ -1,12 +1,8 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
   const InterestedEvent = sequelize.define('InterestedEvent', {
-    rsvp: { type: DataTypes.BOOLEAN, default: false },
+    rsvp: { type: DataTypes.ENUM('interested', 'going', 'attended') },
   });
-
-  InterestedEvent.prototype.toggleRsvp = function () {
-    this.update({ rsvp: !this.rsvp });
-  };
 
   return InterestedEvent;
 };
