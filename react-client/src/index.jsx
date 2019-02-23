@@ -15,7 +15,10 @@ import Geocoder from './components/geocoderInputBar.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
-// import PropTypes from 'prop-types';
+import { Modal } from 'react-materialize';
+import PropTypes from 'prop-types';
+import LoginForm from './components/LoginForm.jsx';
+import SignupForm from './components/SignupForm.jsx';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -33,6 +36,8 @@ class App extends React.Component {
     this.clickHome = this.clickHome.bind(this);
     this.clickCreateEvent = this.clickCreateEvent.bind(this);
     this.clickMyEvents = this.clickMyEvents.bind(this);
+    this.clickLoginForm = this.clickLoginForm.bind(this);
+    this.clickSignupForm = this.clickSignupForm.bind(this);
   }
 
   clickHome() {
@@ -48,8 +53,20 @@ class App extends React.Component {
   }
 
   clickMyEvents() {
-    this.setState({ 
+    this.setState({
       view: 'myEvents',
+    });
+  }
+
+  clickLoginForm() {
+    this.setState({
+      view: 'loginForm',
+    });
+  }
+
+  clickSignupForm() {
+    this.setState({
+      view: 'signupForm',
     });
   }
 
@@ -66,7 +83,7 @@ class App extends React.Component {
     if (view === 'main') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
           <Categories />
           <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
         </div>
@@ -74,30 +91,44 @@ class App extends React.Component {
     } if (view === 'eventPage') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
           <EventPage event={clickedEvent} />
         </div>
       );
     } if (view === 'createEvent') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
           <CreateEvent />
+          <Geocoder />
         </div>
       );
-    } if (view === 'myEvents') {/*&& loggedin*/} {
+    } if (view === 'myEvents') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
           <MyEvents user={user} />
+        </div>
+      );
+    } if (view === 'loginForm') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <LoginForm />
+        </div>
+      );
+    } if (view === 'signupForm') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <SignupForm />
         </div>
       );
     }
     return (
       <div>
-        Whaaaa?? Status 404
+        Status 404
       </div>
-
     );
   }
 }
