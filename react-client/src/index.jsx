@@ -14,6 +14,7 @@ import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/geocoderInputBar.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
+import MyEvents from './components/MyEvents.jsx';
 // import PropTypes from 'prop-types';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -31,6 +32,7 @@ class App extends React.Component {
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
     this.clickCreateEvent = this.clickCreateEvent.bind(this);
+    this.clickMyEvents = this.clickMyEvents.bind(this);
   }
 
   clickHome() {
@@ -45,20 +47,26 @@ class App extends React.Component {
     });
   }
 
+  clickMyEvents() {
+    this.setState({ 
+      view: 'myEvents',
+    });
+  }
+
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
-      view: 'eventPage'
+      view: 'eventPage',
     });
   }
 
 
   render() {
-    const { events, clickedEvent, view } = this.state;
+    const { events, clickedEvent, view, user, loggedin } = this.state;
     if (view === 'main') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
           <Categories />
           <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
         </div>
@@ -66,21 +74,28 @@ class App extends React.Component {
     } if (view === 'eventPage') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
           <EventPage event={clickedEvent} />
         </div>
       );
     } if (view === 'createEvent') {
       return (
         <div>
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} />
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
           <CreateEvent />
+        </div>
+      );
+    } if (view === 'myEvents') {/*&& loggedin*/} {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} />
+          <MyEvents user={user} />
         </div>
       );
     }
     return (
       <div>
-        Whaaaa??
+        Whaaaa?? Status 404
       </div>
 
     );
