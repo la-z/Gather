@@ -21,8 +21,8 @@ const requestHandler = {
   signup
   expects:
     req.body: JSON => { "username", "password" }
-  if username in db: redirect /
-  else on creation: redirect /users/<username>/profile
+  if username in db: 401
+  else on creation: login, send 200, {username, id}
   */
   signup(req, res, next) {
     const newUser = req.body;
@@ -30,16 +30,13 @@ const requestHandler = {
       .then((returnedUser) => {
         req.login({ username: returnedUser.username, id: returnedUser.id }, (err) => {
           if (err) return next(err);
-          return res.redirect(`/users/${req.user.username}/profile`);
+          return res.send(200, {
+            username: returnedUser.username,
+            id: returnedUser.id,
+          });
         });
       })
-      .catch((err) => {
-        console.error(err);
-        if (err.message === 'Validation error') {
-          res.redirect('/');
-        }
-        res.send(500, 'Something went wrong on our end.');
-      });
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
