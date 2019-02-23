@@ -11,7 +11,7 @@ import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
-import Geocoder from './components/geocoderInputBar.jsx';
+import Geocoder from './components/createEventForm.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
