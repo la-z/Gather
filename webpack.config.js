@@ -9,6 +9,7 @@ module.exports = {
     filename: 'bundle.js',
     path: DIST_DIR,
   },
+  // context: path.resolve(__dirname, 'node_modules/mapbox-gl/dist/mapbox-gl.css'),
   module: {
     rules: [
       {
@@ -19,6 +20,13 @@ module.exports = {
           presets: ['react', 'es2015'],
         },
       },
+      // {
+      //   test: /\.css$/,
+      //   use: [
+      //     { loader: 'style-loader' },
+      //     { loader: 'css-loader' },
+      //   ],
+      // },
     ],
   },
 };

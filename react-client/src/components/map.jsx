@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
-//import geojson from '../mockGeoJson.js';
+// import geojson from '../mockGeoJson.js';
+// import ReactMapboxGl from 'react-mapbox-gl';
 
 
 // https://tools.ietf.org/html/rfc7159
@@ -21,11 +22,12 @@ class Map extends React.Component {
   componentDidMount() {
     // this.setState({ points: {lati: this.props.event.lat, long: this.props.event.long} });
     const { lng, lat, zoom } = this.state;
+    const { title } = this.props.event;
     // console.log(lati, long);
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/streets-v9',
       center: [lng, lat],
       zoom,
     });
@@ -54,6 +56,38 @@ class Map extends React.Component {
     //     .setLngLat(marker.geometry.coordinates)
     //     .addTo(map);
     // });
+
+
+    map.on('load', () => {
+      map.addLayer({
+        id: 'points',
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [lng, lat],
+              },
+              properties: {
+                title: `${title}`,
+                icon: 'harbor',
+              },
+            }],
+          },
+        },
+        layout: {
+          'icon-image': '{icon}-15',
+          'text-field': '{title}',
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-offset': [0, 0.6],
+          'text-anchor': 'top',
+        },
+      });
+    });
   }
 
   render() {
