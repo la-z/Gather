@@ -3,8 +3,8 @@ const db = require('../models');
 
 const errorHandler = (req, res, err) => {
   console.error(err);
-  if (err.message === 'Validation Error') {
-    return res.redirect('/');
+  if (err.message === 'Validation error') {
+    return res.send(401, 'already exists');
   }
   return res.send(500, 'Something went wrong on our part');
 };
@@ -21,8 +21,8 @@ const requestHandler = {
   signup
   expects:
     req.body: JSON => { "username", "password" }
-  if username in db: redirect /
-  else on creation: redirect /users/<username>/profile
+  if username in db: 401
+  else on creation: login, send 200, {username, id}
   */
   signup(req, res, next) {
     const newUser = req.body;
@@ -30,23 +30,20 @@ const requestHandler = {
       .then((returnedUser) => {
         req.login({ username: returnedUser.username, id: returnedUser.id }, (err) => {
           if (err) return next(err);
-          return res.redirect(`/users/${req.user.username}/profile`);
+          return res.json(201, {
+            username: returnedUser.username,
+            id: returnedUser.id,
+          });
         });
       })
-      .catch((err) => {
-        console.error(err);
-        if (err.message === 'Validation error') {
-          res.redirect('/');
-        }
-        res.send(500, 'Something went wrong on our end.');
-      });
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
   getEventsByUser
   expects:
     req.user => created by passport
-    req.query => page, 0 indexed, indicates which subset of events desired
+    req.query =>  page, 0 indexed, indicates which subset of events desired
                   sortBy, string => property of Event model
     returns: JSON [ Event ]
   */
@@ -56,21 +53,43 @@ const requestHandler = {
     // user => object with props username, id
     const { page, sortBy } = req.query;
     // page, sortBy are Number and String respectively
-    db.Event.find({
-      where: { userId: user.id },
-      order: sortBy,
+    db.Event.findAll({
+      where: { UserId: user.id },
+      order: [[sortBy, 'DESC']],
       limit: 10,
       // don't want to send all events -- what if there are thousands?
       offset: page * 10,
       // so we can get a particular slice of events
       // page is 0-indexed
-      include: [db.User.username],
+      include: [{
+        model: db.User,
+        attributes: ['username'],
+      }],
       // include data from join table
     })
       .then((events) => {
         res.status(200);
         res.json(events);
       });
+  },
+
+  /*
+  getEvent
+  fetches details of individual event in req.params, including all associated comments
+  */
+  getEvent(req, res) {
+    const { eventId } = req.params;
+    db.Event.findOne({
+      where: { id: eventId },
+      include: [{
+        model: db.Comment,
+        attributes: ['body'],
+      }],
+    })
+      .then((event) => {
+        res.status(200).json(Object.assign(event));
+      })
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -96,10 +115,6 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
-  getProfile(req, res) {
-    res.send(200, 'welcome to your profile');
-  },
-
   /*
   makeNewEvent
   expects body => {
@@ -116,21 +131,18 @@ const requestHandler = {
   */
   makeNewEvent(req, res) {
     const { body } = req;
-    const { username } = req.user;
+    const { user } = req;
     let newEvent;
     db.Event.create(body)
       .then((event) => {
         newEvent = event;
-        return db.User.findOne({ where: { username } });
         // need to associate event with creating user immediately
-      })
-      .then((foundUser) => {
-        newEvent.setUser(foundUser);
+        newEvent.setUser(user);
         // doesn't actually save
         return newEvent.save();
         // does actually save
       })
-      .then(() => res.send(200));
+      .then(savedEvent => res.send(200, savedEvent.id));
   },
 
   /*
@@ -147,10 +159,7 @@ const requestHandler = {
     db.Comment.create(body)
       .then((comment) => {
         newComment = comment;
-        return db.User.findOne({ where: { username: user.username } });
-      })
-      .then((foundUser) => {
-        newComment.setUser(foundUser);
+        newComment.setUser(user);
         return db.Event.findOne({ where: { id: eventId } });
         // need to associate comment with both user and event
       })
@@ -244,12 +253,52 @@ const requestHandler = {
   */
   deleteUser(req, res) {
     const { user } = req;
-    db.User.destroy({ where: { id: user.Id } })
+    user.destroy()
       .then(() => this.logout(req, res))
       .catch(err => errorHandler(req, res, err));
   },
 
-  
+  /*
+  rsvpEvent
+  expects body => {
+    rsvp: ['interested', 'going', or 'attended']
+  }
+  adds entry to InterestedEvents with corresponding rsvp value
+  }
+  */
+  rsvpEvent(req, res) {
+    const { user, body } = req;
+    const { eventId } = req.params;
+    user.addEvent(eventId, { through: { rsvp: body.rsvp } })
+      // .then(interestedEvent => interestedEvent.save())
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  updateRsvp
+  expects same pattern as rsvpEvent
+  */
+  updateRsvp(req, res) {
+    const { user, body } = req;
+    const { eventId } = req.params;
+    db.InterestedEvent.findOne({ where: { UserId: user.id, EventId: eventId } })
+      .then(interestedEvent => interestedEvent.update({ rsvp: body.rsvp }))
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  removeRsvp
+  deletes record in InterestedEvents corresponding to user and event
+  */
+  removeRsvp(req, res) {
+    const { user } = req;
+    const { eventId } = req.params;
+    db.InterestedEvent.destroy({ where: { UserId: user.id, EventId: eventId } })
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
+  },
 };
 
 module.exports = requestHandler;

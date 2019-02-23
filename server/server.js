@@ -12,7 +12,7 @@ const {
   signup,
   getEventsByUser,
   getCategory,
-  getProfile,
+  getEvent,
   makeNewEvent,
   submitNewComment,
   deleteComment,
@@ -20,6 +20,9 @@ const {
   deleteEvent,
   editEvent,
   deleteUser,
+  rsvpEvent,
+  updateRsvp,
+  removeRsvp,
 } = require('./helpers/request-handler');
 const { checkAuthentication } = require('./helpers/auth');
 
@@ -42,18 +45,20 @@ app.use(express.static(path.join(__dirname, '../react-client/dist')));
 
 // login, signup, logout
 
-app.post('/login', passport.authenticate('local', {
-  failureRedirect: '/',
-  failureFlash: true,
-}), (req, res) => {
-  res.redirect(`/users/${req.user.username}/profile`);
+app.post('/login', passport.authenticate('local'), (req, res) => {
+  res.json(201, {
+    username: req.user.username,
+    id: req.user.id,
+  });
 });
 
 app.get('/logout', logout);
 
 app.post('/signup', signup);
 
-// delete user
+// users
+
+app.get('/users/:username/profile', checkAuthentication, getEventsByUser);
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
@@ -63,11 +68,21 @@ app.get('/events/category/:categoryName', (req, res) => {
   getCategory(req, res);
 });
 
+app.get('/events/:eventId', checkAuthentication, getEvent);
+
 app.put('/events', checkAuthentication, makeNewEvent);
 
 app.patch('/events/:eventId', checkAuthentication, editEvent);
 
 app.delete('/events/:eventId', checkAuthentication, deleteEvent);
+
+// rsvp events
+
+app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
+
+app.patch('/events/:eventId/rsvp', checkAuthentication, updateRsvp);
+
+app.delete('/events/:eventId/rsvp', checkAuthentication, removeRsvp);
 
 // comments
 
@@ -79,7 +94,6 @@ app.patch('/events/:eventId/comments/:commentId', checkAuthentication, editComme
 
 app.delete('/events/:eventId/comments/:commentId', checkAuthentication, deleteComment);
 
-app.get('/users/:username/profile', checkAuthentication, getProfile);
 
 app.all('*', (req, res) => {
   console.log('idk what happened');
