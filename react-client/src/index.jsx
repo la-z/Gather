@@ -12,7 +12,7 @@ import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/geocoderInputBar.jsx';
-import ChildComponentHook from './components/appendChild.jsx';
+import ChildComponentHolder from './components/appendChild.jsx';
 // import PropTypes from 'prop-types';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -25,10 +25,10 @@ class App extends React.Component {
       clickedEvent: null,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
-    this.setClickEventBackToNull = this.setClickEventBackToNull.bind(this);
+    this.clickHome = this.clickHome.bind(this);
   }
 
-  setClickEventBackToNull() {
+  clickHome() {
     this.setState({
       clickedEvent: null,
     });
@@ -46,15 +46,15 @@ class App extends React.Component {
     return (
       <div>
         <h1>Gather</h1>
-        <Navbar setClickEventBackToNull={this.setClickEventBackToNull} />
-        <ChildComponentHook>
+        <Navbar clickHome={this.clickHome} />
+        <ChildComponentHolder>
           <Geocoder />
           {/* 
           {
             InsertChildComponentHere 
           } 
           */}
-        </ChildComponentHook>
+        </ChildComponentHolder>
         {
           clickedEvent !== null ? (
             <div>
