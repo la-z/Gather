@@ -21,6 +21,10 @@ class Geocoder extends React.Component {
     })
     //geocoder.setInput('search', 'New orleans, LA, 70113');
     console.log(geocoder.query);
+    /*
+    {                    api address               } / {         address in english      } .json ? {        access token       }
+    http://api.mapbox.com/geocoding/v5/mapbox.places/2539 Columbus st new orleans la 70113.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g
+    */
   }
 
   setSearchInputElementReference(inputReference) {

@@ -7,13 +7,18 @@ import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 
 import data from './mockEvents.js';
-import Navbar from './components/navbar.jsx';
+import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/geocoderInputBar.jsx';
-import ChildComponentHook from './components/appendChild.jsx';
-// import PropTypes from 'prop-types';
+import ChildComponentHolder from './components/appendChild.jsx';
+import CreateEvent from './components/CreateEvent.jsx';
+import MyEvents from './components/MyEvents.jsx';
+import { Modal } from 'react-materialize';
+import PropTypes from 'prop-types';
+import LoginForm from './components/LoginForm.jsx';
+import SignupForm from './components/SignupForm.jsx';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -23,51 +28,106 @@ class App extends React.Component {
     this.state = {
       events: data,
       clickedEvent: null,
+      view: 'main',
+      user: null,
+      loggedin: false,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
-    this.setClickEventBackToNull = this.setClickEventBackToNull.bind(this);
+    this.clickHome = this.clickHome.bind(this);
+    this.clickCreateEvent = this.clickCreateEvent.bind(this);
+    this.clickMyEvents = this.clickMyEvents.bind(this);
+    this.clickLoginForm = this.clickLoginForm.bind(this);
+    this.clickSignupForm = this.clickSignupForm.bind(this);
   }
 
-  setClickEventBackToNull() {
+  clickHome() {
     this.setState({
-      clickedEvent: null,
+      view: 'main',
+    });
+  }
+
+  clickCreateEvent() {
+    this.setState({
+      view: 'createEvent',
+    });
+  }
+
+  clickMyEvents() {
+    this.setState({
+      view: 'myEvents',
+    });
+  }
+
+  clickLoginForm() {
+    this.setState({
+      view: 'loginForm',
+    });
+  }
+
+  clickSignupForm() {
+    this.setState({
+      view: 'signupForm',
     });
   }
 
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
+      view: 'eventPage',
     });
   }
 
 
   render() {
-    const { events, clickedEvent } = this.state;
+    const { events, clickedEvent, view, user, loggedin } = this.state;
+    if (view === 'main') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <Categories />
+          <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
+        </div>
+      );
+    } if (view === 'eventPage') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <EventPage event={clickedEvent} />
+        </div>
+      );
+    } if (view === 'createEvent') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <CreateEvent />
+          <Geocoder />
+        </div>
+      );
+    } if (view === 'myEvents') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <MyEvents user={user} />
+        </div>
+      );
+    } if (view === 'loginForm') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <LoginForm />
+        </div>
+      );
+    } if (view === 'signupForm') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <SignupForm />
+        </div>
+      );
+    }
     return (
       <div>
-        <h1>Gather</h1>
-        <Navbar setClickEventBackToNull={this.setClickEventBackToNull} />
-        <ChildComponentHook>
-          <Geocoder />
-          {/* 
-          {
-            InsertChildComponentHere 
-          } 
-          */}
-        </ChildComponentHook>
-        {
-          clickedEvent !== null ? (
-            <div>
-              <EventPage event={clickedEvent} />
-            </div>
-          )
-            : (
-              <div>
-                <Categories />
-                <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
-              </div>
-            )
-        }
+        Status 404
       </div>
     );
   }
