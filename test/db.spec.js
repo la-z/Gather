@@ -124,11 +124,6 @@ describe('Event', () => {
       });
     });
   });
-  it('has a method called tooglePrivate that toggles the \'private\' boolean property', () => {
-    event.private = false;
-    event.togglePrivate();
-    expect(event.update).to.have.been.calledOnceWith({ private: true });
-  });
 });
 
 describe('Comment', () => {
@@ -170,11 +165,5 @@ describe('InterestedEvent', () => {
 
   context('properties', () => {
     checkPropertyExists(interestedEvent)('rsvp');
-  });
-
-  it('should have a method toggleRsvp that toggles the \'rsvp\' boolean property', () => {
-    interestedEvent.rsvp = false;
-    interestedEvent.toggleRsvp();
-    expect(interestedEvent.update).to.have.been.calledOnceWith({ rsvp: true });
   });
 });
