@@ -27,9 +27,18 @@ class Map extends React.Component {
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom,
+    });
+
+    // this adds a geocoder search bar to within the map, might be able to limit these searches to a dataset/ geoJSON associated with the api key
+    // map.addControl(new MapboxGeocoder({
+    //   accessToken: mapboxgl.accessToken,
+    // }));
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
     });
     // map.on('style.load', () => {
     //   map.addSource('geojson', { type: 'geojson', data: '../mockGeoJson.geojson' });
@@ -44,20 +53,8 @@ class Map extends React.Component {
         zoom: map.getZoom().toFixed(2),
       });
     });
-    // add markers to map
-    // geojson.features.forEach((marker) => {
-    //   console.log(marker);
-    //   // create a HTML element for each feature
-    //   const el = React.createElement('div');
-    //   el.className = 'marker';
 
-    //   // make a marker for each feature and add to the map
-    //   new mapboxgl.Marker(el)
-    //     .setLngLat(marker.geometry.coordinates)
-    //     .addTo(map);
-    // });
-
-
+    // this follows geoJSON formatting
     map.on('load', () => {
       map.addLayer({
         id: 'points',
@@ -92,7 +89,6 @@ class Map extends React.Component {
 
   render() {
     const { lng, lat, zoom } = this.state;
-
     return (
       <div>
         <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">

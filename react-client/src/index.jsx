@@ -3,15 +3,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // uncomment when working with server
 // import axios from 'axios';
+import axios from 'axios';
+import mapboxgl from 'mapbox-gl';
+
 import data from './mockEvents.js';
 import Navbar from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
-import axios from 'axios';
 import EventPage from './components/eventPage.jsx';
 import Eventage from './components/eventage.jsx';
+import Geocoder from './components/geocoderInputBar.jsx';
+import NotificationBox from './components/NotificationBox.jsx';
 // import PropTypes from 'prop-types';
-
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -42,6 +46,14 @@ class App extends React.Component {
       <div>
         <h1>Gather</h1>
         <Navbar setClickEventBackToNull={this.setClickEventBackToNull} />
+        <NotificationBox>
+          <Geocoder />
+          {/* 
+          {
+            InsertChildComponentHere 
+          } 
+          */}
+        </NotificationBox>
         {
           clickedEvent !== null ? (
             <div>
