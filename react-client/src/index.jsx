@@ -11,11 +11,12 @@ import Navbar from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
-import Eventage from './components/eventage.jsx';
 import Geocoder from './components/geocoderInputBar.jsx';
-import NotificationBox from './components/NotificationBox.jsx';
+import ChildComponentHook from './components/appendChild.jsx';
 // import PropTypes from 'prop-types';
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -46,18 +47,18 @@ class App extends React.Component {
       <div>
         <h1>Gather</h1>
         <Navbar setClickEventBackToNull={this.setClickEventBackToNull} />
-        <NotificationBox>
+        <ChildComponentHook>
           <Geocoder />
           {/* 
           {
             InsertChildComponentHere 
           } 
           */}
-        </NotificationBox>
+        </ChildComponentHook>
         {
           clickedEvent !== null ? (
             <div>
-              <Eventage event={clickedEvent} />
+              <EventPage event={clickedEvent} />
             </div>
           )
             : (

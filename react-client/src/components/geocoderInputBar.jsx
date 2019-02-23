@@ -2,19 +2,6 @@ import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import ReactDOM from 'react-dom';
 
-// const Geocoder = new MapboxGeocoder({
-//   accessToken: mapboxgl.accessToken,
-// });
-// // const AddressBar = () => (
-// //   <h2>AddressBar</h2>
-// // );
-// // export default AddressBar;
-// ReactDOM.render(
-//   <Geocoder />,
-//   // eslint-disable-next-line no-undef
-//   document.getElementById('geocoder'),
-// );
-
 class Geocoder extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +19,7 @@ class Geocoder extends React.Component {
     const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
     })
-    //geocoder.setInput('search', '2010 felicity st');
+    //geocoder.setInput('search', 'New orleans, LA, 70113');
     console.log(geocoder.query);
   }
 
@@ -53,8 +40,7 @@ class Geocoder extends React.Component {
           // required
         />
         <button type="submit">
-          
-Geocode Address
+          Geocode Address
         </button>
       </form>
     );

@@ -1,19 +1,32 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
-//import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 import Map from './map.jsx';
 
-class EventPage extends React.Component {
+class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
     super(props);
+    const { event } = this.props;
     this.state = {
-    
+      event,
     };
   }
 
   render() {
-    return(
-      <Map />
-    );  
+    const { event } = this.state;
+    return (
+      <div>
+        <h1>
+          {event.title}
+        </h1>
+        <h3>
+          {event.time}
+        </h3>
+        <p>
+          {event.description}
+        </p>
+        <Map event={event} />
+      </div>
+    );
   }
 }
-export default EventPage;
+export default CurrentlyClickedEvent;

@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
 // import geojson from '../mockGeoJson.js';
-// import ReactMapboxGl from 'react-mapbox-gl';
 
-
-// https://tools.ietf.org/html/rfc7159
+// https://tools.ietf.org/html/rfc7159 -- geoJSON specs
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -20,10 +18,8 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({ points: {lati: this.props.event.lat, long: this.props.event.long} });
     const { lng, lat, zoom } = this.state;
     const { title } = this.props.event;
-    // console.log(lati, long);
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -32,14 +28,16 @@ class Map extends React.Component {
       zoom,
     });
 
-    // this adds a geocoder search bar to within the map, might be able to limit these searches to a dataset/ geoJSON associated with the api key
+    /*
+      this adds a geocoder search bar to within the map, might be able to limit these searches to a dataset/ geoJSON associated with the api key
+    */
     // map.addControl(new MapboxGeocoder({
     //   accessToken: mapboxgl.accessToken,
     // }));
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-    });
+    /**
+      this supposedly load geoJSON data into some mapbox variable viable for later manipulation
+    */
     // map.on('style.load', () => {
     //   map.addSource('geojson', { type: 'geojson', data: '../mockGeoJson.geojson' });
     // });
