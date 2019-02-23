@@ -68,8 +68,8 @@ class Geocoder extends React.Component {
           ref={this.setGeocodeSearch}
           // required
         />
-        <input type="text" name="title" placeholder="Amazing Fun Event" value={this.state.title} onChange={this.handleTitleChange} />
-        <input type="text" name="title" placeholder="Amazing Fun Event" value={this.state.description} onChange={this.handleDescriptionChange} />
+        <input type="text" name="title" placeholder="Title" value={this.state.title} onChange={this.handleTitleChange} />
+        <input type="text" name="description" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange} />
       
         <Button type="submit">
           Submit Event
