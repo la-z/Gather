@@ -32,12 +32,20 @@ class Geocoder extends React.Component {
     {                    api address               } / {         address in english      } .json ? {        access token       }
     http://api.mapbox.com/geocoding/v5/mapbox.places/2539 Columbus st new orleans la 70113.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g
     */
-   axios.get(` http://api.mapbox.com/geocoding/v5/mapbox.places/${this.state.htmlFormAddress.value}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
-    .then((geocodedResults) => {
-      const latNlongArr = geocodedResults.data.features[0].center;
-      this.setState({geocodedLong: latNlongArr[0], geocodedLat: latNlongArr[1]});
-    })
-    console.log(title, description);
+    axios.get(` http://api.mapbox.com/geocoding/v5/mapbox.places/${this.state.htmlFormAddress.value}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
+      .then((geocodedResults) => {
+        const latNlongArr = geocodedResults.data.features[0].center;
+        this.setState({geocodedLong: latNlongArr[0], geocodedLat: latNlongArr[1]});
+        const params = {
+          title,
+          description,
+          lat: latNlongArr[1],
+          long: latNlongArr[0],
+        };
+        axios.put('/events', params)
+          .then((result) => { console.log(result); });
+      });
+    // console.log(title, description);
   }
 
   setGeocodeSearch(inputReference) {
@@ -46,13 +54,13 @@ class Geocoder extends React.Component {
 
   handleTitleChange(e) {
     this.setState({
-      title: e.target.value
+      title: e.target.value,
     });
   }
 
   handleDescriptionChange(e) {
     this.setState({
-      description: e.target.value
+      description: e.target.value,
     });
   }
 
