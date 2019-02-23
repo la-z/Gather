@@ -4,7 +4,9 @@ const db = require('../models');
 const requestHandler = {
   logout(req, res) {
     req.logout();
-    res.redirect('/');
+    req.session.destroy(() => {
+      res.redirect('/');
+    });
   },
 
   /*
