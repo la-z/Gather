@@ -23,26 +23,35 @@ class App extends React.Component {
     this.state = {
       events: data,
       clickedEvent: null,
+      view: 'main',
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
+    this.clickCreateEvent = this.clickCreateEvent.bind(this);
   }
 
   clickHome() {
     this.setState({
-      clickedEvent: null,
+      view: 'createEvent',
+    });
+  }
+
+  clickCreateEvent() {
+    this.setState({
+      view: 'createEvent',
     });
   }
 
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
+      view: 'eventPage'
     });
   }
 
 
   render() {
-    const { events, clickedEvent } = this.state;
+    const { events, clickedEvent, view } = this.state;
     return (
       <div>
         <h1>Gather</h1>
@@ -56,7 +65,7 @@ class App extends React.Component {
           */}
         </ChildComponentHolder>
         {
-          clickedEvent !== null ? (
+          view === 'eventPage' ? (
             <div>
               <EventPage event={clickedEvent} />
             </div>

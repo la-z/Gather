@@ -8,13 +8,14 @@ import { Button, Icon, NavItem, Navbar, Dropdown } from 'react-materialize';
 // )
 
 // eslint-disable-next-line react/prop-types
-const NavbarComp = ({ clickHome }) => (
+const NavbarComp = ({ clickHome, clickCreateEvent }) => (
   <div>
     <h2>Navbar</h2>
     <div>
-      <Button waves='light' node="a" href="index.html">Home</Button>
+      <Button waves='light' onClick={clickHome}>Home</Button>
       <Button waves='light'>MyEvents<Icon left>cloud</Icon></Button>
-      <Button waves='light'>Login/Signup<Icon right>cloud</Icon></Button>
+      <Button waves='light' >Login/Signup<Icon right>cloud</Icon></Button>
+      <Button floating large className='green' waves='light' icon='add' href="" />
     </div>
     {/* <Dropdown trigger={
       <Button>Drop me!</Button>
