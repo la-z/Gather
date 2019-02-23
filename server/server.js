@@ -46,10 +46,12 @@ app.use(express.static(path.join(__dirname, '../react-client/dist')));
 // login, signup, logout
 
 app.post('/login', passport.authenticate('local', {
-  failureRedirect: '/',
   failureFlash: true,
 }), (req, res) => {
-  res.redirect(`/users/${req.user.username}/profile`);
+  res.json(201, {
+    username: req.user.username,
+    id: req.user.id,
+  });
 });
 
 app.get('/logout', logout);
@@ -82,7 +84,7 @@ app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
 
 app.patch('/events/:eventId/rsvp', checkAuthentication, updateRsvp);
 
-app.delete('/event/eventId/rsvp', checkAuthentication, removeRsvp);
+app.delete('/events/:eventId/rsvp', checkAuthentication, removeRsvp);
 
 // comments
 

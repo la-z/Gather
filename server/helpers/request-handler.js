@@ -3,22 +3,11 @@ const db = require('../models');
 
 const errorHandler = (req, res, err) => {
   console.error(err);
-  if (err.message === 'Validation Error') {
-    return res.redirect('/');
+  if (err.message === 'Validation error') {
+    return res.send(401, 'already exists');
   }
   return res.send(500, 'Something went wrong on our part');
 };
-
-/*
-getCommentsByEvent
-gets all comments referencing given eventId
-@params
-  eventId: Integer
-@return
-  Promise(Array[Comment])
-
-*/
-const getCommentsByEvent = eventId => db.Comment.findAll({ where: { EventId: eventId } });
 
 const requestHandler = {
   logout(req, res) {
@@ -57,7 +46,7 @@ const requestHandler = {
   getEventsByUser
   expects:
     req.user => created by passport
-    req.query => page, 0 indexed, indicates which subset of events desired
+    req.query =>  page, 0 indexed, indicates which subset of events desired
                   sortBy, string => property of Event model
     returns: JSON [ Event ]
   */
@@ -67,15 +56,18 @@ const requestHandler = {
     // user => object with props username, id
     const { page, sortBy } = req.query;
     // page, sortBy are Number and String respectively
-    db.Event.find({
-      where: { userId: user.id },
-      order: sortBy,
+    db.Event.findAll({
+      where: { UserId: user.id },
+      order: [[sortBy, 'DESC']],
       limit: 10,
       // don't want to send all events -- what if there are thousands?
       offset: page * 10,
       // so we can get a particular slice of events
       // page is 0-indexed
-      include: [db.User.username],
+      include: [{
+        model: db.User,
+        attributes: ['username'],
+      }],
       // include data from join table
     })
       .then((events) => {
@@ -90,13 +82,16 @@ const requestHandler = {
   */
   getEvent(req, res) {
     const { eventId } = req.params;
-    let comments;
-    getCommentsByEvent(eventId)
-      .then((foundComments) => {
-        comments = foundComments;
-        return db.Event.findOne({ where: { id: eventId } });
+    db.Event.findOne({
+      where: { id: eventId },
+      include: [{
+        model: db.Comment,
+        attributes: ['body'],
+      }],
+    })
+      .then((event) => {
+        res.status(200).json(Object.assign(event));
       })
-      .then(event => res.status(200).json(Object.assign(event, { comments })))
       .catch(err => errorHandler(req, res, err));
   },
 
@@ -123,10 +118,6 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
-  getProfile(req, res) {
-    res.send(200, 'welcome to your profile');
-  },
-
   /*
   makeNewEvent
   expects body => {
@@ -143,21 +134,18 @@ const requestHandler = {
   */
   makeNewEvent(req, res) {
     const { body } = req;
-    const { username } = req.user;
+    const { user } = req;
     let newEvent;
     db.Event.create(body)
       .then((event) => {
         newEvent = event;
-        return db.User.findOne({ where: { username } });
         // need to associate event with creating user immediately
-      })
-      .then((foundUser) => {
-        newEvent.setUser(foundUser);
+        newEvent.setUser(user);
         // doesn't actually save
         return newEvent.save();
         // does actually save
       })
-      .then(() => res.send(200));
+      .then(savedEvent => res.send(200, savedEvent.id));
   },
 
   /*
@@ -174,10 +162,7 @@ const requestHandler = {
     db.Comment.create(body)
       .then((comment) => {
         newComment = comment;
-        return db.User.findOne({ where: { username: user.username } });
-      })
-      .then((foundUser) => {
-        newComment.setUser(foundUser);
+        newComment.setUser(user);
         return db.Event.findOne({ where: { id: eventId } });
         // need to associate comment with both user and event
       })
@@ -271,7 +256,7 @@ const requestHandler = {
   */
   deleteUser(req, res) {
     const { user } = req;
-    db.User.destroy({ where: { id: user.Id } })
+    user.destroy()
       .then(() => this.logout(req, res))
       .catch(err => errorHandler(req, res, err));
   },
@@ -287,11 +272,8 @@ const requestHandler = {
   rsvpEvent(req, res) {
     const { user, body } = req;
     const { eventId } = req.params;
-    db.User.findOne({ where: { id: user.id } })
-      .then((foundUser) => {
-        foundUser.addEvent(eventId, { through: { rsvp: body.rsvp } });
-        return foundUser.save();
-      })
+    user.addEvent(eventId, { through: { rsvp: body.rsvp } })
+      // .then(interestedEvent => interestedEvent.save())
       .then(() => res.send(200))
       .catch(err => errorHandler(req, res, err));
   },
