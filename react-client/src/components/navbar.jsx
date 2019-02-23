@@ -15,7 +15,7 @@ const NavbarComp = ({ clickHome, clickCreateEvent }) => (
       <Button waves='light' onClick={clickHome}>Home</Button>
       <Button waves='light'>MyEvents<Icon left>cloud</Icon></Button>
       <Button waves='light' >Login/Signup<Icon right>cloud</Icon></Button>
-      <Button floating large className='green' waves='light' icon='add' href="" />
+      <Button floating large className='green' waves='light' icon='add' onClick={clickCreateEvent} />
     </div>
     {/* <Dropdown trigger={
       <Button>Drop me!</Button>

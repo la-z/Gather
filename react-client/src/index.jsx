@@ -13,6 +13,7 @@ import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/geocoderInputBar.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
+import CreateEvent from './components/CreateEvent.jsx';
 // import PropTypes from 'prop-types';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -24,6 +25,8 @@ class App extends React.Component {
       events: data,
       clickedEvent: null,
       view: 'main',
+      user: null,
+      loggedin: false,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -32,7 +35,7 @@ class App extends React.Component {
 
   clickHome() {
     this.setState({
-      view: 'createEvent',
+      view: 'main',
     });
   }
 
@@ -52,32 +55,34 @@ class App extends React.Component {
 
   render() {
     const { events, clickedEvent, view } = this.state;
+    if (view === 'main') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} />
+          <Categories />
+          <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
+        </div>
+      );
+    } if (view === 'eventPage') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} />
+          <EventPage event={clickedEvent} />
+        </div>
+      );
+    } if (view === 'createEvent') {
+      return (
+        <div>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} />
+          <CreateEvent />
+        </div>
+      );
+    }
     return (
       <div>
-        <h1>Gather</h1>
-        <NavbarComp clickHome={this.clickHome} />
-        <ChildComponentHolder>
-          <Geocoder />
-          {/* 
-          {
-            InsertChildComponentHere 
-          } 
-          */}
-        </ChildComponentHolder>
-        {
-          view === 'eventPage' ? (
-            <div>
-              <EventPage event={clickedEvent} />
-            </div>
-          )
-            : (
-              <div>
-                <Categories />
-                <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
-              </div>
-            )
-        }
+        Whaaaa??
       </div>
+
     );
   }
 }
