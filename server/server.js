@@ -45,9 +45,7 @@ app.use(express.static(path.join(__dirname, '../react-client/dist')));
 
 // login, signup, logout
 
-app.post('/login', passport.authenticate('local', {
-  failureFlash: true,
-}), (req, res) => {
+app.post('/login', passport.authenticate('local'), (req, res) => {
   res.json(201, {
     username: req.user.username,
     id: req.user.id,
