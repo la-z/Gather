@@ -48,9 +48,16 @@ app.use(passport.session());
 
 app.all('*', (req, res, next) => {
   // ugly hack to let the browser know the user is logged in
+<<<<<<< HEAD
   // not sure if secure
   if (req.isAuthenticated()) {
     res.set({ Login: 'true', User: req.user.username });
+=======
+  if (req.isAuthenticated()) {
+    res.set({ Login: 'true', User: req.user.username });
+  } else {
+    res.set('Login', 'false');
+>>>>>>> 419aaf14adb3246e31ae55b50ec5fdb2e5266664
   }
   next();
 });
