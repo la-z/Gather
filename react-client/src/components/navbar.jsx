@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, NavItem, Navbar, Dropdown } from 'react-materialize';
+import { Button, Icon, NavItem, Dropdown } from 'react-materialize';
 
 const NavbarComp = ({ clickHome, clickCreateEvent, clickMyEvents, clickLoginForm, clickSignupForm }) => (
   <div>
