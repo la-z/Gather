@@ -27,12 +27,12 @@ class MyEvents extends React.Component {
           {/* Something from this.state.events */}
         </div>
       );
-    } else {
-      return (
+    }
+    return (
       <div>
-      <EventList events={this.state.myEvents} />
+        <EventList events={this.state.myEvents} renderClickedEventTitle={this.props.renderClickedEventTitle} />
       </div>
-    );}
+    );
   }
 }
 

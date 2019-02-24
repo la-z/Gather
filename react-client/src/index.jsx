@@ -143,7 +143,7 @@ class App extends React.Component {
         <div>
           <Loggedin username={username} loggedin={loggedin} />
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
-          <MyEvents userID={userID} username={username} />
+          <MyEvents userID={userID} username={username} renderClickedEventTitle={this.renderClickedEventTitle} />
         </div>
       );
     } if (view === 'loginForm') {
