@@ -109,7 +109,6 @@ const requestHandler = {
     db.Event.findAll({
       where: categoryName === 'all' ? { private: false } : { category: categoryName, private: false },
       // we don't want private events here
-      attributes: ['title', 'description', 'time'],
       order: [[sortBy || 'time', 'DESC']],
       limit: 10,
       offset: page * 10 || 0,
@@ -347,6 +346,21 @@ const requestHandler = {
         if (destroyedCount) res.send(200);
         res.send(403);
       })
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  getCategories
+  on GET /category
+  fetches names of all categories with their associations
+  */
+  getCategories(req, res) {
+    return db.Category.findAll({
+      include: [{
+        model: 'Category',
+      }],
+    })
+      .then(foundCategories => res.status(200).json(foundCategories))
       .catch(err => errorHandler(req, res, err));
   },
 
