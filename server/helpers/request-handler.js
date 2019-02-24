@@ -59,7 +59,7 @@ const requestHandler = {
     // page, sortBy are Number and String respectively
     db.Event.findAll({
       where: { UserId: user.id },
-      order: [[sortBy || 'createdAt', 'DESC']],
+      order: [[sortBy || 'time', 'DESC']],
       limit: 10,
       // don't want to send all events -- what if there are thousands?
       offset: page * 10 || 0,
@@ -107,10 +107,10 @@ const requestHandler = {
     const { categoryName } = req.params;
     const { page, sortBy } = req.query;
     db.Event.findAll({
-      where: { category: categoryName || undefined, private: false },
+      where: categoryName === 'all' ? { private: false } : { category: categoryName, private: false },
       // we don't want private events here
       attributes: ['title', 'description', 'time'],
-      order: [[sortBy || 'createdAt', 'DESC']],
+      order: [[sortBy || 'time', 'DESC']],
       limit: 10,
       offset: page * 10 || 0,
       include: [{
