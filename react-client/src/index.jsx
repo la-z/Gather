@@ -57,7 +57,9 @@ class App extends React.Component {
   }
 
   setUserID(username, userID) {
-    this.setState({ userID, username, view: 'main', loggedin: true });
+    this.setState({
+      userID, username, view: 'main', loggedin: true, 
+    });
     // this.setState({ username });
   }
 
@@ -107,7 +109,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { events, clickedEvent, view, userID, loggedin, username } = this.state;
+    const {
+      events, clickedEvent, view, userID, loggedin, username,
+    } = this.state;
     if (view === 'main') {
       return (
         <div>

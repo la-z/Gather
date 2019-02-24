@@ -23,8 +23,12 @@ const {
   rsvpEvent,
   updateRsvp,
   removeRsvp,
+  addCategory,
+  editCategory,
+  deleteCategory,
+  getCategories,
 } = require('./helpers/request-handler');
-const { checkAuthentication } = require('./helpers/auth');
+const { checkAuthentication, checkAdmin } = require('./helpers/auth');
 
 const app = express();
 
@@ -59,6 +63,16 @@ app.post('/signup', signup);
 // users
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
+
+// categories
+
+app.get('/category', getCategories);
+
+app.put('/category', checkAuthentication, checkAdmin, addCategory);
+
+app.patch('/category', checkAuthentication, checkAdmin, editCategory);
+
+app.delete('/category', checkAuthentication, checkAdmin, deleteCategory);
 
 // events
 

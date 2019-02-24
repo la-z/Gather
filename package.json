@@ -4,6 +4,7 @@
   "description": "hobby-sharing web app",
   "main": "server/server.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "find ./test -name '*_spec.js' | xargs mocha -R spec",
     "test-db": "mocha ./test/db.spec.js",
     "test-auth": "mocha ./test/auth.spec.js",
