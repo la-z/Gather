@@ -129,7 +129,7 @@ const requestHandler = {
   makeNewEvent
   on PUT /events
   expects body => {
-    category,
+    category (string name),
     title,
     description,
     time (Date obj),
@@ -143,14 +143,18 @@ const requestHandler = {
   makeNewEvent(req, res) {
     const { body } = req;
     const { user } = req;
-    let newEvent;
-    db.Event.create(body)
+    let category;
+    db.Category.findOne({ where: { name: body.category } })
+      .then((foundCategory) => {
+        category = foundCategory;
+        return db.Event.create(body);
+      })
       .then((event) => {
-        newEvent = event;
         // need to associate event with creating user immediately
-        newEvent.setUser(user);
+        event.setUser(user);
+        event.setCategory(category);
         // doesn't actually save
-        return newEvent.save();
+        return event.save();
         // does actually save
       })
       .then(savedEvent => res.send(200, savedEvent.id))
@@ -345,6 +349,71 @@ const requestHandler = {
       })
       .catch(err => errorHandler(req, res, err));
   },
+
+  /*
+  addCategory
+  on PUT /category
+  expects body => {
+    name: <categoryName>
+    [ParentCategory]: <categoryName>
+  }
+  if logged user has role "admin", allows creation of new category with optional ParentCategory
+  */
+  addCategory(req, res) {
+    const { body } = req;
+    return db.Category.create({ name: body.name })
+      .then((newCategory) => {
+        if (body.ParentCategory) {
+          return db.Category.findOne({ where: { name: body.ParentCategory } })
+            .then((parentCategory) => {
+              newCategory.setParentCategory(parentCategory);
+              return newCategory.save();
+            })
+            .then(savedCategory => res.status(200).json(savedCategory));
+        }
+        return res.status(200).json(newCategory);
+      })
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  editCategory
+  on PATCH /category
+  expects body => {
+    name: <categoryName>
+
+    [newName]: <categoryName>
+    OR
+    [ParentCategory]: <categoryName>
+  }
+  if logged user has role "admin", allows editing category with new name or ParentCategory
+  */
+  editCategory(req, res) {
+    const { body } = req;
+    return db.Category.findOne({ where: { name: body.name } })
+      .then((foundCategory) => {
+        if (body.newName) return foundCategory.update({ name: body.newName });
+        foundCategory.setParentCategory(body.ParentCategory);
+        return foundCategory.save();
+      })
+      .then(updatedCategory => res.status(200).json(updatedCategory))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  deleteCategory
+  on DELETE /category
+  expects body => {
+    name: <categoryName>
+  }
+  if logged user has role "admin", allows deleting category with given name
+  */
+  deleteCategory(req, res) {
+    const { body } = req;
+    return db.Category.destroy({ where: { name: body.name } })
+      .then(destroyedCount => res.status(200).send(destroyedCount))
+      .catch(err => errorHandler(req, res, err));
+  }
 };
 
 module.exports = requestHandler;
