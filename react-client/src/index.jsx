@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 
-import mockdata from './mockEvents.js';
+//import mockdata from './mockEvents.js';
 import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
@@ -25,7 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: mockdata,
+      events: [],
       clickedEvent: null,
       view: 'main',
       username: null,
