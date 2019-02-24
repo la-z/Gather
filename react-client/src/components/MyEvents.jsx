@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import EventList from './eventList.jsx';
+
 class MyEvents extends React.Component {
   constructor(props) {
     super(props);
@@ -18,12 +20,19 @@ class MyEvents extends React.Component {
   }
 
   render() {
-    return (
+    if (!this.state.myEvents.length) {
+      return (
+        <div>
+          <h1>MyEvents</h1>
+          {/* Something from this.state.events */}
+        </div>
+      );
+    } else {
+      return (
       <div>
-        <h1>MyEvents</h1>
-        {/* Something from this.state.events */}
+      <EventList events={this.state.myEvents} />
       </div>
-    );
+    );}
   }
 }
 
