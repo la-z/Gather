@@ -59,10 +59,10 @@ const requestHandler = {
     // page, sortBy are Number and String respectively
     db.Event.findAll({
       where: { UserId: user.id },
-      order: [[sortBy, 'DESC']],
+      order: [[sortBy || 'createdAt', 'DESC']],
       limit: 10,
       // don't want to send all events -- what if there are thousands?
-      offset: page * 10,
+      offset: page * 10 || 0,
       // so we can get a particular slice of events
       // page is 0-indexed
       include: [{
