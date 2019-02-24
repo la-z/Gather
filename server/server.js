@@ -26,6 +26,7 @@ const {
   addCategory,
   editCategory,
   deleteCategory,
+  getCategories,
 } = require('./helpers/request-handler');
 const { checkAuthentication, checkAdmin } = require('./helpers/auth');
 
@@ -64,6 +65,8 @@ app.post('/signup', signup);
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
 // categories
+
+app.get('/category', getCategories);
 
 app.put('/category', checkAuthentication, checkAdmin, addCategory);
 

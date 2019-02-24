@@ -357,7 +357,8 @@ const requestHandler = {
   getCategories(req, res) {
     return db.Category.findAll({
       include: [{
-        model: 'Category',
+        model: db.Category,
+        as: 'ParentCategory',
       }],
     })
       .then(foundCategories => res.status(200).json(foundCategories))
@@ -427,7 +428,8 @@ const requestHandler = {
     return db.Category.destroy({ where: { name: body.name } })
       .then(destroyedCount => res.status(200).send(destroyedCount))
       .catch(err => errorHandler(req, res, err));
-  }
+  },
+
 };
 
 module.exports = requestHandler;
