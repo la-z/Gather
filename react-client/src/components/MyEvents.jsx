@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import EventList from './eventList.jsx';
+import CommentBox from './CommentBox.jsx';
 
 class MyEvents extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class MyEvents extends React.Component {
     return (
       <div>
         <span id="my-events-title">My Events</span>
+        <CommentBox username={this.props.username} />
         <EventList events={this.state.myEvents} renderClickedEventTitle={this.props.renderClickedEventTitle} />
       </div>
     );

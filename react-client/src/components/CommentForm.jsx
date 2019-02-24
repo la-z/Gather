@@ -1,16 +1,19 @@
+import React from 'react';
+
 class CommentForm extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      authorVal: '', // this needs to be set with username passed down with props
+      authorVal: this.props.username, 
       textVal: '', //this is the value from the field
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     //e.preventDefault();
     this.setState({
-      authorVal: e.target[0].value.trim(),
+      authorVal: this.props.username,
       textVal: e.target[1].value.trim(),
     });
     this.props.onCommentSubmit({author: authorVal, text: textVal});
@@ -19,7 +22,7 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <form className="comment-form form-group" onSubmit={this.handleSubmit}>
         <div className="input-group">
           <span className="input-group-addon">Name</span>

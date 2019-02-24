@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Comment = ({ author, text }) => (
+const Comment = props => (
   <div className="comment">
-    <h2 className="author">{author}</h2>
-    {text}
+    <h2 className="author">{props.author}</h2>
+    {props.text}
   </div>
 );
 

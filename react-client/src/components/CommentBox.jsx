@@ -1,4 +1,6 @@
 import React from 'react';
+import CommentForm from './CommentForm.jsx';
+import CommentList from './CommentList.jsx';
 
 const commentData = [
   { 
@@ -37,8 +39,8 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div className="comment-box">
-        <CommentForm data={this.props.data} onCommentSubmit={this.handleCommentSubmit} />
-        <CommentList data={this.props.data} />
+        <CommentForm data={this.state.data} username={this.props.username} onCommentSubmit={this.handleCommentSubmit} />
+        <CommentList data={this.state.comments} />
       </div>
     );
   }

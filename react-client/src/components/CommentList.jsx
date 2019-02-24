@@ -1,11 +1,11 @@
 import React from 'react';
-import Comment from './Comment';
+import Comment from './Comment.jsx';
 
 const CommentList = props => (
   <div className="comment-list">
     {props.data.map(function(c){
       return (
-        <Comment author={this.props.author} text={this.props.text} />
+        <Comment author={c.author} text={c.text} />
       );
     })}
   </div>
