@@ -115,7 +115,7 @@ class App extends React.Component {
           <EventPage event={clickedEvent} />
         </div>
       );
-    } if (view === 'createEvent') {
+    } if (view === 'createEvent' && loggedin) {
       return (
         <div>
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />

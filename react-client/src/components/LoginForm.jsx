@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
     axios.post('/login', params)
       .then(({ data }) => {
         this.props.setUserID(data.username, data.id);
-        this.props.setLoggedin(); 
+        this.props.setLoggedin();
         this.props.redirect();
       })
       .catch((err) => { console.log(err); });
@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
     return (
       <form>
         <input type="text" name="text" placeholder="username" value={username} onChange={this.handleUsernameChange} />
-        <input type="text" name="password" placeholder="Password" value={password} onChange={this.handlePasswordChange} />
+        <input type="password" name="password" placeholder="Password" value={password} onChange={this.handlePasswordChange} />
         <Button type="button" onClick={this.handleLogin}>Login!!</Button>
       </form>
     );
