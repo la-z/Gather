@@ -21,6 +21,7 @@ const requestHandler = {
 
   /*
   signup
+  on POST /signup
   expects:
     req.body: JSON => { "username", "password" }
   if username in db: 401
@@ -43,6 +44,7 @@ const requestHandler = {
 
   /*
   getEventsByUser
+  on GET /events/my-events
   expects:
     req.user => created by passport
     req.query =>  page, 0 indexed, indicates which subset of events desired
@@ -77,6 +79,7 @@ const requestHandler = {
 
   /*
   getEvent
+  on GET /events/:eventId
   fetches details of individual event in req.params, including all associated comments
   */
   getEvent(req, res) {
@@ -96,6 +99,7 @@ const requestHandler = {
 
   /*
   getCategory
+  on GET /events/category/:categoryName
   see getEventsByUser, except by category here
   */
   getCategory(req, res) {
@@ -122,6 +126,7 @@ const requestHandler = {
 
   /*
   makeNewEvent
+  on PUT /events
   expects body => {
     category,
     title,
@@ -152,6 +157,8 @@ const requestHandler = {
 
   /*
   submitNewComment
+  on PUT events/:eventId/comments
+  or PUT events/:eventId/comments/:commentId
   expects body => {
     body (String)
   }
@@ -183,6 +190,7 @@ const requestHandler = {
 
   /*
   deleteComment
+  on DELETE /events/:eventId/comments/:commentId
   deletes comment associated with both logged in user and commentId in params
   also deletes child comments
   */
@@ -197,6 +205,7 @@ const requestHandler = {
 
   /*
   editComment
+  on PATCH /events/:eventId/comments/:commentId
   expects body => {
     body (String)
   }
@@ -215,6 +224,7 @@ const requestHandler = {
 
   /*
   deleteEvent
+  on DELETE /events/:eventId
   deletes event associated with both user and eventId in params
   */
   deleteEvent(req, res) {
@@ -230,6 +240,7 @@ const requestHandler = {
 
   /*
   editEvent
+  on PATCH /events/:eventId
   expects body with one or more of => {
     category,
     title,
@@ -254,6 +265,7 @@ const requestHandler = {
 
   /*
   deleteUser
+  on DELETE /users/:userId
   deletes user record corresponding to req.user, then logs out
   */
   deleteUser(req, res) {
@@ -265,6 +277,7 @@ const requestHandler = {
 
   /*
   rsvpEvent
+  on PUT /events/:eventId/rsvp
   expects body => {
     rsvp: ['interested', 'going', or 'attended']
   }
@@ -282,6 +295,7 @@ const requestHandler = {
 
   /*
   updateRsvp
+  on PATCH /events/:eventId/rsvp
   expects same pattern as rsvpEvent
   */
   updateRsvp(req, res) {
@@ -295,6 +309,7 @@ const requestHandler = {
 
   /*
   removeRsvp
+  on DELETE /events/:eventId/rsvp
   deletes record in InterestedEvents corresponding to user and event
   */
   removeRsvp(req, res) {
