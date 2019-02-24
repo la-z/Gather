@@ -395,6 +395,21 @@ const requestHandler = {
       .then(updatedCategory => res.status(200).json(updatedCategory))
       .catch(err => errorHandler(req, res, err));
   },
+
+  /*
+  deleteCategory
+  on DELETE /category
+  expects body => {
+    name: <categoryName>
+  }
+  if logged user has role "admin", allows deleting category with given name
+  */
+  deleteCategory(req, res) {
+    const { body } = req;
+    return db.Category.destroy({ where: { name: body.name } })
+      .then(destroyedCount => res.status(200).send(destroyedCount))
+      .catch(err => errorHandler(req, res, err));
+  }
 };
 
 module.exports = requestHandler;
