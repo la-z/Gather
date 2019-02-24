@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Icon, NavItem, Navbar, Dropdown } from 'react-materialize';
+import { Button, Icon, NavItem, Dropdown } from 'react-materialize';
 
-const NavbarComp = ({ clickHome, clickCreateEvent, clickMyEvents, clickLoginForm, clickSignupForm, clickSignout }) => (
+const NavbarComp = ({ clickHome, clickCreateEvent, clickMyEvents, clickLoginForm, clickSignupForm }) => (
   <div>
     <h2>Navbar</h2>
     <div>
@@ -10,7 +10,6 @@ const NavbarComp = ({ clickHome, clickCreateEvent, clickMyEvents, clickLoginForm
       <Button waves='light' onClick={clickLoginForm}>Login<Icon right>cloud</Icon></Button>
       <Button waves='light' onClick={clickSignupForm}>Signup<Icon right>cloud</Icon></Button>
       <Button floating large className='green' waves='light' icon='add' onClick={clickCreateEvent} />
-      <Button waves='light' onClick={clickSignout}>Sign Out</Button>
     </div>
 
   </div>

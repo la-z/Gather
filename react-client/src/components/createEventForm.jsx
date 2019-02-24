@@ -14,6 +14,7 @@ class Geocoder extends React.Component {
       date: '',
       duration: '',
       privateEvent: false,
+      category: '',
     };
     this.setGeocodeSearch = this.setGeocodeSearch.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -21,6 +22,7 @@ class Geocoder extends React.Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.chckBoxFunc = this.chckBoxFunc.bind(this);
   }
 
@@ -81,16 +83,23 @@ class Geocoder extends React.Component {
     this.setState({ duration: e.target.value });
   }
 
+  handleCategoryChange(e) {
+    this.setState({
+      category: e.target.value
+    });
+  }
+
   chckBoxFunc(e) {
     this.setState({ privateEvent: e.target.value.toLowerCase() });
   }
 
   render() {
-    const { address, duration, title, date, description } = this.state;
+    const { address, duration, title, date, description, category } = this.state;
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
         <input type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
         <input type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
+        <input type="text" name="category" placeholder="Category" value={category} onChange={this.handleCategoryChange} />
         <input type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
         <input type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
         <input type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
