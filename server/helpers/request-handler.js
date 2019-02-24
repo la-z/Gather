@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 const db = require('../models');
+const invitation = require('./invitation');
 
 const errorHandler = (req, res, err) => {
   console.error(err);
@@ -430,6 +431,18 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
+  emailSender(req, res) {
+    const { eventId } = req.params;
+    const { emails } = req.body;
+    const { user } = req;
+    return db.Event.findOne({ where: { id: eventId, UserId: user.id } })
+      .then(foundEvent => invitation(emails, foundEvent))
+      .then((sentEmail) => {
+        console.info(sentEmail);
+        res.status(201).send('Email sent!');
+      })
+      .catch(err => errorHandler(err));
+  },
 };
 
 module.exports = requestHandler;
