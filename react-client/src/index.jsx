@@ -126,7 +126,7 @@ class App extends React.Component {
           <EventPage event={clickedEvent} />
         </div>
       );
-    } 
+    }
     // if (view === 'main' && loggedin) {
     //   return (
     //     <div>
@@ -136,7 +136,7 @@ class App extends React.Component {
     //       <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
     //     </div>
     //   );
-    // } 
+    // }
     if (view === 'createEvent' && loggedin) {
       return (
         <div>
