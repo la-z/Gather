@@ -58,11 +58,11 @@ app.post('/signup', signup);
 
 // users
 
-app.get('/users/:username/profile', checkAuthentication, getEventsByUser);
-
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
 // events
+
+app.get('/events/my-events', checkAuthentication, getEventsByUser);
 
 app.get('/events/category/:categoryName', (req, res) => {
   getCategory(req, res);

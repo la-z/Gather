@@ -5,6 +5,8 @@ const errorHandler = (req, res, err) => {
   console.error(err);
   if (err.message === 'Validation error') {
     return res.send(401, 'already exists');
+  } if (err.message === 'Cannot read property \'_modelAttribute\' of undefined') {
+    return res.send(201, 'No events found');
   }
   return res.send(500, 'Something went wrong on our part');
 };
@@ -106,7 +108,10 @@ const requestHandler = {
       order: [[sortBy, 'DESC']],
       limit: 10,
       offset: page * 10,
-      include: [db.User],
+      include: [{
+        model: db.User,
+        attributes: ['username'],
+      }],
     })
       .then((events) => {
         res.status(200);
