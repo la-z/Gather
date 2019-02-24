@@ -23,13 +23,18 @@ class MyEvents extends React.Component {
     if (!this.state.myEvents.length) {
       return (
         <div>
-          <h1>MyEvents</h1>
+          <h3>MyEvents</h3>
+          <p>
+            Awww its looks like you havent made any events. <br />
+            Click the (+) button to make a new event!
+          </p>
           {/* Something from this.state.events */}
         </div>
       );
     }
     return (
       <div>
+        <h3>My Events</h3>
         <EventList events={this.state.myEvents} renderClickedEventTitle={this.props.renderClickedEventTitle} />
       </div>
     );
