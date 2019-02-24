@@ -129,7 +129,7 @@ const requestHandler = {
   makeNewEvent
   on PUT /events
   expects body => {
-    category,
+    category (string name),
     title,
     description,
     time (Date obj),
@@ -143,14 +143,18 @@ const requestHandler = {
   makeNewEvent(req, res) {
     const { body } = req;
     const { user } = req;
-    let newEvent;
-    db.Event.create(body)
+    let category;
+    db.Category.findOne({ where: { name: body.category } })
+      .then((foundCategory) => {
+        category = foundCategory;
+        return db.Event.create(body);
+      })
       .then((event) => {
-        newEvent = event;
         // need to associate event with creating user immediately
-        newEvent.setUser(user);
+        event.setUser(user);
+        event.setCategory(category);
         // doesn't actually save
-        return newEvent.save();
+        return event.save();
         // does actually save
       })
       .then(savedEvent => res.send(200, savedEvent.id))
