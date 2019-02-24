@@ -47,10 +47,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.all('*', (req, res, next) => {
+  // ugly hack to let the browser know the user is logged in
   if (req.isAuthenticated()) {
-    res.set('Login', 'true');
-  } else {
-    res.set('Login', 'false');
+    res.set({ Login: 'true', User: req.user.username });
   }
   next();
 });
