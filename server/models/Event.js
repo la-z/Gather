@@ -1,16 +1,16 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
-    category: DataTypes.STRING,
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    private: { type: DataTypes.BOOLEAN, default: false },
-    time: DataTypes.DATE,
-    duration: DataTypes.INTEGER,
+    category: { type: DataTypes.INTEGER, allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.STRING, allowNull: false },
+    private: { type: DataTypes.BOOLEAN, defaultValue: false },
+    time: { type: DataTypes.DATE, allowNull: false },
+    duration: { type: DataTypes.INTEGER, allowNull: false },
     // duration in minutes
-    lat: DataTypes.NUMERIC,
-    long: DataTypes.NUMERIC,
-    done: DataTypes.BOOLEAN,
+    lat: { type: DataTypes.NUMERIC, allowNull: false },
+    long: { type: DataTypes.NUMERIC, allowNull: false },
+    done: { type: DataTypes.BOOLEAN, defaultValue: false },
   });
 
   Event.associate = (models) => {
