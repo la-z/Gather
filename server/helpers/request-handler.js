@@ -109,7 +109,6 @@ const requestHandler = {
     db.Event.findAll({
       where: categoryName === 'all' ? { private: false } : { category: categoryName, private: false },
       // we don't want private events here
-      attributes: ['title', 'description', 'time'],
       order: [[sortBy || 'time', 'DESC']],
       limit: 10,
       offset: page * 10 || 0,
@@ -351,6 +350,22 @@ const requestHandler = {
   },
 
   /*
+  getCategories
+  on GET /category
+  fetches names of all categories with their associations
+  */
+  getCategories(req, res) {
+    return db.Category.findAll({
+      include: [{
+        model: db.Category,
+        as: 'ParentCategory',
+      }],
+    })
+      .then(foundCategories => res.status(200).json(foundCategories))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
   addCategory
   on PUT /category
   expects body => {
@@ -413,7 +428,8 @@ const requestHandler = {
     return db.Category.destroy({ where: { name: body.name } })
       .then(destroyedCount => res.status(200).send(destroyedCount))
       .catch(err => errorHandler(req, res, err));
-  }
+  },
+
 };
 
 module.exports = requestHandler;
