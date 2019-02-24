@@ -29,8 +29,9 @@ class App extends React.Component {
       events: data,
       clickedEvent: null,
       view: 'main',
-      user: null,
+      username: null,
       loggedin: false,
+      userID: null,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -38,6 +39,17 @@ class App extends React.Component {
     this.clickMyEvents = this.clickMyEvents.bind(this);
     this.clickLoginForm = this.clickLoginForm.bind(this);
     this.clickSignupForm = this.clickSignupForm.bind(this);
+    this.setLoggedin = this.setLoggedin.bind(this);
+    this.setUserID = this.setUserID.bind(this);
+  }
+
+  setLoggedin() {
+    this.setState({ loggedin: true });
+  }
+
+  setUserID(username, userID) {
+    this.setState({ userID });
+    this.setState({ username });
   }
 
   clickHome() {
@@ -79,7 +91,7 @@ class App extends React.Component {
 
 
   render() {
-    const { events, clickedEvent, view, user, loggedin } = this.state;
+    const { events, clickedEvent, view, userID, loggedin, username } = this.state;
     if (view === 'main') {
       return (
         <div>
@@ -99,22 +111,22 @@ class App extends React.Component {
       return (
         <div>
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
-          <CreateEvent />
+          <CreateEvent redirect={this.clickMyEvents} />
           <Geocoder />
         </div>
       );
-    } if (view === 'myEvents') {
+    } if (view === 'myEvents' && loggedin) {
       return (
         <div>
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
-          <MyEvents user={user} />
+          <MyEvents userID={userID} username={username} />
         </div>
       );
     } if (view === 'loginForm') {
       return (
         <div>
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
-          <LoginForm />
+          <LoginForm redirect={this.clickMyEvents} setLoggedin={this.setLoggedin} setUserID={this.setUserID} />
         </div>
       );
     } if (view === 'signupForm') {

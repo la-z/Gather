@@ -23,16 +23,17 @@ class LoginForm extends React.Component {
   }
 
   handleLogin() {
-    console.log('handle login');
     const { username, password } = this.state;
-    // const username = this.state.username;
-    // const password = this.state.password;
     const params = {
       username,
       password,
     };
     axios.post('/login', params)
-      .then((result) => { console.log(result); })
+      .then(({ data }) => {
+        this.props.setUserID(data.username, data.id);
+        this.props.setLoggedin(); 
+        this.props.redirect();
+      })
       .catch((err) => { console.log(err); });
   }
 
