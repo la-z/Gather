@@ -54,8 +54,8 @@ class SignupForm extends React.Component {
     return (
       <form>
         <input type="text" name="text" placeholder="username" value={username} onChange={this.handleUsernameChange} />
-        <input type="text" name="password" placeholder="Password" value={password} onChange={this.handlePasswordChange} />
-        <input type="text" name="email" placeholder="Email" value={email} onChange={this.handleEmailChange} />
+        <input type="password" name="password" placeholder="Password" value={password} onChange={this.handlePasswordChange} />
+        <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleEmailChange} />
         <input type="tel" name="tel" placeholder="504555555" value={tel} onChange={this.handleTelChange} />
         <Button type="button" onClick={this.handleSignup}>Sign Up!!</Button>
       </form>
