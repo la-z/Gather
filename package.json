@@ -8,7 +8,7 @@
     "test-db": "mocha ./test/db.spec.js",
     "test-auth": "mocha ./test/auth.spec.js",
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",

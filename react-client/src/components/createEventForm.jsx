@@ -28,7 +28,7 @@ class Geocoder extends React.Component {
 
   // eslint-disable-next-line react/sort-comp
   handleFormSubmit(submitEvent) {
-    const { title, description, address, date, duration } = this.state;
+    const { title, description, address, date, duration, category } = this.state;
     let { privateEvent } = this.state;
     submitEvent.preventDefault();
     console.log('You Clicked Submit', submitEvent);
@@ -48,14 +48,16 @@ class Geocoder extends React.Component {
           description,
           lat: latNlongArr[1],
           long: latNlongArr[0],
-          date,
+          time: date,
           duration,
           privateEvent,
+          category,
         };
         axios.put('/events', params)
           .then((result) => { console.log(result);
-          this.props.redirect(); 
-        });
+            this.props.redirect();
+          })
+          .catch((err) => { console.log(err); });
       });
   }
 
@@ -85,7 +87,7 @@ class Geocoder extends React.Component {
 
   handleCategoryChange(e) {
     this.setState({
-      category: e.target.value
+      category: e.target.value,
     });
   }
 
