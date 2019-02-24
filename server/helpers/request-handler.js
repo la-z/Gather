@@ -431,6 +431,14 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
+  /*
+  emailSender
+  on POST /events/:eventId/invite
+  expects body => {
+    emails: [String]
+  }
+  sends email to each address in array with direct link to event
+  */
   emailSender(req, res) {
     const { eventId } = req.params;
     const { emails } = req.body;
