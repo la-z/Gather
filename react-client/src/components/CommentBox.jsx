@@ -39,7 +39,7 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div className="comment-box">
-        <CommentForm data={this.state.data} username={this.props.username} onCommentSubmit={this.handleCommentSubmit} />
+        <CommentForm data={this.state.data} username={this.props.username} onCommentSubmit={this.handleCommentSubmit} eventID={this.props.eventID} />
         <CommentList data={this.state.comments} />
       </div>
     );

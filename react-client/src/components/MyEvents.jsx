@@ -36,7 +36,7 @@ class MyEvents extends React.Component {
     return (
       <div>
         <span id="my-events-title">My Events</span>
-        <CommentBox username={this.props.username} />
+        
         <EventList events={this.state.myEvents} renderClickedEventTitle={this.props.renderClickedEventTitle} />
       </div>
     );
