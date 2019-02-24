@@ -43,6 +43,14 @@ class App extends React.Component {
     this.setUserID = this.setUserID.bind(this);
   }
 
+  componentDidMount() {
+  // axios.get('/events/public)
+    // .then((events) => {
+    //   console.log(events);
+    //   setState({ events })
+    // })
+  }
+
   setLoggedin() {
     this.setState({ loggedin: true });
   }
