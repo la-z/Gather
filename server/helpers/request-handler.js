@@ -368,20 +368,32 @@ const requestHandler = {
             .then(savedCategory => res.status(200).json(savedCategory));
         }
         return res.status(200).json(newCategory);
-      });
+      })
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
   editCategory
   on PATCH /category
   expects body => {
-    [name]: <categoryName>
+    name: <categoryName>
+
+    [newName]: <categoryName>
+    OR
     [ParentCategory]: <categoryName>
   }
   if logged user has role "admin", allows editing category with new name or ParentCategory
   */
   editCategory(req, res) {
     const { body } = req;
+    return db.Category.findOne({ where: { name: body.name } })
+      .then((foundCategory) => {
+        if (body.newName) return foundCategory.update({ name: body.newName });
+        foundCategory.setParentCategory(body.ParentCategory);
+        return foundCategory.save();
+      })
+      .then(updatedCategory => res.status(200).json(updatedCategory))
+      .catch(err => errorHandler(req, res, err));
   },
 };
 

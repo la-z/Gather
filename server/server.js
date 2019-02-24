@@ -61,11 +61,15 @@ app.post('/signup', signup);
 
 // users
 
-app.delete('/users/:userId', checkAuthentication, checkAdmin, deleteUser);
+app.delete('/users/:userId', checkAuthentication, deleteUser);
 
 // categories
 
-app.put('/category', checkAuthentication, addCategory);
+app.put('/category', checkAuthentication, checkAdmin, addCategory);
+
+app.patch('/category', checkAuthentication, checkAdmin, editCategory);
+
+app.delete('/category', checkAuthentication, checkAdmin, deleteCategory);
 
 // events
 
