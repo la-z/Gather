@@ -347,6 +347,16 @@ const requestHandler = {
   },
 
   /*
+  checkAdmin
+  if req.user does not have role "admin", sends res 401
+  */
+  checkAdmin(req, res, next) {
+    const { user } = req;
+    if (user.role !== 'admin') return res.send(401, 'Administrator privileges needed');
+    return next();
+  },
+
+  /*
   addCategory
   on PUT /category
   expects body => {
@@ -356,8 +366,7 @@ const requestHandler = {
   if logged user has role "admin", allows creation of new category with optional ParentCategory
   */
   addCategory(req, res) {
-    const { user, body } = req;
-    if (user.role !== 'admin') return res.send(401, 'Administrator privileges needed');
+    const { body } = req;
     return db.Category.create({ name: body.name })
       .then((newCategory) => {
         if (body.ParentCategory) {
@@ -372,7 +381,18 @@ const requestHandler = {
       });
   },
 
-
+  /*
+  editCategory
+  on PATCH /category
+  expects body => {
+    [name]: <categoryName>
+    [ParentCategory]: <categoryName>
+  }
+  if logged user has role "admin", allows editing category with new name or ParentCategory
+  */
+  editCategory(req, res) {
+    const { body } = req;
+  },
 };
 
 module.exports = requestHandler;
