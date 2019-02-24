@@ -27,6 +27,7 @@ const {
   editCategory,
   deleteCategory,
   getCategories,
+  emailSender,
 } = require('./helpers/request-handler');
 const { checkAuthentication, checkAdmin } = require('./helpers/auth');
 
@@ -108,6 +109,9 @@ app.patch('/events/:eventId/comments/:commentId', checkAuthentication, editComme
 
 app.delete('/events/:eventId/comments/:commentId', checkAuthentication, deleteComment);
 
+// invitation emails
+
+app.post('/events/:eventId/invite', checkAuthentication, emailSender);
 
 app.all('*', (req, res) => {
   console.log('idk what happened');
