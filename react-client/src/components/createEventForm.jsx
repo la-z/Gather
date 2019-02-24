@@ -51,7 +51,9 @@ class Geocoder extends React.Component {
           privateEvent,
         };
         axios.put('/events', params)
-          .then((result) => { console.log(result); });
+          .then((result) => { console.log(result);
+          this.props.redirect(); 
+        });
       });
   }
 

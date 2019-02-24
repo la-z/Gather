@@ -134,8 +134,8 @@ class App extends React.Component {
         <div>
           <Loggedin username={username} loggedin={loggedin} />
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
-          <CreateEvent redirect={this.clickMyEvents} />
-          <Geocoder />
+          <CreateEvent />
+          <Geocoder redirect={this.clickMyEvents} />
         </div>
       );
     } if (view === 'myEvents' && loggedin) {
