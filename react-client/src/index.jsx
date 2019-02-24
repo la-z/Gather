@@ -147,7 +147,10 @@ class App extends React.Component {
     }
     return (
       <div>
-        Status 404
+        <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+        Sorry :3 Status 404
+        <br />
+        Please try Logging-in/Signing-up or going to our home
       </div>
     );
   }
