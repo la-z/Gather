@@ -46,6 +46,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.all('*', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.set('Login', 'true');
+  } else {
+    res.set('Login', 'false');
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '../react-client/dist')));
 
 // login, signup, logout
