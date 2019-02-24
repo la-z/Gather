@@ -44,7 +44,7 @@ class SignupForm extends React.Component {
       tel,
     };
     axios.post('/signup', params)
-      .then((result) => { console.log(result); })
+      .then(({ data }) => { this.props.redirect(data.username, data.userID); console.log(result); })
       .catch((err) => { console.log(err); });
   }
 

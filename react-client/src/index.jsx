@@ -58,8 +58,8 @@ class App extends React.Component {
   }
 
   setUserID(username, userID) {
-    this.setState({ userID });
-    this.setState({ username });
+    this.setState({ userID, username, view: 'main', loggedin: true });
+    // this.setState({ username });
   }
 
   clickHome() {
@@ -126,18 +126,7 @@ class App extends React.Component {
           <EventPage event={clickedEvent} />
         </div>
       );
-    } 
-    // if (view === 'main' && loggedin) {
-    //   return (
-    //     <div>
-    //       <span className="loggedin"> Welcome  {username}</span>
-    //       <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-    //       <Categories />
-    //       <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
-    //     </div>
-    //   );
-    // } 
-    if (view === 'createEvent' && loggedin) {
+    } if (view === 'createEvent' && loggedin) {
       return (
         <div>
           <Loggedin username={username} loggedin={loggedin} />
@@ -167,7 +156,7 @@ class App extends React.Component {
         <div>
           <Loggedin username={username} loggedin={loggedin} />
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-          <SignupForm />
+          <SignupForm redirect={this.setUserID} redirect2nd={this.clickHome} />
         </div>
       );
     }
