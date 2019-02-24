@@ -10,10 +10,11 @@ class MyEvents extends React.Component {
 
   componentDidMount() {
   // need to pull events thats match the userID that is already passed into this component on props.
-  //   axios.get('/events/my-events')
-  //     .then((data) => { 
-  //       console.log(data);
-  //       this.setState({ myEvents: 'state changed by axios then' }); });
+    axios.get('/events/my-events')
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({ myEvents: data });
+      });
   }
 
   render() {
