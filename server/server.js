@@ -24,8 +24,10 @@ const {
   updateRsvp,
   removeRsvp,
   addCategory,
+  editCategory,
+  deleteCategory,
 } = require('./helpers/request-handler');
-const { checkAuthentication } = require('./helpers/auth');
+const { checkAuthentication, checkAdmin } = require('./helpers/auth');
 
 const app = express();
 
@@ -59,7 +61,7 @@ app.post('/signup', signup);
 
 // users
 
-app.delete('/users/:userId', checkAuthentication, deleteUser);
+app.delete('/users/:userId', checkAuthentication, checkAdmin, deleteUser);
 
 // categories
 

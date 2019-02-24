@@ -347,16 +347,6 @@ const requestHandler = {
   },
 
   /*
-  checkAdmin
-  if req.user does not have role "admin", sends res 401
-  */
-  checkAdmin(req, res, next) {
-    const { user } = req;
-    if (user.role !== 'admin') return res.send(401, 'Administrator privileges needed');
-    return next();
-  },
-
-  /*
   addCategory
   on PUT /category
   expects body => {
