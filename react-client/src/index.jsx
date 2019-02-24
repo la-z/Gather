@@ -44,12 +44,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // axios.get('/events/category/all')
-    //   .then(({ data }) => {
-    //     console.log(data);
-    //     // this.setState({ events: data });
-    //   })
-    //   .catch((err)=>{console.log(err)});
+    axios.get('/events/category/all')
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({ events: data });
+      })
+      .catch((err) => { console.log(err); });
   }
 
   setLoggedin() {

@@ -23,7 +23,7 @@ class MyEvents extends React.Component {
     if (!this.state.myEvents.length) {
       return (
         <div>
-          <h3>MyEvents</h3>
+          <span id="my-events-title-empty">MyEvents</span>
           <p>
             Awww its looks like you havent made any events. <br />
             Click the (+) button to make a new event!
@@ -34,7 +34,7 @@ class MyEvents extends React.Component {
     }
     return (
       <div>
-        <h3>My Events</h3>
+        <span id="my-events-title">My Events</span>
         <EventList events={this.state.myEvents} renderClickedEventTitle={this.props.renderClickedEventTitle} />
       </div>
     );
