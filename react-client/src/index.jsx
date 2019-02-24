@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 
-import data from './mockEvents.js';
+import mockdata from './mockEvents.js';
 import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
@@ -15,8 +15,6 @@ import Geocoder from './components/createEventForm.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
-import { Modal } from 'react-materialize';
-import PropTypes from 'prop-types';
 import LoginForm from './components/LoginForm.jsx';
 import SignupForm from './components/SignupForm.jsx';
 import Loggedin from './components/loggedin.jsx';
@@ -27,7 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: data,
+      events: mockdata,
       clickedEvent: null,
       view: 'main',
       username: null,
@@ -46,11 +44,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-  // axios.get('/events/public)
-    // .then((events) => {
-    //   console.log(events);
-    //   setState({ events })
-    // })
+    // axios.get('/events/category/all')
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //     // this.setState({ events: data });
+    //   })
+    //   .catch((err)=>{console.log(err)});
   }
 
   setLoggedin() {
