@@ -23,6 +23,7 @@ const {
   rsvpEvent,
   updateRsvp,
   removeRsvp,
+  addCategory,
 } = require('./helpers/request-handler');
 const { checkAuthentication } = require('./helpers/auth');
 
@@ -59,6 +60,10 @@ app.post('/signup', signup);
 // users
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
+
+// categories
+
+app.put('/category', checkAuthentication, addCategory);
 
 // events
 

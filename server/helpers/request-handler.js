@@ -358,9 +358,21 @@ const requestHandler = {
   addCategory(req, res) {
     const { user, body } = req;
     if (user.role !== 'admin') return res.send(401, 'Administrator privileges needed');
-    return db.Category.create(body)
-      .then(newCategory => res.status(200).json(newCategory));
+    return db.Category.create({ name: body.name })
+      .then((newCategory) => {
+        if (body.ParentCategory) {
+          return db.Category.findOne({ where: { name: body.ParentCategory } })
+            .then((parentCategory) => {
+              newCategory.setParentCategory(parentCategory);
+              return newCategory.save();
+            })
+            .then(savedCategory => res.status(200).json(savedCategory));
+        }
+        return res.status(200).json(newCategory);
+      });
   },
+
+
 };
 
 module.exports = requestHandler;
