@@ -100,9 +100,10 @@ class App extends React.Component {
 
   render() {
     const { events, clickedEvent, view, userID, loggedin, username } = this.state;
-    if (view === 'main') {
+    if (view === 'main' && !loggedin) {
       return (
         <div>
+          <span className="loggedin"> Welcome Anon</span>
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
           <Categories />
           <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
@@ -113,6 +114,15 @@ class App extends React.Component {
         <div>
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
           <EventPage event={clickedEvent} />
+        </div>
+      );
+    } if (view === 'main' && loggedin) {
+      return (
+        <div>
+          <span className="loggedin"> Welcome  {username}</span>
+          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} />
+          <Categories />
+          <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
         </div>
       );
     } if (view === 'createEvent' && loggedin) {
