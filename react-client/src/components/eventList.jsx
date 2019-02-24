@@ -3,8 +3,8 @@ import React from 'react';
 import EventListEntry from './eventListEntry.jsx';
 
 const EventList = ({ events, renderClickedEventTitle }) => (
-  <div>
-    <h2>EventList</h2>
+  <div className="events-list">
+    <span id="events-list-title">EventList</span>
     {events.map(event => <EventListEntry key={event.title} event={event} renderClickedEventTitle={renderClickedEventTitle} />)}
   </div>
 );
