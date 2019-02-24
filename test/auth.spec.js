@@ -163,8 +163,8 @@ describe('session persistence', () => {
 
     it('should not allow unauthorized users to show interest in events', (done) => {
       request(app)
-        .post('/events/9999/interested')
-        .send({ username: null })
+        .post('/events/9999/rsvp')
+        .send({ rsvp: 'going' })
         .expect(403, done);
     });
   });
@@ -209,8 +209,8 @@ describe('session persistence', () => {
     });
 
     it('should allow authorized users to show interest in events', (done) => {
-      authenticatedSession.post('/events/9999/interested')
-        .send({ username: newUser.username })
+      authenticatedSession.put('/events/9999/rsvp')
+        .send({ rsvp: 'interested' })
         .expect(200, done);
     });
 
