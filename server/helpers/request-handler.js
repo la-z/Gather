@@ -261,8 +261,13 @@ const requestHandler = {
     const { eventId } = req.params;
     const { body } = req;
     db.Event.findOne({ where: { id: eventId, UserId: user.id } })
-      .then(event => event.update(body))
-      .then(() => res.send(200))
+      .then((event) => {
+        if (event) {
+          event.update(body)
+            .then(() => res.send(200));
+        }
+        res.send(403);
+      })
       .catch(err => errorHandler(req, res, err));
   },
 
