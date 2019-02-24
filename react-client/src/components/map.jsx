@@ -11,8 +11,8 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lng: this.props.event.long,
-      lat: this.props.event.lat,
+      lng: this.props.event.long || -90,
+      lat: this.props.event.lat || 30,
       zoom: 17,
     };
   }
@@ -35,9 +35,7 @@ class Map extends React.Component {
     //   accessToken: mapboxgl.accessToken,
     // }));
 
-    /**
-      this supposedly load geoJSON data into some mapbox variable viable for later manipulation
-    */
+      // this supposedly load geoJSON data into some mapbox variable viable for later manipulation
     // map.on('style.load', () => {
     //   map.addSource('geojson', { type: 'geojson', data: '../mockGeoJson.geojson' });
     // });

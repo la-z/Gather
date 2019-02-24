@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 
-import data from './mockEvents.js';
+import mockdata from './mockEvents.js';
 import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
@@ -15,8 +15,6 @@ import Geocoder from './components/createEventForm.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
-import { Modal } from 'react-materialize';
-import PropTypes from 'prop-types';
 import LoginForm from './components/LoginForm.jsx';
 import SignupForm from './components/SignupForm.jsx';
 import Loggedin from './components/loggedin.jsx';
@@ -27,7 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: data,
+      events: mockdata,
       clickedEvent: null,
       view: 'main',
       username: null,
@@ -46,11 +44,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-  // axios.get('/events/public)
-    // .then((events) => {
-    //   console.log(events);
-    //   setState({ events })
-    // })
+    // axios.get('/events/category/all')
+    //   .then(({ data }) => {
+    //     console.log(data);
+    //     // this.setState({ events: data });
+    //   })
+    //   .catch((err)=>{console.log(err)});
   }
 
   setLoggedin() {
@@ -58,8 +57,10 @@ class App extends React.Component {
   }
 
   setUserID(username, userID) {
-    this.setState({ userID });
-    this.setState({ username });
+    this.setState({
+      userID, username, view: 'main', loggedin: true, 
+    });
+    // this.setState({ username });
   }
 
   clickHome() {
@@ -108,7 +109,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { events, clickedEvent, view, userID, loggedin, username } = this.state;
+    const {
+      events, clickedEvent, view, userID, loggedin, username,
+    } = this.state;
     if (view === 'main') {
       return (
         <div>
@@ -126,18 +129,7 @@ class App extends React.Component {
           <EventPage event={clickedEvent} />
         </div>
       );
-    }
-    // if (view === 'main' && loggedin) {
-    //   return (
-    //     <div>
-    //       <span className="loggedin"> Welcome  {username}</span>
-    //       <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-    //       <Categories />
-    //       <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
-    //     </div>
-    //   );
-    // }
-    if (view === 'createEvent' && loggedin) {
+    } if (view === 'createEvent' && loggedin) {
       return (
         <div>
           <Loggedin username={username} loggedin={loggedin} />
@@ -167,7 +159,7 @@ class App extends React.Component {
         <div>
           <Loggedin username={username} loggedin={loggedin} />
           <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-          <SignupForm />
+          <SignupForm redirect={this.setUserID} redirect2nd={this.clickHome} />
         </div>
       );
     }

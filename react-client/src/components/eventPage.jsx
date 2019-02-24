@@ -15,15 +15,13 @@ class CurrentlyClickedEvent extends React.Component {
     const { event } = this.state;
     return (
       <div>
-        <h1>
-          {event.title}
-        </h1>
-        <h3>
-          {event.time}
-        </h3>
-        <p>
-          {event.description}
-        </p>
+        <h3>{event.title}</h3>
+        <h4>{event.category}</h4>
+        <p>{event.description}</p>
+        <p>{event.time}</p>
+        {
+          event.private ? <p>This is a private Event</p> : <p>This is NOT a private Event</p>
+        }
         <Map event={event} />
       </div>
     );
