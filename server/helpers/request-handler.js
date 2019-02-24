@@ -74,7 +74,8 @@ const requestHandler = {
       .then((events) => {
         res.status(200);
         res.json(events);
-      });
+      })
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -106,12 +107,12 @@ const requestHandler = {
     const { categoryName } = req.params;
     const { page, sortBy } = req.query;
     db.Event.findAll({
-      where: { category: categoryName, private: false },
+      where: { category: categoryName || undefined, private: false },
       // we don't want private events here
       attributes: ['title', 'description', 'time'],
-      order: [[sortBy, 'DESC']],
+      order: [[sortBy || 'createdAt', 'DESC']],
       limit: 10,
-      offset: page * 10,
+      offset: page * 10 || 0,
       include: [{
         model: db.User,
         attributes: ['username'],
@@ -152,7 +153,8 @@ const requestHandler = {
         return newEvent.save();
         // does actually save
       })
-      .then(savedEvent => res.send(200, savedEvent.id));
+      .then(savedEvent => res.send(200, savedEvent.id))
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -185,7 +187,8 @@ const requestHandler = {
         if (comment) newComment.setParentComment(comment);
         return newComment.save();
       })
-      .then(() => res.send(200));
+      .then(() => res.send(200))
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
