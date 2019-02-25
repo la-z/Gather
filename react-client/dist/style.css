@@ -1,4 +1,8 @@
 body {
+background-color: #fcf7ff;
+}
+
+#app {
   max-width: 1500px;
   margin: auto;
 }
@@ -7,6 +11,10 @@ body {
   position: fixed;
   top: 25%;
   left: 50%;
+}
+
+.navbar {
+  background-color: #009287;
 }
 
 .card {

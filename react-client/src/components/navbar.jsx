@@ -21,7 +21,7 @@ const NavbarComp = ({
 }) => {
   if (loggedin) {
     return (
-      <Navbar brand="logo" right>
+      <Navbar className="navbar" brand="logo" right>
         <NavItem onClick={clickHome}>Home</NavItem>
         <NavItem onClick={clickMyEvents}>
           MyEvents
@@ -36,7 +36,7 @@ const NavbarComp = ({
     );
   }
   return (
-    <Navbar brand="logo" right>
+    <Navbar className="navbar" brand="logo" right>
       <NavItem onClick={clickHome}>Home</NavItem>
       <NavItem>
         <Modal

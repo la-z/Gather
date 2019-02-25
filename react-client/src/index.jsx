@@ -216,6 +216,7 @@ class App extends React.Component {
             loggedin={loggedin}
           />
           <MyEvents
+            togglePreloader={this.togglePreloader}
             userID={userID}
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}

@@ -52,6 +52,7 @@ app.all('*', (req, res, next) => {
   if (req.isAuthenticated()) {
     res.set({ Login: 'true', User: req.user.username });
   }
+  res.set({ Login: '', User: '' });
   next();
 });
 
