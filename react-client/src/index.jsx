@@ -169,6 +169,7 @@ class App extends React.Component {
         clickMyEvents={this.clickMyEvents}
         clickSignout={this.clickSignout}
         handleLogin={this.handleLogin}
+        handleSignup={this.handleSignup}
       />
     );
     if (view === 'main') {
