@@ -21,7 +21,7 @@ const NavbarComp = ({
 }) => {
   if (loggedin) {
     return (
-      <Navbar className="navbar" brand="logo" right>
+      <Navbar className="navbar" brand={<img src="./Gather-logo.png" alt="" />} right>
         <NavItem onClick={() => {}}>Welcome back, {username}!</NavItem>
         <NavItem onClick={clickHome}>Home</NavItem>
         <NavItem onClick={clickMyEvents}>
@@ -39,7 +39,7 @@ const NavbarComp = ({
     );
   }
   return (
-    <Navbar className="navbar" brand="logo" right>
+    <Navbar className="navbar" brand={<img src="./Gather-logo.png" alt="" />} right>
       <NavItem onClick={() => {}}>You are not currently logged in.</NavItem>
       <NavItem onClick={clickHome}>Home</NavItem>
       <NavItem>
