@@ -51,12 +51,12 @@ class App extends React.Component {
     });
   }
 
-  getCategoryNames(cb) {
+  getCategoryNames(cb = () => {}) {
     axios.get('/category')
       .then(({ data }) => this.setState({ categories: data }, cb));
   }
 
-  getCategory(categoryName, cb) {
+  getCategory(categoryName, cb = () => {}) {
     axios.get(`/events/category/${categoryName}`)
       .then(({ data }) => this.setState({ events: data }, cb));
   }
