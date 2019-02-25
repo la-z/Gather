@@ -27,7 +27,8 @@ const {
   editCategory,
   deleteCategory,
   getCategories,
-  emailSender,
+  getRsvpByUser,
+  // emailSender,
 } = require('./helpers/request-handler');
 const { checkAuthentication, checkAdmin } = require('./helpers/auth');
 
@@ -75,6 +76,8 @@ app.post('/signup', signup);
 // users
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
+
+app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 
 // categories
 
