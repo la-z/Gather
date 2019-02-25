@@ -31,7 +31,6 @@ class App extends React.Component {
     this.clickHome = this.clickHome.bind(this);
     this.clickCreateEvent = this.clickCreateEvent.bind(this);
     this.clickMyEvents = this.clickMyEvents.bind(this);
-    this.setLoggedin = this.setLoggedin.bind(this);
     this.setUserID = this.setUserID.bind(this);
     this.clickSignout = this.clickSignout.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
@@ -47,13 +46,9 @@ class App extends React.Component {
       .catch((err) => { console.log(err); });
   }
 
-  setLoggedin() {
-    this.setState({ loggedin: true });
-  }
-
   setUserID(username, userID) {
     this.setState({
-      userID, username, view: 'main', loggedin: true, 
+      userID, username, view: 'main', loggedin: true,
     });
     // this.setState({ username });
   }
@@ -92,7 +87,6 @@ class App extends React.Component {
     axios.post('/login', params)
       .then(({ data }) => {
         this.setUserID(data.username, data.id);
-        this.setLoggedin();
       })
       .catch((err) => { console.log(err); });
   }
@@ -107,7 +101,6 @@ class App extends React.Component {
     axios.post('/signup', params)
       .then(({ data }) => {
         this.setUserID(data.username, data.userID);
-        this.setLoggedin();
       })
       .catch((err) => { console.log(err); });
   }
