@@ -1,7 +1,6 @@
 /* eslint-disable import/extensions, react/prop-types */
 import React from 'react';
 import {
-  Button,
   Icon,
   Navbar,
   NavItem,
