@@ -51,8 +51,9 @@ app.all('*', (req, res, next) => {
   // not sure if secure
   if (req.isAuthenticated()) {
     res.set({ Login: 'true', User: req.user.username });
+  } else {
+    res.set({ Login: '', User: '' });
   }
-  res.set({ Login: '', User: '' });
   next();
 });
 

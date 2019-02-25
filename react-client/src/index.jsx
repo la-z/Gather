@@ -58,7 +58,14 @@ class App extends React.Component {
 
   getCategory(categoryName, cb = () => {}) {
     axios.get(`/events/category/${categoryName}`)
-      .then(({ data }) => this.setState({ events: data }, cb));
+      .then(({ data, headers }) => {
+        console.log(headers);
+        if (headers.login && headers.user) {
+          this.setState({ events: data, loggedin: true, username: headers.user }, cb);
+        } else {
+          this.setState({ events: data }, cb);
+        }
+      });
   }
 
   setUserID(username, userID) {
@@ -206,7 +213,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <CreateEvent />
+          <CreateEvent categories={categories} />
           <Geocoder redirect={this.clickMyEvents} />
         </div>
       );
