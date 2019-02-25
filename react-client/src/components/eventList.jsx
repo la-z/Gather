@@ -1,11 +1,11 @@
-/* eslint react/prop-types: 0 */
+/* eslint-disable react/prop-types, import/extensions */
 import React from 'react';
+import { Row } from 'react-materialize';
 import EventListEntry from './eventListEntry.jsx';
 
 const EventList = ({ events, renderClickedEventTitle }) => (
-  <div className="events-list">
-    <span id="events-list-title">EventList</span>
+  <Row className="events-list">
     {events.map(event => <EventListEntry key={event.title} event={event} renderClickedEventTitle={renderClickedEventTitle} />)}
-  </div>
+  </Row>
 );
 export default EventList;

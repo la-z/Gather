@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions, react/prop-types */
 import React from 'react';
 import axios from 'axios';
 import EventList from './eventList.jsx';
@@ -21,12 +22,15 @@ class MyEvents extends React.Component {
   }
 
   render() {
-    if (!this.state.myEvents.length) {
+    const { myEvents } = this.state;
+    const { renderClickedEventTitle } = this.props;
+    if (!myEvents.length) {
       return (
         <div>
           <span id="my-events-title-empty">MyEvents</span>
           <p>
-            Awww its looks like you havent made any events. <br />
+            Awww its looks like you havent made any events.
+            <br />
             Click the (+) button to make a new event!
           </p>
           {/* Something from this.state.events */}
@@ -36,8 +40,8 @@ class MyEvents extends React.Component {
     return (
       <div>
         <span id="my-events-title">My Events</span>
-        
-        <EventList events={this.state.myEvents} renderClickedEventTitle={this.props.renderClickedEventTitle} />
+
+        <EventList events={myEvents} renderClickedEventTitle={renderClickedEventTitle} />
       </div>
     );
   }
