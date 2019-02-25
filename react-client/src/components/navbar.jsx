@@ -28,8 +28,8 @@ const NavbarComp = ({
           <Icon right>home</Icon>
         </NavItem>
         <NavItem onClick={clickMyEvents}>
-          MyEvents
-          <Icon right>cloud</Icon>
+          Events Dashboard
+          <Icon right>ballot</Icon>
         </NavItem>
         <NavItem onClick={clickCreateEvent}>
           New Event
