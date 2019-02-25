@@ -38,6 +38,7 @@ class App extends React.Component {
     this.setUserID = this.setUserID.bind(this);
     this.clickSignout = this.clickSignout.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
   }
 
   componentDidMount() {
@@ -95,7 +96,21 @@ class App extends React.Component {
       .then(({ data }) => {
         this.setUserID(data.username, data.id);
         this.setLoggedin();
-        this.redirect();
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  handleSignup(username, password, email, tel) {
+    const params = {
+      username,
+      password,
+      email,
+      tel,
+    };
+    axios.post('/signup', params)
+      .then(({ data }) => {
+        this.setUserID(data.username, data.userID);
+        this.setLoggedin();
       })
       .catch((err) => { console.log(err); });
   }
