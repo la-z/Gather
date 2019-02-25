@@ -106,6 +106,8 @@ class Geocoder extends React.Component {
     if (time.slice(5) === 'PM' && time.slice(0, 2) !== '12') {
       const hours = (Number(parsedTime.slice(0, 2)) + 12).toString();
       parsedTime = hours + parsedTime.slice(2);
+    } else if (time.slice(5) === 'AM' && time.slice(0, 2) === '12') {
+      parsedTime = `00${parsedTime.slice(2)}`;
     }
     const parsedDateTime = `${parsedDate} ${parsedTime} CST`;
     return parsedDateTime;
