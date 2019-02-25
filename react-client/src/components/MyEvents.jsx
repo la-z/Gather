@@ -27,7 +27,7 @@ class MyEvents extends React.Component {
 
   render() {
     const { myEvents } = this.state;
-    const { renderClickedEventTitle } = this.props;
+    const { renderClickedEventTitle, username } = this.props;
     if (!myEvents.length) {
       return (
         <div>
@@ -37,7 +37,7 @@ class MyEvents extends React.Component {
             <br />
             Click the (+) button to make a new event!
           </p>
-          <MyComments />
+          <MyComments username={username} />
         </div>
       );
     }
@@ -46,7 +46,7 @@ class MyEvents extends React.Component {
         <span id="my-events-title">My Events</span>
         <EventList events={myEvents} renderClickedEventTitle={renderClickedEventTitle} />
         <br />
-        <MyComments />
+        <MyComments username={username} />
       </div>
     );
   }

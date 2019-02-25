@@ -6,6 +6,16 @@ class MyComments extends React.Component {
     this.state = {
 
     };
+    this.getCommentsByUsername = this.getCommentsByUsername.bind(this);
+  }
+
+  componentDidMount() {
+    this.getCommentsByUsername();
+  }
+
+  getCommentsByUsername() {
+    const { username } = this.props;
+    console.log(username);
   }
 
   render() {
