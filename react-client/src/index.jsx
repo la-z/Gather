@@ -1,18 +1,15 @@
 /* eslint import/extensions: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-// uncomment when working with server
-// import axios from 'axios';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 
-//import mockdata from './mockEvents.js';
 import NavbarComp from './components/navbar.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/createEventForm.jsx';
-import ChildComponentHolder from './components/appendChild.jsx';
+// import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Loggedin from './components/loggedin.jsx';
@@ -139,11 +136,11 @@ class App extends React.Component {
     if (view === 'main') {
       return (
         <div>
+          <Navbar />
           <Loggedin
             username={username}
             loggedin={loggedin}
           />
-          <Navbar />
           <Categories />
           <EventList
             events={events}
@@ -154,11 +151,11 @@ class App extends React.Component {
     } if (view === 'eventPage') {
       return (
         <div>
+          <Navbar />
           <Loggedin
             username={username}
             loggedin={loggedin}
           />
-          <Navbar />
           <EventPage
             event={clickedEvent}
             username={username}
@@ -168,11 +165,11 @@ class App extends React.Component {
     } if (view === 'createEvent' && loggedin) {
       return (
         <div>
+          <Navbar />
           <Loggedin
             username={username}
             loggedin={loggedin}
           />
-          <Navbar />
           <CreateEvent />
           <Geocoder redirect={this.clickMyEvents} />
         </div>
@@ -180,11 +177,11 @@ class App extends React.Component {
     } if (view === 'myEvents' && loggedin) {
       return (
         <div>
+          <Navbar />
           <Loggedin
             username={username}
             loggedin={loggedin}
           />
-          <Navbar />
           <MyEvents
             userID={userID}
             username={username}
@@ -195,16 +192,10 @@ class App extends React.Component {
     }
     return (
       <div>
+        <Navbar />
         <Loggedin
           username={username}
           loggedin={loggedin}
-        />
-        <NavbarComp
-          loggedin={loggedin}
-          clickHome={this.clickHome}
-          clickCreateEvent={this.clickCreateEvent}
-          clickMyEvents={this.clickMyEvents}
-          clickSignout={this.clickSignout}
         />
         Sorry :3 Status 404
         <br />
