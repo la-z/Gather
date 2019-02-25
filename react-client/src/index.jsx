@@ -28,6 +28,7 @@ class App extends React.Component {
       loggedin: false,
       userID: null,
       preloader: false,
+      categories: [],
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -43,18 +44,23 @@ class App extends React.Component {
 
   componentDidMount() {
     this.togglePreloader();
-    axios.get('/events/category/all')
-      .then(({ data, headers }) => {
+    Promise.all([axios.get('/events/category/all'), axios.get('/category')])
+      .then(([{ data, headers }, categoryResponse]) => {
+        const categories = categoryResponse.data;
         this.togglePreloader();
         if (headers.login === 'true' && headers.user) {
-          return this.setState({ events: data }, () => this.setUserID(headers.user));
+          return this.setState({ events: data, categories }, () => this.setUserID(headers.user));
         }
-        return this.setState({ events: data });
+        return this.setState({ events: data, categories });
       })
       .catch((err) => {
         console.error(err);
         this.togglePreloader();
       });
+  }
+
+  getCategory(categoryName) {
+
   }
 
   setUserID(username, userID) {
@@ -149,7 +155,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories,
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -170,7 +176,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <Categories />
+          <Categories categories={categories} />
           <EventList
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
