@@ -448,6 +448,19 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
+  /*
+  getRsvpByUser
+  on GET /user/rsvp
+  finds all InterestedEvents associated with user, with event titles
+  response body => [InterestedEvent]
+  */
+  getRsvpByUser(req, res) {
+    const { user } = req;
+    return user.getEvents()
+      .then(interestedEvents => res.status(200).json(interestedEvents))
+      .catch(err => errorHandler(req, res, err));
+  },
+
 // <<<<<<< fix/login-verification
 //   /*
 //   emailSender

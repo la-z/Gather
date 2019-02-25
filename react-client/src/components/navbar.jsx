@@ -29,11 +29,13 @@ const NavbarComp = ({
           MyEvents
           <Icon right>cloud</Icon>
         </NavItem>
+        <NavItem onClick={clickCreateEvent}>
+          New Event
+        </NavItem>
         <NavItem onClick={clickSignout}>
           Logout
           <Icon right>cloud</Icon>
         </NavItem>
-        <Button floating large className="green" waves="light" icon="add" onClick={clickCreateEvent} />
       </Navbar>
     );
   }
@@ -58,7 +60,6 @@ const NavbarComp = ({
           <SignupForm handleSignup={handleSignup} />
         </Modal>
       </NavItem>
-      <Button floating large className="green" waves="light" icon="add" onClick={clickCreateEvent} />
     </Navbar>
   );
 };
