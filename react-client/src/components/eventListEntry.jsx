@@ -4,6 +4,7 @@
 import React from 'react';
 import { Card, Col, Button } from 'react-materialize';
 import axios from 'axios';
+import moment from 'moment';
 
 class EventListEntry extends React.Component {
   constructor(props) {
@@ -16,9 +17,17 @@ class EventListEntry extends React.Component {
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
   
-  // componentDidMount() {
-  //   this.reverseGeocodingRequest();
-  // }
+  componentDidMount() {
+    const { event } = this.props;
+    
+    // this.reverseGeocodingRequest();
+
+    // console.log(moment(event.time).toLocaleString().slice(15));
+    this.setState({ 
+      date: moment(event.time).toLocaleString().slice(0, -18),
+      time: moment(event.time).toLocaleString().slice(15),
+    });
+  }
 
   updateRSVP(params, eventID) {
     axios.patch(`/events/${eventID}/rsvp`, params)
@@ -53,6 +62,7 @@ class EventListEntry extends React.Component {
 
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
+    const { date, time } = this.state;
     return (
       <Col s={12} m={4}>
         <Card className="card">
@@ -60,7 +70,8 @@ class EventListEntry extends React.Component {
           <h4>{event.category}</h4>
           {/* <p> {this.state.address}</p> */}
           <p>{event.description}</p>
-          <p>{event.time}</p>
+          <p>{date}</p>
+          <p>{time}</p>
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>

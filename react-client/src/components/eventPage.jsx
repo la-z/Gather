@@ -3,6 +3,7 @@ import React from 'react';
 import Map from './map.jsx';
 import CommentBox from './CommentBox.jsx';
 import axios from 'axios';
+import moment from 'moment';
 
 class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
@@ -13,8 +14,15 @@ class CurrentlyClickedEvent extends React.Component {
     };
     this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
+
   componentDidMount() {
-    this.reverseGeocodingRequest()
+    const { event } = this.state;
+    this.reverseGeocodingRequest();
+    console.log(moment(event.time).toLocaleString().slice(15));
+    this.setState({ 
+      date: moment(event.time).toLocaleString().slice(0, -18),
+      time: moment(event.time).toLocaleString().slice(15),
+    });
   }
 
   reverseGeocodingRequest() {
@@ -25,16 +33,18 @@ class CurrentlyClickedEvent extends React.Component {
         this.setState({ address: address.slice(0, -15) });
       });
   }
-
+  
   render() {
-    const { event, address } = this.state;
+    const { event, address, date, time } = this.state;
     return (
       <div>
         <h3>{event.title}</h3>
         <h4>{event.category}</h4>
         <p>{address}</p>
         <p>{event.description}</p>
-        <p>{event.time}</p>
+        <p>When: {date}
+          <br />
+                 {time}</p>
         {/* 
           event.private ? <p>This is a private Event</p> : <p>This is Public Event</p>
          */}
