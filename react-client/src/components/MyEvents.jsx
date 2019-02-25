@@ -14,9 +14,12 @@ class MyEvents extends React.Component {
 
   componentDidMount() {
   // need to pull events thats match the userID that is already passed into this component on props.
+    const { togglePreloader } = this.props;
+    togglePreloader();
     axios.get('/events/my-events')
       .then(({ data }) => {
         console.log(data);
+        togglePreloader();
         this.setState({ myEvents: data });
       });
   }
