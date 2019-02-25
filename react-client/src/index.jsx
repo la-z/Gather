@@ -40,27 +40,25 @@ class App extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.togglePreloader = this.togglePreloader.bind(this);
+    this.getCategoryNames = this.getCategoryNames.bind(this);
+    this.getCategory = this.getCategory.bind(this);
   }
 
   componentDidMount() {
     this.togglePreloader();
-    Promise.all([axios.get('/events/category/all'), axios.get('/category')])
-      .then(([{ data, headers }, categoryResponse]) => {
-        const categories = categoryResponse.data;
-        this.togglePreloader();
-        if (headers.login === 'true' && headers.user) {
-          return this.setState({ events: data, categories }, () => this.setUserID(headers.user));
-        }
-        return this.setState({ events: data, categories });
-      })
-      .catch((err) => {
-        console.error(err);
-        this.togglePreloader();
-      });
+    this.getCategory('all', () => {
+      this.getCategoryNames(() => this.togglePreloader());
+    });
   }
 
-  getCategory(categoryName) {
+  getCategoryNames(cb) {
+    axios.get('/category')
+      .then(({ data }) => this.setState({ categories: data }, cb));
+  }
 
+  getCategory(categoryName, cb) {
+    axios.get(`/events/category/${categoryName}`)
+      .then(({ data }) => this.setState({ events: data }, cb));
   }
 
   setUserID(username, userID) {
