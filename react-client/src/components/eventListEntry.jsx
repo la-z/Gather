@@ -73,6 +73,7 @@ class EventListEntry extends React.Component {
           <p>{event.description}</p>
           <p>{date}</p>
           <p>{time}</p>
+          {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>
