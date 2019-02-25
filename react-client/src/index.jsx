@@ -66,6 +66,8 @@ class App extends React.Component {
 
   clickPostComment() {
     this.setState({ view: 'eventPage' });
+  }
+
   togglePreloader() {
     const { preloader } = this.state;
     this.setState({ preloader: !preloader });
@@ -187,7 +189,7 @@ class App extends React.Component {
           <EventPage
             event={clickedEvent}
             username={username}
-            redirect={this.clickPostComment}
+            redirect={this.renderClickedEventTitle}
           />
         </div>
       );
