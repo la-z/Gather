@@ -46,6 +46,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.all('*', (req, res, next) => {
+  // ugly hack to let the browser know the user is logged in
+  // not sure if secure
+  if (req.isAuthenticated()) {
+    res.set({ Login: 'true', User: req.user.username });
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '../react-client/dist')));
 
 // login, signup, logout
