@@ -4,6 +4,7 @@ import Map from './map.jsx';
 import CommentBox from './CommentBox.jsx';
 import axios from 'axios';
 import moment from 'moment';
+import { Row } from 'react-materialize';
 
 class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class CurrentlyClickedEvent extends React.Component {
   render() {
     const { event, address, date, time } = this.state;
     return (
+      // <Row className="event-page">
       <div>
         <h3>{event.title}</h3>
         <h4>{event.category}</h4>
