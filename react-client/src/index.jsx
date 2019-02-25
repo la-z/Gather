@@ -43,7 +43,7 @@ class App extends React.Component {
         console.log(data);
         this.setState({ events: data });
       })
-      .catch((err) => { console.log(err); });
+      .catch(err => console.log(err));
   }
 
   setUserID(username, userID) {
@@ -88,7 +88,7 @@ class App extends React.Component {
       .then(({ data }) => {
         this.setUserID(data.username, data.id);
       })
-      .catch((err) => { console.log(err); });
+      .catch(err => console.log(err));
   }
 
   handleSignup(username, password, email, tel) {
@@ -102,7 +102,7 @@ class App extends React.Component {
       .then(({ data }) => {
         this.setUserID(data.username, data.userID);
       })
-      .catch((err) => { console.log(err); });
+      .catch(err => console.log(err));
   }
 
   renderClickedEventTitle(object) {
