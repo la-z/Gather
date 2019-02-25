@@ -6,7 +6,7 @@ const Categories = ({ categories, getCategory }) => (
   <Row>
     <Col s={12} m={4}>
       <Collection header="Categories">
-        {categories.map(category => <CollectionItem onClick={() => getCategory(category.id)}>{category.name}</CollectionItem>)}
+        {categories.map(category => <CollectionItem className="clickable" onClick={() => getCategory(category.id)}>{category.name}</CollectionItem>)}
       </Collection>
     </Col>
   </Row>

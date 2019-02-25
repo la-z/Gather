@@ -22,6 +22,10 @@ background-color: #fcf7ff;
   background-color: #c293ff;
 }
 
+.clickable:hover {
+  cursor: pointer;
+}
+
 .marker {
   background-image: url('mapbox-icon.png');
   background-size: cover;
