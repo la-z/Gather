@@ -103,7 +103,7 @@ class Geocoder extends React.Component {
     parsedDate[1] = parsedDate[1].slice(0, 3);
     parsedDate = parsedDate.join(' ');
     let parsedTime = time.slice(0, 5);
-    if (time.slice(5) === 'PM') {
+    if (time.slice(5) === 'PM' && time.slice(0, 2) !== '12') {
       const hours = (Number(parsedTime.slice(0, 2)) + 12).toString();
       parsedTime = hours + parsedTime.slice(2);
     }

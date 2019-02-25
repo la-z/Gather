@@ -191,7 +191,7 @@ class App extends React.Component {
           {preloader ? <Spinner /> : null}
           <Navbar />
           <Row>
-            <Col s={12} m={6}>
+            <Col s={12} m={3}>
               <Info />
             </Col>
             <Col s={12} m={6}>
