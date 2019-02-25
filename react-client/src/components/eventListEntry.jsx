@@ -7,7 +7,7 @@ import { Card, Col, Button } from 'react-materialize';
 const EventListEntry = ({ event, renderClickedEventTitle, loggedin }) => (
   <Col s={12} m={4}>
     <Card className="card">
-      <h4 onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
+      <h4 className="clickable" onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
       <h4>{event.category}</h4>
       <p>{event.description}</p>
       <p>{event.time}</p>
