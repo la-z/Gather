@@ -15,7 +15,7 @@ class Geocoder extends React.Component {
       address: '',
       date: '',
       duration: '',
-      category: '',
+      category: 'Outdoors',
       time: '',
       datetime: '',
     };
@@ -90,6 +90,7 @@ class Geocoder extends React.Component {
   }
 
   handleCategoryChange(e) {
+    console.log(e.target.value);
     this.setState({
       category: e.target.value,
     });
@@ -102,9 +103,11 @@ class Geocoder extends React.Component {
     parsedDate[1] = parsedDate[1].slice(0, 3);
     parsedDate = parsedDate.join(' ');
     let parsedTime = time.slice(0, 5);
-    if (time.slice(5) === 'PM') {
+    if (time.slice(5) === 'PM' && time.slice(0, 2) !== '12') {
       const hours = (Number(parsedTime.slice(0, 2)) + 12).toString();
       parsedTime = hours + parsedTime.slice(2);
+    } else if (time.slice(5) === 'AM' && time.slice(0, 2) === '12') {
+      parsedTime = `00${parsedTime.slice(2)}`;
     }
     const parsedDateTime = `${parsedDate} ${parsedTime} CST`;
     return parsedDateTime;
@@ -115,16 +118,16 @@ class Geocoder extends React.Component {
     const { address, duration, title, date, time, description } = this.state;
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
-        <Input type="select" onChange={this.handleCategoryChange} label="Category">
+        <Input required type="select" onChange={this.handleCategoryChange} label="Category">
           {categories.map(category => <option value={category.name}>{category.name}</option>)}
         </Input>
-        <input type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
-        <input type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
-        <input type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
-        <Input type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
-        <Input type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
-        <input type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-        <Button type="submit">
+        <input required type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
+        <input required type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
+        <input required type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
+        <Input required type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
+        <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
+        <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
+        <Button className="orange darken-3" type="submit">
           Submit Event
         </Button>
       </form>

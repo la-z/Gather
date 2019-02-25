@@ -344,8 +344,9 @@ const requestHandler = {
         if (interestedEvent) {
           interestedEvent.update({ rsvp: body.rsvp })
             .then(() => res.send(200));
+        } else {
+          res.send(403);
         }
-        res.send(403);
       })
       .catch(err => errorHandler(req, res, err));
   },
@@ -444,6 +445,19 @@ const requestHandler = {
     const { body } = req;
     return db.Category.destroy({ where: { name: body.name } })
       .then(destroyedCount => res.status(200).send(destroyedCount))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  getRsvpByUser
+  on GET /user/rsvp
+  finds all InterestedEvents associated with user, with event titles
+  response body => [InterestedEvent]
+  */
+  getRsvpByUser(req, res) {
+    const { user } = req;
+    return user.getEvents()
+      .then(interestedEvents => res.status(200).json(interestedEvents))
       .catch(err => errorHandler(req, res, err));
   },
 
