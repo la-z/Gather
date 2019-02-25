@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('Comment', {
-    body: DataTypes.STRING,
+    body: { type: DataTypes.STRING, allowNull: false },
   });
   Comment.associate = (models) => {
     Comment.belongsTo(models.User);

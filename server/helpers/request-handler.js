@@ -69,6 +69,14 @@ const requestHandler = {
       include: [{
         model: db.User,
         attributes: ['username'],
+      },
+      {
+        model: db.Comment,
+        attributes: ['body'],
+        include: [{
+          model: db.User,
+          attributes: ['username'],
+        }],
       }],
       // include data from join table
     })
@@ -116,6 +124,14 @@ const requestHandler = {
       include: [{
         model: db.User,
         attributes: ['username'],
+      },
+      {
+        model: db.Comment,
+        attributes: ['body'],
+        include: [{
+          model: db.User,
+          attributes: ['username'],
+        }],
       }],
     })
       .then((events) => {
