@@ -3,7 +3,7 @@ import { Button, Icon, Navbar, NavItem, Modal } from 'react-materialize';
 import LoginForm from './LoginForm.jsx';
 import SignupForm from './SignupForm.jsx';
 
-const NavbarComp = ({ loggedin, clickHome, clickCreateEvent, clickMyEvents, clickLoginForm, clickSignupForm, clickSignout }) => {
+const NavbarComp = ({ loggedin, clickHome, clickCreateEvent, clickMyEvents, clickLoginForm, clickSignupForm, clickSignout, handleLogin }) => {
   if (loggedin) {
     return (
       <Navbar brand="logo" right>
@@ -17,7 +17,7 @@ const NavbarComp = ({ loggedin, clickHome, clickCreateEvent, clickMyEvents, clic
   return (
     <Navbar brand="logo" right>
       <NavItem onClick={clickHome}>Home</NavItem>
-      <NavItem><Modal trigger={<NavItem>Login</NavItem>}><LoginForm /></Modal></NavItem>
+      <NavItem><Modal trigger={<NavItem>Login</NavItem>}><LoginForm handleLogin={handleLogin} /></Modal></NavItem>
       {/* for some reason NavItems were not aligning correctly without this ugly hack */}
       <NavItem><Modal trigger={<NavItem>Signup</NavItem>}><SignupForm /></Modal></NavItem>
       <Button floating large className='green' waves='light' icon='add' onClick={clickCreateEvent} />
