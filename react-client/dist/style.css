@@ -3,6 +3,12 @@ body {
   margin: auto;
 }
 
+.preloader {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+}
+
 .marker {
   background-image: url('mapbox-icon.png');
   background-size: cover;
