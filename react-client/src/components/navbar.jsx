@@ -23,17 +23,21 @@ const NavbarComp = ({
     return (
       <Navbar className="navbar" brand={<img src="./Gather-logo.png" alt="" />} right>
         <NavItem onClick={() => {}}>Welcome back, {username}!</NavItem>
-        <NavItem onClick={clickHome}>Home</NavItem>
+        <NavItem onClick={clickHome}>
+          Home
+          <Icon right>home</Icon>
+          </NavItem>
         <NavItem onClick={clickMyEvents}>
           MyEvents
           <Icon right>cloud</Icon>
         </NavItem>
         <NavItem onClick={clickCreateEvent}>
           New Event
+          <Icon right>publish</Icon>
         </NavItem>
         <NavItem onClick={clickSignout}>
           Logout
-          <Icon right>cloud</Icon>
+          <Icon right>eject</Icon>
         </NavItem>
       </Navbar>
     );
