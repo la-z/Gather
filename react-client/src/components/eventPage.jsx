@@ -1,6 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
 import Map from './map.jsx';
+import CommentBox from './CommentBox.jsx';
 
 class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class CurrentlyClickedEvent extends React.Component {
         {
           event.private ? <p>This is a private Event</p> : <p>This is NOT a private Event</p>
         }
+        <CommentBox username={this.props.username} eventID={this.props.event.id} />
         <Map event={event} />
       </div>
     );
