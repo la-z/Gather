@@ -35,6 +35,7 @@ class App extends React.Component {
     this.clickMyEvents = this.clickMyEvents.bind(this);
     this.setUserID = this.setUserID.bind(this);
     this.clickSignout = this.clickSignout.bind(this);
+    this.clickPostComment = this.clickPostComment.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.togglePreloader = this.togglePreloader.bind(this);
@@ -61,6 +62,10 @@ class App extends React.Component {
       userID, username, view: 'main', loggedin: true,
     });
     // this.setState({ username });
+  }
+
+  clickPostComment() {
+    this.setState({ view: 'eventPage' });
   }
 
   togglePreloader() {
@@ -184,6 +189,7 @@ class App extends React.Component {
           <EventPage
             event={clickedEvent}
             username={username}
+            redirect={this.renderClickedEventTitle}
           />
         </div>
       );
