@@ -103,9 +103,11 @@ class Geocoder extends React.Component {
     parsedDate[1] = parsedDate[1].slice(0, 3);
     parsedDate = parsedDate.join(' ');
     let parsedTime = time.slice(0, 5);
-    if (time.slice(5) === 'PM') {
+    if (time.slice(5) === 'PM' && time.slice(0, 2) !== '12') {
       const hours = (Number(parsedTime.slice(0, 2)) + 12).toString();
       parsedTime = hours + parsedTime.slice(2);
+    } else if (time.slice(5) === 'AM' && time.slice(0, 2) === '12') {
+      parsedTime = `00${parsedTime.slice(2)}`;
     }
     const parsedDateTime = `${parsedDate} ${parsedTime} CST`;
     return parsedDateTime;
@@ -125,7 +127,7 @@ class Geocoder extends React.Component {
         <Input required type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
         <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
         <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-        <Button type="submit">
+        <Button className="orange darken-3" type="submit">
           Submit Event
         </Button>
       </form>

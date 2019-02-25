@@ -3,8 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
+import { Row, Col } from 'react-materialize';
 
 import NavbarComp from './components/navbar.jsx';
+import Info from './components/Info.jsx';
 import Categories from './components/categories.jsx';
 import EventList from './components/eventList.jsx';
 import EventPage from './components/eventPage.jsx';
@@ -188,7 +190,14 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <Categories categories={categories} getCategory={this.getCategory} />
+          <Row>
+            <Col s={12} m={3}>
+              <Info />
+            </Col>
+            <Col s={12} m={6}>
+              <Categories categories={categories} getCategory={this.getCategory} />
+            </Col>
+          </Row>
           <EventList
             loggedin={loggedin}
             events={events}

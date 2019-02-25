@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
       <form>
         <input type="text" name="text" placeholder="username" value={username} onChange={this.handleUsernameChange} />
         <input type="password" name="password" placeholder="Password" value={password} onChange={this.handlePasswordChange} />
-        <Button type="button" onClick={() => handleLogin(username, password)}>Login!!</Button>
+        <Button className="orange darken-3" type="button" onClick={() => handleLogin(username, password)}>Login!!</Button>
       </form>
     );
   }
