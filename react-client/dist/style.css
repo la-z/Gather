@@ -11,6 +11,7 @@ background-color: #fcf7ff;
   position: fixed;
   top: 25%;
   left: 50%;
+  z-index: 9999;
 }
 
 .navbar {
@@ -19,6 +20,10 @@ background-color: #fcf7ff;
 
 .card {
   background-color: #c293ff;
+}
+
+.clickable:hover {
+  cursor: pointer;
 }
 
 .marker {

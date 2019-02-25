@@ -28,6 +28,7 @@ class App extends React.Component {
       loggedin: false,
       userID: null,
       preloader: false,
+      categories: [],
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -39,22 +40,25 @@ class App extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.togglePreloader = this.togglePreloader.bind(this);
+    this.getCategoryNames = this.getCategoryNames.bind(this);
+    this.getCategory = this.getCategory.bind(this);
   }
 
   componentDidMount() {
     this.togglePreloader();
-    axios.get('/events/category/all')
-      .then(({ data, headers }) => {
-        this.togglePreloader();
-        if (headers.login === 'true' && headers.user) {
-          return this.setState({ events: data }, () => this.setUserID(headers.user));
-        }
-        return this.setState({ events: data });
-      })
-      .catch((err) => {
-        console.error(err);
-        this.togglePreloader();
-      });
+    this.getCategory('all', () => {
+      this.getCategoryNames(() => this.togglePreloader());
+    });
+  }
+
+  getCategoryNames(cb = () => {}) {
+    axios.get('/category')
+      .then(({ data }) => this.setState({ categories: data }, cb));
+  }
+
+  getCategory(categoryName, cb = () => {}) {
+    axios.get(`/events/category/${categoryName}`)
+      .then(({ data }) => this.setState({ events: data }, cb));
   }
 
   setUserID(username, userID) {
@@ -149,7 +153,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories,
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -170,7 +174,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <Categories />
+          <Categories categories={categories} getCategory={this.getCategory} />
           <EventList
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}

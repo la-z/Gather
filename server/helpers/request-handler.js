@@ -109,14 +109,14 @@ const requestHandler = {
 
   /*
   getCategory
-  on GET /events/category/:categoryName
+  on GET /events/category/:categoryId
   see getEventsByUser, except by category here
   */
   getCategory(req, res) {
-    const { categoryName } = req.params;
+    const { categoryId } = req.params;
     const { page, sortBy } = req.query;
     db.Event.findAll({
-      where: categoryName === 'all' ? { private: false } : { category: categoryName, private: false },
+      where: categoryId === 'all' ? { private: false } : { CategoryId: categoryId, private: false },
       // we don't want private events here
       order: [[sortBy || 'time', 'DESC']],
       limit: 10,
