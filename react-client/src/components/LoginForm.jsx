@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'react-materialize';
-import axios from 'axios';
 
 class LoginForm extends React.Component {
   constructor(props) {
