@@ -10,7 +10,8 @@
     "test-auth": "mocha ./test/auth.spec.js",
     "react-dev": "webpack -d --watch",
     "react-build": "webpack -d",
-    "server-dev": "nodemon server/server.js"
+    "server-dev": "nodemon server/server.js",
+    "build": "npm install && webpack -d && npm run server-dev"
   },
   "repository": {
     "type": "git",
