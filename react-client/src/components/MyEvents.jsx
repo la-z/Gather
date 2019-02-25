@@ -43,7 +43,6 @@ class MyEvents extends React.Component {
     }
     return (
       <div>
-        <span id="my-events-title">My Events</span>
         <EventList events={myEvents} renderClickedEventTitle={renderClickedEventTitle} />
         <br />
         
