@@ -64,7 +64,7 @@ class EventListEntry extends React.Component {
     const { event, renderClickedEventTitle, loggedin } = this.props;
     const { date, time } = this.state;
     return (
-      <Col s={12} m={4}>
+      <Col s={12} m={6}>
         <Card className="card">
           <h4 className="clickable" onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
           <h4>{event.category}</h4>
