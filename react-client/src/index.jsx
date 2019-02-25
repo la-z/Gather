@@ -39,9 +39,11 @@ class App extends React.Component {
 
   componentDidMount() {
     axios.get('/events/category/all')
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({ events: data });
+      .then(({ data, headers }) => {
+        if (headers.login === 'true' && headers.user) {
+          return this.setState({ events: data }, () => this.setUserID(headers.user));
+        }
+        return this.setState({ events: data });
       })
       .catch(err => console.log(err));
   }
