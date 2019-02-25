@@ -37,6 +37,7 @@ class App extends React.Component {
     this.setLoggedin = this.setLoggedin.bind(this);
     this.setUserID = this.setUserID.bind(this);
     this.clickSignout = this.clickSignout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
@@ -117,6 +118,7 @@ class App extends React.Component {
         clickCreateEvent={this.clickCreateEvent}
         clickMyEvents={this.clickMyEvents}
         clickSignout={this.clickSignout}
+        handleLogin={this.handleLogin}
       />
     );
     if (view === 'main') {
