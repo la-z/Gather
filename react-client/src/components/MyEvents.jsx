@@ -2,6 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import EventList from './eventList.jsx';
+import MyComments from './MyComments.jsx';
 
 
 class MyEvents extends React.Component {
@@ -26,7 +27,7 @@ class MyEvents extends React.Component {
 
   render() {
     const { myEvents } = this.state;
-    const { renderClickedEventTitle } = this.props;
+    const { renderClickedEventTitle, username } = this.props;
     if (!myEvents.length) {
       return (
         <div>
@@ -36,15 +37,16 @@ class MyEvents extends React.Component {
             <br />
             Click the (+) button to make a new event!
           </p>
-          {/* Something from this.state.events */}
+          
         </div>
       );
     }
     return (
       <div>
         <span id="my-events-title">My Events</span>
-
         <EventList events={myEvents} renderClickedEventTitle={renderClickedEventTitle} />
+        <br />
+        
       </div>
     );
   }

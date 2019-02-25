@@ -16,10 +16,14 @@ import CommentList from './CommentList.jsx';
 class CommentBox extends React.Component {
   constructor(props) {
     super(props);
-    // const { comments } = this.props;
+    const { event, username, eventID } = this.props;
     this.state = {
-      comments: this.props.event.Comments,
+      comments: event.Comments,
+      username,
+      eventID,
+      data: [],
     };
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -30,16 +34,14 @@ class CommentBox extends React.Component {
   }
 
   handleCommentSubmit(comment) {
-    this.state.data.push(comment);
-    var comments = this.state.comments;
-    var newComments = comments.concat([comment]);
-    this.setState({data: newComments});
+    //this.state.data.push(comment);
+    let comments = this.state.comments;
+    let newComments = comments.concat([comment]);
+    this.setState({comments: newComments});
   }
 
   render() {
-    console.log(this.props.event.Comments);
-    const { comments } = this.state;
-    const { username, eventID } = this.props;
+    const { comments, username, eventID } = this.state;
     return (
       <div className="comment-box">
         <CommentForm  username={username} redirect={this.props.redirect} eventID={eventID} />
