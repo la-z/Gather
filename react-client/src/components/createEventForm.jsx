@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Button } from 'react-materialize';
 import Input from 'react-materialize/lib/Input';
+import moment from 'moment';
 
 class Geocoder extends React.Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class Geocoder extends React.Component {
       date: '',
       duration: '',
       category: '',
+      time: '',
+      datetime: '',
     };
     this.setGeocodeSearch = this.setGeocodeSearch.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -23,6 +26,8 @@ class Geocoder extends React.Component {
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.processDatetime = this.processDatetime.bind(this);
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -44,7 +49,7 @@ class Geocoder extends React.Component {
           description,
           lat: latNlongArr[1],
           long: latNlongArr[0],
-          time: date,
+          time: moment(this.processDatetime()).format(),
           duration,
           category,
         };
@@ -76,6 +81,10 @@ class Geocoder extends React.Component {
     this.setState({ date: e.target.value });
   }
 
+  handleTimeChange(e) {
+    this.setState({ time: e.target.value });
+  }
+
   handleDurationChange(e) {
     this.setState({ duration: e.target.value });
   }
@@ -86,9 +95,24 @@ class Geocoder extends React.Component {
     });
   }
 
+  processDatetime() {
+    // convert our time and date into RFC 2822 date time format
+    const { time, date } = this.state;
+    let parsedDate = date.replace(',', '').split(' ');
+    parsedDate[1] = parsedDate[1].slice(0, 3);
+    parsedDate = parsedDate.join(' ');
+    let parsedTime = time.slice(0, 5);
+    if (time.slice(5) === 'PM') {
+      const hours = (Number(parsedTime.slice(0, 2)) + 12).toString();
+      parsedTime = hours + parsedTime.slice(2);
+    }
+    const parsedDateTime = `${parsedDate} ${parsedTime} CST`;
+    return parsedDateTime;
+  }
+
   render() {
     const { categories } = this.props;
-    const { address, duration, title, date, description } = this.state;
+    const { address, duration, title, date, time, description } = this.state;
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
         <Input type="select" onChange={this.handleCategoryChange} label="Category">
@@ -97,7 +121,8 @@ class Geocoder extends React.Component {
         <input type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
         <input type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
         <input type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
-        <input type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
+        <Input type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
+        <Input type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
         <input type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
         <Button type="submit">
           Submit Event
