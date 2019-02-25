@@ -1,6 +1,9 @@
 import React from 'react';
+import { Collection, CollectionItem } from 'react-materialize';
 
-const Categories = () => (
-  <h4>Categories</h4>
+const Categories = ({ categories }) => (
+  <Collection>
+    {categories.map(category => <CollectionItem>{category.name}</CollectionItem>)}
+  </Collection>
 );
 export default Categories;
