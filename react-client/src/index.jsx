@@ -15,8 +15,6 @@ import Geocoder from './components/createEventForm.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
-import LoginForm from './components/LoginForm.jsx';
-import SignupForm from './components/SignupForm.jsx';
 import Loggedin from './components/loggedin.jsx';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -87,6 +85,20 @@ class App extends React.Component {
       });
   }
 
+  handleLogin(username, password) {
+    const params = {
+      username,
+      password,
+    };
+    axios.post('/login', params)
+      .then(({ data }) => {
+        this.setUserID(data.username, data.id);
+        this.setLoggedin();
+        this.redirect();
+      })
+      .catch((err) => { console.log(err); });
+  }
+
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
@@ -98,6 +110,15 @@ class App extends React.Component {
     const {
       events, clickedEvent, view, userID, loggedin, username,
     } = this.state;
+    const Navbar = () => (
+      <NavbarComp
+        loggedin={loggedin}
+        clickHome={this.clickHome}
+        clickCreateEvent={this.clickCreateEvent}
+        clickMyEvents={this.clickMyEvents}
+        clickSignout={this.clickSignout}
+      />
+    );
     if (view === 'main') {
       return (
         <div>
@@ -105,13 +126,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <NavbarComp
-            loggedin={loggedin}
-            clickHome={this.clickHome}
-            clickCreateEvent={this.clickCreateEvent}
-            clickMyEvents={this.clickMyEvents}
-            clickSignout={this.clickSignout}
-          />
+          <Navbar />
           <Categories />
           <EventList
             events={events}
@@ -126,13 +141,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <NavbarComp
-            loggedin={loggedin}
-            clickHome={this.clickHome}
-            clickCreateEvent={this.clickCreateEvent}
-            clickMyEvents={this.clickMyEvents}
-            clickSignout={this.clickSignout}
-          />
+          <Navbar />
           <EventPage
             event={clickedEvent}
             username={username}
@@ -146,13 +155,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <NavbarComp
-            loggedin={loggedin}
-            clickHome={this.clickHome}
-            clickCreateEvent={this.clickCreateEvent}
-            clickMyEvents={this.clickMyEvents}
-            clickSignout={this.clickSignout}
-          />
+          <Navbar />
           <CreateEvent />
           <Geocoder redirect={this.clickMyEvents} />
         </div>
@@ -164,13 +167,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <NavbarComp
-            loggedin={loggedin}
-            clickHome={this.clickHome}
-            clickCreateEvent={this.clickCreateEvent}
-            clickMyEvents={this.clickMyEvents}
-            clickSignout={this.clickSignout}
-          />
+          <Navbar />
           <MyEvents
             userID={userID}
             username={username}
