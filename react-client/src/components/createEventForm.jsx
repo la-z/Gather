@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Button } from 'react-materialize';
+import Input from 'react-materialize/lib/Input';
 
 class Geocoder extends React.Component {
   constructor(props) {
@@ -13,7 +14,6 @@ class Geocoder extends React.Component {
       address: '',
       date: '',
       duration: '',
-      privateEvent: false,
       category: '',
     };
     this.setGeocodeSearch = this.setGeocodeSearch.bind(this);
@@ -23,21 +23,17 @@ class Geocoder extends React.Component {
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.chckBoxFunc = this.chckBoxFunc.bind(this);
   }
 
   // eslint-disable-next-line react/sort-comp
   handleFormSubmit(submitEvent) {
     const { title, description, address, date, duration, category } = this.state;
-    let { privateEvent } = this.state;
     submitEvent.preventDefault();
     console.log('You Clicked Submit', submitEvent);
     /*
     {                    api address               } / {         address in english      } .json ? {        access token       }
     http://api.mapbox.com/geocoding/v5/mapbox.places/2539 Columbus st new orleans la 70113.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g
     */
-    if (privateEvent === 'yes' || privateEvent === 'y') { privateEvent = true; }
-    if (privateEvent !== 'yes' || privateEvent !== 'y') { privateEvent = false; }
     axios.get(` http://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
       .then((geocodedResults) => {
         const latNlongArr = geocodedResults.data.features[0].center;
@@ -50,7 +46,6 @@ class Geocoder extends React.Component {
           long: latNlongArr[0],
           time: date,
           duration,
-          privateEvent,
           category,
         };
         axios.put('/events', params)
@@ -91,21 +86,19 @@ class Geocoder extends React.Component {
     });
   }
 
-  chckBoxFunc(e) {
-    this.setState({ privateEvent: e.target.value.toLowerCase() });
-  }
-
   render() {
-    const { address, duration, title, date, description, category } = this.state;
+    const { categories } = this.props;
+    const { address, duration, title, date, description } = this.state;
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
+        <Input type="select" onChange={this.handleCategoryChange} label="Category">
+          {categories.map(category => <option value={category.name}>{category.name}</option>)}
+        </Input>
         <input type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
         <input type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
-        <input type="text" name="category" placeholder="Category" value={category} onChange={this.handleCategoryChange} />
         <input type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
         <input type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
         <input type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-        <input type="text" name="privateEvent" placeholder="yes or no" onChange={this.chckBoxFunc} />
         <Button type="submit">
           Submit Event
         </Button>
