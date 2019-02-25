@@ -174,7 +174,7 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <Categories categories={categories} />
+          <Categories categories={categories} getCategory={this.getCategory} />
           <EventList
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
