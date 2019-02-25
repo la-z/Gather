@@ -12,7 +12,6 @@ import Geocoder from './components/createEventForm.jsx';
 // import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
-import Loggedin from './components/loggedin.jsx';
 import Spinner from './components/Preloader.jsx';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -165,6 +164,7 @@ class App extends React.Component {
     const Navbar = () => (
       <NavbarComp
         loggedin={loggedin}
+        username={username}
         clickHome={this.clickHome}
         clickCreateEvent={this.clickCreateEvent}
         clickMyEvents={this.clickMyEvents}
@@ -177,10 +177,6 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <Loggedin
-            username={username}
-            loggedin={loggedin}
-          />
           <Categories categories={categories} getCategory={this.getCategory} />
           <EventList
             events={events}
@@ -193,10 +189,6 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <Loggedin
-            username={username}
-            loggedin={loggedin}
-          />
           <EventPage
             event={clickedEvent}
             username={username}
@@ -209,10 +201,6 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <Loggedin
-            username={username}
-            loggedin={loggedin}
-          />
           <CreateEvent />
           <Geocoder redirect={this.clickMyEvents} categories={categories} />
         </div>
@@ -222,10 +210,6 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <Loggedin
-            username={username}
-            loggedin={loggedin}
-          />
           <MyEvents
             togglePreloader={this.togglePreloader}
             userID={userID}
@@ -239,10 +223,6 @@ class App extends React.Component {
       <div>
         {preloader ? <Spinner /> : null}
         <Navbar />
-        <Loggedin
-          username={username}
-          loggedin={loggedin}
-        />
         Sorry :3 Status 404
         <br />
         Please try Logging-in/Signing-up or going to our home
