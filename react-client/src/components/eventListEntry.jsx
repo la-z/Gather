@@ -15,7 +15,7 @@ const EventListEntry = ({ event, renderClickedEventTitle, loggedin }) => (
       Would be nice to have a conitional that makes this show up only on the MyEvents Page
       <button>Delete</button> 
       */}
-      {loggedin ? <Button>RSVP</Button> : <div></div>}
+      {loggedin ? <div><Button>Intersted</Button> <Button>Going</Button> <Button>Attended</Button></div> : <div></div>}
     </Card>
   </Col>
 );
