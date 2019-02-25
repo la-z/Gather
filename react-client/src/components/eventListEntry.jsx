@@ -4,7 +4,7 @@
 import React from 'react';
 import { Card, Col, Button } from 'react-materialize';
 
-const EventListEntry = ({ event, renderClickedEventTitle }) => (
+const EventListEntry = ({ event, renderClickedEventTitle, loggedin }) => (
   <Col s={12} m={4}>
     <Card className="card">
       <h4 onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
@@ -15,7 +15,7 @@ const EventListEntry = ({ event, renderClickedEventTitle }) => (
       Would be nice to have a conitional that makes this show up only on the MyEvents Page
       <button>Delete</button> 
       */}
-      <Button>RSVP</Button>
+      {loggedin ? <Button>RSVP</Button> : <div></div>}
     </Card>
   </Col>
 );

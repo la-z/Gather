@@ -183,6 +183,7 @@ class App extends React.Component {
           />
           <Categories />
           <EventList
+            loggedin={loggedin}
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
           />
