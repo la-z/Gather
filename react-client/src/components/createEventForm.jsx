@@ -43,7 +43,7 @@ class Geocoder extends React.Component {
       .then((geocodedResults) => {
         const latNlongArr = geocodedResults.data.features[0].center;
         this.setState({geocodedLong: latNlongArr[0], geocodedLat: latNlongArr[1]});
-        
+
         const params = {
           title,
           description,
