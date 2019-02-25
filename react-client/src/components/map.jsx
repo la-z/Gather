@@ -89,7 +89,7 @@ class Map extends React.Component {
       <div>
         <div className="inline-block bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
         </div>
-        <div ref={(el) => { this.mapContainer = el; }} className="" />
+        <div ref={(el) => { this.mapContainer = el; }} className="mapbox" />
       </div>
     );
   }
