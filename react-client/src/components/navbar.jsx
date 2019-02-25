@@ -61,36 +61,3 @@ const NavbarComp = ({
 };
 
 export default NavbarComp;
-
-// export default () => (
-//   <Button waves='light'>
-//     <Icon>thumb_up</Icon>
-//   </Button>
-// )
-/*      
-<Modal
-header='Modal Header'
-trigger={<Button waves='light'>OR ME!<Icon right>insert_chart</Icon></Button>}>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua.
-</p>
-</Modal>
-*/
-    /* <Dropdown trigger={
-      <Button>Drop me!</Button>
-    }
-    >
-      <NavItem>one</NavItem>
-      <NavItem>two</NavItem>
-      {/* <NavItem divider />
-      <NavItem>three</NavItem> */
-
-    /* <Navbar right>
-      <NavItem href="index.html">Home</NavItem>
-      <NavItem onClick={() => console.log('test click')}>Getting started</NavItem>
-    </Navbar> */
-    /* <button type="button" onClick={clickHome}>Home</button>
-    <Button onClick={clickHome}>Login/Signup</Button> */
-// eslint-disable-next-line react/prop-types
-
