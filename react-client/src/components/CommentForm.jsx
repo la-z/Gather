@@ -15,23 +15,26 @@ class CommentForm extends React.Component {
   }
   handleCommentChange(e) {
     this.setState({
-      comment: e.target.value.trim(),
+      comment: e.target.value,
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    //this.props.onCommentSubmit({author: username, text: textVal});
-    // e.target[0].value = '';
-    // e.target[1].value = '';
     //put in an ajax request to the server to store the data in the database
     console.log(this.state);
-    if(!this.state.username){
+    if (!this.state.username) {
       console.log('Please Login to post a comment')
     }
-    else{
-      axios.put(`/events/${this.state.eventID}/comments`)
-      .then((response) => { console.log(response)} )
+    else {
+      const { comment, eventID} = this.state;
+      const params = {
+        body: comment,
+      }
+      axios.put(`/events/${eventID}/comments`, params)
+      .then((response) => { 
+        // need to set the view back to the event Page and hopefully trigger a re-rendering
+        console.log(response)} )
     }
   }
 

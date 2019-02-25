@@ -2,23 +2,23 @@ import React from 'react';
 import CommentForm from './CommentForm.jsx';
 import CommentList from './CommentList.jsx';
 
-const commentData = [
-  { 
-    author:"Shawn Spencer", 
-    text:"I've heard it both ways"
-  },
-  { 
-    author:"Burton Guster", 
-    text:"You hear about Pluto? That's messed up" 
-  }
-];
+// const commentData = [
+//   { 
+//     author:"Shawn Spencer", 
+//     text:"I've heard it both ways"
+//   },
+//   { 
+//     author:"Burton Guster", 
+//     text:"You hear about Pluto? That's messed up" 
+//   }
+// ];
 
 class CommentBox extends React.Component {
   constructor(props) {
     super(props);
+    // const { comments } = this.props;
     this.state = {
-      comments: commentData,
-      data: [],
+      comments: this.props.event.Comments,
     };
   }
 
@@ -37,10 +37,13 @@ class CommentBox extends React.Component {
   }
 
   render() {
+    console.log(this.props.event.Comments);
+    const { comments } = this.state;
+    const { username, eventID } = this.props;
     return (
       <div className="comment-box">
-        <CommentForm data={this.state.data} username={this.props.username} onCommentSubmit={this.handleCommentSubmit} eventID={this.props.eventID} />
-        <CommentList data={this.state.comments} />
+        <CommentForm  username={username} onCommentSubmit={this.handleCommentSubmit} eventID={eventID} />
+        <CommentList data={comments} />
       </div>
     );
   }
