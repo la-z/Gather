@@ -42,7 +42,7 @@ class CommentBox extends React.Component {
     const { username, eventID } = this.props;
     return (
       <div className="comment-box">
-        <CommentForm  username={username} onCommentSubmit={this.handleCommentSubmit} eventID={eventID} />
+        <CommentForm  username={username} redirect={this.props.redirect} eventID={eventID} />
         <CommentList data={comments} />
       </div>
     );

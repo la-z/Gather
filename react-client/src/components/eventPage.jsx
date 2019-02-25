@@ -24,7 +24,13 @@ class CurrentlyClickedEvent extends React.Component {
         {
           event.private ? <p>This is a private Event</p> : <p>This is NOT a private Event</p>
         }
-        <CommentBox event={this.props.event} username={this.props.username} eventID={this.props.event.id} comments={this.props.event.comments} />
+        <CommentBox 
+          event={this.props.event} 
+          username={this.props.username} 
+          eventID={this.props.event.id} 
+          comments={this.props.event.comments}
+          redirect={this.props.redirect}
+        />
         <Map event={event} />
       </div>
     );

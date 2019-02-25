@@ -33,7 +33,7 @@ class CommentForm extends React.Component {
       }
       axios.put(`/events/${eventID}/comments`, params)
       .then((response) => { 
-        // need to set the view back to the event Page and hopefully trigger a re-rendering
+        this.props.redirect();
         console.log(response)} )
     }
   }
