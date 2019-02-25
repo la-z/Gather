@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button } from 'react-materialize';
 
@@ -33,7 +34,12 @@ class SignupForm extends React.Component {
   }
 
   render() {
-    const { username, password, email, tel } = this.state;
+    const {
+      username,
+      password,
+      email,
+      tel,
+    } = this.state;
     const { handleSignup } = this.props;
     return (
       <form>
