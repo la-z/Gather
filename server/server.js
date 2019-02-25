@@ -89,7 +89,7 @@ app.delete('/category', checkAuthentication, checkAdmin, deleteCategory);
 
 app.get('/events/my-events', checkAuthentication, getEventsByUser);
 
-app.get('/events/category/:categoryName', (req, res) => {
+app.get('/events/category/:categoryId', (req, res) => {
   getCategory(req, res);
 });
 
