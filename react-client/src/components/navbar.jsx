@@ -26,7 +26,7 @@ const NavbarComp = ({
         <NavItem onClick={clickHome}>
           Home
           <Icon right>home</Icon>
-          </NavItem>
+        </NavItem>
         <NavItem onClick={clickMyEvents}>
           MyEvents
           <Icon right>cloud</Icon>
