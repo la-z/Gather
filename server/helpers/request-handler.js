@@ -344,8 +344,9 @@ const requestHandler = {
         if (interestedEvent) {
           interestedEvent.update({ rsvp: body.rsvp })
             .then(() => res.send(200));
+        } else {
+          res.send(403);
         }
-        res.send(403);
       })
       .catch(err => errorHandler(req, res, err));
   },
