@@ -20,9 +20,9 @@ class CurrentlyClickedEvent extends React.Component {
         <h4>{event.category}</h4>
         <p>{event.description}</p>
         <p>{event.time}</p>
-        {
+        {/* 
           event.private ? <p>This is a private Event</p> : <p>This is Public Event</p>
-        }
+         */}
         <CommentBox 
           event={this.props.event} 
           username={this.props.username} 

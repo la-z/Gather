@@ -37,7 +37,7 @@ class MyEvents extends React.Component {
             <br />
             Click the (+) button to make a new event!
           </p>
-          {/* <MyComments username={username} /> */}
+          
         </div>
       );
     }
@@ -46,7 +46,7 @@ class MyEvents extends React.Component {
         <span id="my-events-title">My Events</span>
         <EventList events={myEvents} renderClickedEventTitle={renderClickedEventTitle} />
         <br />
-        {/* <MyComments username={username} /> */}
+        
       </div>
     );
   }

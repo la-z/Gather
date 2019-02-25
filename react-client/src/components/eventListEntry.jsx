@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint react/prop-types: 0 */
 import React from 'react';
-import { Card, Col } from 'react-materialize';
+import { Card, Col, Button } from 'react-materialize';
 
 const EventListEntry = ({ event, renderClickedEventTitle }) => (
   <Col s={12} m={4}>
@@ -11,6 +11,11 @@ const EventListEntry = ({ event, renderClickedEventTitle }) => (
       <h4>{event.category}</h4>
       <p>{event.description}</p>
       <p>{event.time}</p>
+      {/* 
+      Would be nice to have a conitional that makes this show up only on the MyEvents Page
+      <button>Delete</button> 
+      */}
+      <Button>RSVP</Button>
     </Card>
   </Col>
 );
