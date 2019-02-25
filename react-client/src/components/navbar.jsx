@@ -21,25 +21,29 @@ const NavbarComp = ({
 }) => {
   if (loggedin) {
     return (
-      <Navbar className="navbar" brand={<img src="./Gather-logo.png" alt="" />} right>
+      <Navbar className="navbar" brand={<img src="./Gather-logo-extended.png" alt="" />} right>
         <NavItem onClick={() => {}}>Welcome back, {username}!</NavItem>
-        <NavItem onClick={clickHome}>Home</NavItem>
+        <NavItem onClick={clickHome}>
+          Home
+          <Icon right>home</Icon>
+        </NavItem>
         <NavItem onClick={clickMyEvents}>
           MyEvents
           <Icon right>cloud</Icon>
         </NavItem>
         <NavItem onClick={clickCreateEvent}>
           New Event
+          <Icon right>publish</Icon>
         </NavItem>
         <NavItem onClick={clickSignout}>
           Logout
-          <Icon right>cloud</Icon>
+          <Icon right>eject</Icon>
         </NavItem>
       </Navbar>
     );
   }
   return (
-    <Navbar className="navbar" brand={<img src="./Gather-logo.png" alt="" />} right>
+    <Navbar className="navbar" brand={<img src="./Gather-logo-extended.png" alt="" />} right>
       <NavItem onClick={() => {}}>You are not currently logged in.</NavItem>
       <NavItem onClick={clickHome}>Home</NavItem>
       <NavItem>

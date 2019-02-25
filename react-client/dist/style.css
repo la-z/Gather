@@ -22,6 +22,11 @@ background-color: #fcf7ff;
   background-color: #c293ff;
 }
 
+.rsvp {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 .info {
   background-color: #009287;
   color: white;
@@ -51,7 +56,6 @@ background-color: #fcf7ff;
 
 .brand-logo img {
   height: 64px;
-  
 }
 /* body{width:100%;height:700px;margin:0;padding:0;} */
 /* #space > div{width:500px;margin:auto;margin-top:10%;font-family: 'Roboto', sans-serif;}

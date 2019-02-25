@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint react/prop-types: 0 */
 import React from 'react';
-import { Card, Col, Button } from 'react-materialize';
+import { Card, Col, Button, Toast } from 'react-materialize';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -30,20 +30,32 @@ class EventListEntry extends React.Component {
   }
 
   updateRSVP(params, eventID) {
+    const { togglePreloader } = this.props;
+    togglePreloader();
     axios.patch(`/events/${eventID}/rsvp`, params)
-      .then((res) => { 
-        console.log(res);
+      .then((res) => {
+        togglePreloader();
+        //console.log(res);
+        window.Materialize.toast(`${params.rsvp}`, 1000);
         this.setState({ rsvpState: params.rsvp });
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        togglePreloader();
+        console.log(err); });
   }
 
   clickHandler(e) {
+    const { togglePreloader } = this.props;
     const { event } = this.props;
     const params = { rsvp: e.target.innerHTML };
+    togglePreloader();
     axios.put(`/events/${event.id}/rsvp`, params)
-      .then((res) => { console.log(res); })
+      .then((res) => {
+        togglePreloader(); 
+        window.Materialize.toast(`${e.target.innerHTML}`, 1000);
+        console.log(res); })
       .catch((err) => {
+        togglePreloader();
         // if status code is 401 it already exists
         // prompt the user for an update?
         // console.log(err);
@@ -63,8 +75,9 @@ class EventListEntry extends React.Component {
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
     const { date, time } = this.state;
+    const size = this.props.size || 6;
     return (
-      <Col s={12} m={6}>
+      <Col s={12} m={size}>
         <Card className="card">
           <h4 className="clickable" onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
           <h4>{event.category}</h4>
@@ -72,6 +85,7 @@ class EventListEntry extends React.Component {
           <p>{event.description}</p>
           <p>{date}</p>
           <p>{time}</p>
+          {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>

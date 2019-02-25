@@ -199,6 +199,7 @@ class App extends React.Component {
             </Col>
           </Row>
           <EventList
+            togglePreloader={this.togglePreloader}
             loggedin={loggedin}
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
