@@ -85,9 +85,19 @@ class App extends React.Component {
   }
 
   clickHome() {
-    this.setState({
-      view: 'main',
-    });
+    this.togglePreloader();
+    axios.get('/events/category/all')
+      .then(({ data }) => {
+        this.togglePreloader();
+        this.setState({ events: data, view: 'main' });
+      })
+      .catch((err) => {
+        console.error(err);
+        this.togglePreloader();
+      });
+    // this.setState({
+    //   view: 'main',
+    // });
   }
 
   clickCreateEvent() {
@@ -170,6 +180,7 @@ class App extends React.Component {
         clickMyEvents={this.clickMyEvents}
         clickSignout={this.clickSignout}
         handleLogin={this.handleLogin}
+        handleSignup={this.handleSignup}
       />
     );
     if (view === 'main') {
@@ -183,6 +194,7 @@ class App extends React.Component {
           />
           <Categories categories={categories} getCategory={this.getCategory} />
           <EventList
+            loggedin={loggedin}
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
           />
@@ -200,7 +212,7 @@ class App extends React.Component {
           <EventPage
             event={clickedEvent}
             username={username}
-            redirect={this.renderClickedEventTitle}
+            redirect={this.clickHome}
           />
         </div>
       );
