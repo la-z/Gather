@@ -15,8 +15,6 @@ import Geocoder from './components/createEventForm.jsx';
 import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
-import LoginForm from './components/LoginForm.jsx';
-import SignupForm from './components/SignupForm.jsx';
 import Loggedin from './components/loggedin.jsx';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -36,11 +34,11 @@ class App extends React.Component {
     this.clickHome = this.clickHome.bind(this);
     this.clickCreateEvent = this.clickCreateEvent.bind(this);
     this.clickMyEvents = this.clickMyEvents.bind(this);
-    this.clickLoginForm = this.clickLoginForm.bind(this);
-    this.clickSignupForm = this.clickSignupForm.bind(this);
     this.setLoggedin = this.setLoggedin.bind(this);
     this.setUserID = this.setUserID.bind(this);
     this.clickSignout = this.clickSignout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
   }
 
   componentDidMount() {
@@ -81,24 +79,40 @@ class App extends React.Component {
     });
   }
 
-  clickLoginForm() {
-    this.setState({
-      view: 'loginForm',
-    });
-  }
-
-  clickSignupForm() {
-    this.setState({
-      view: 'signupForm',
-    });
-  }
-
   clickSignout() {
     axios.get('/logout')
       .then((response) => {
         console.log(response);
         this.setState({ view: 'main', loggedin: false });
       });
+  }
+
+  handleLogin(username, password) {
+    const params = {
+      username,
+      password,
+    };
+    axios.post('/login', params)
+      .then(({ data }) => {
+        this.setUserID(data.username, data.id);
+        this.setLoggedin();
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  handleSignup(username, password, email, tel) {
+    const params = {
+      username,
+      password,
+      email,
+      tel,
+    };
+    axios.post('/signup', params)
+      .then(({ data }) => {
+        this.setUserID(data.username, data.userID);
+        this.setLoggedin();
+      })
+      .catch((err) => { console.log(err); });
   }
 
   renderClickedEventTitle(object) {
@@ -112,28 +126,53 @@ class App extends React.Component {
     const {
       events, clickedEvent, view, userID, loggedin, username,
     } = this.state;
+    const Navbar = () => (
+      <NavbarComp
+        loggedin={loggedin}
+        clickHome={this.clickHome}
+        clickCreateEvent={this.clickCreateEvent}
+        clickMyEvents={this.clickMyEvents}
+        clickSignout={this.clickSignout}
+        handleLogin={this.handleLogin}
+      />
+    );
     if (view === 'main') {
       return (
         <div>
-          <Loggedin username={username} loggedin={loggedin} />
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
+          <Loggedin
+            username={username}
+            loggedin={loggedin}
+          />
+          <Navbar />
           <Categories />
-          <EventList events={events} renderClickedEventTitle={this.renderClickedEventTitle} />
+          <EventList
+            events={events}
+            renderClickedEventTitle={this.renderClickedEventTitle}
+          />
         </div>
       );
     } if (view === 'eventPage') {
       return (
         <div>
-          <Loggedin username={username} loggedin={loggedin} />
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-          <EventPage event={clickedEvent} username={username} />
+          <Loggedin
+            username={username}
+            loggedin={loggedin}
+          />
+          <Navbar />
+          <EventPage
+            event={clickedEvent}
+            username={username}
+          />
         </div>
       );
     } if (view === 'createEvent' && loggedin) {
       return (
         <div>
-          <Loggedin username={username} loggedin={loggedin} />
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
+          <Loggedin
+            username={username}
+            loggedin={loggedin}
+          />
+          <Navbar />
           <CreateEvent />
           <Geocoder redirect={this.clickMyEvents} />
         </div>
@@ -141,32 +180,32 @@ class App extends React.Component {
     } if (view === 'myEvents' && loggedin) {
       return (
         <div>
-          <Loggedin username={username} loggedin={loggedin} />
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-          <MyEvents userID={userID} username={username} renderClickedEventTitle={this.renderClickedEventTitle} />
-        </div>
-      );
-    } if (view === 'loginForm') {
-      return (
-        <div>
-          <Loggedin username={username} loggedin={loggedin} />
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-          <LoginForm redirect={this.clickMyEvents} setLoggedin={this.setLoggedin} setUserID={this.setUserID} />
-        </div>
-      );
-    } if (view === 'signupForm') {
-      return (
-        <div>
-          <Loggedin username={username} loggedin={loggedin} />
-          <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
-          <SignupForm redirect={this.setUserID} redirect2nd={this.clickHome} />
+          <Loggedin
+            username={username}
+            loggedin={loggedin}
+          />
+          <Navbar />
+          <MyEvents
+            userID={userID}
+            username={username}
+            renderClickedEventTitle={this.renderClickedEventTitle}
+          />
         </div>
       );
     }
     return (
       <div>
-        <Loggedin username={username} loggedin={loggedin} />
-        <NavbarComp clickHome={this.clickHome} clickCreateEvent={this.clickCreateEvent} clickMyEvents={this.clickMyEvents} clickLoginForm={this.clickLoginForm} clickSignupForm={this.clickSignupForm} clickSignout={this.clickSignout} />
+        <Loggedin
+          username={username}
+          loggedin={loggedin}
+        />
+        <NavbarComp
+          loggedin={loggedin}
+          clickHome={this.clickHome}
+          clickCreateEvent={this.clickCreateEvent}
+          clickMyEvents={this.clickMyEvents}
+          clickSignout={this.clickSignout}
+        />
         Sorry :3 Status 404
         <br />
         Please try Logging-in/Signing-up or going to our home

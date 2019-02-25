@@ -1,19 +1,64 @@
+/* eslint-disable import/extensions, react/prop-types */
 import React from 'react';
-import { Button, Icon, NavItem, Dropdown } from 'react-materialize';
+import {
+  Button,
+  Icon,
+  Navbar,
+  NavItem,
+  Modal,
+} from 'react-materialize';
+import LoginForm from './LoginForm.jsx';
+import SignupForm from './SignupForm.jsx';
 
-const NavbarComp = ({ clickHome, clickCreateEvent, clickMyEvents, clickLoginForm, clickSignupForm }) => (
-  <div>
-    <h2>Navbar</h2>
-    <div>
-      <Button waves='light' onClick={clickHome}>Home</Button>
-      <Button waves='light' onClick={clickMyEvents}>MyEvents<Icon left>cloud</Icon></Button>
-      <Button waves='light' onClick={clickLoginForm}>Login<Icon right>cloud</Icon></Button>
-      <Button waves='light' onClick={clickSignupForm}>Signup<Icon right>cloud</Icon></Button>
-      <Button floating large className='green' waves='light' icon='add' onClick={clickCreateEvent} />
-    </div>
-
-  </div>
-);
+const NavbarComp = ({
+  loggedin,
+  clickHome,
+  clickCreateEvent,
+  clickMyEvents,
+  clickSignout,
+  handleLogin,
+  handleSignup,
+}) => {
+  if (loggedin) {
+    return (
+      <Navbar brand="logo" right>
+        <NavItem onClick={clickHome}>Home</NavItem>
+        <NavItem onClick={clickMyEvents}>
+          MyEvents
+          <Icon right>cloud</Icon>
+        </NavItem>
+        <NavItem onClick={clickSignout}>
+          Logout
+          <Icon right>cloud</Icon>
+        </NavItem>
+        <Button floating large className="green" waves="light" icon="add" onClick={clickCreateEvent} />
+      </Navbar>
+    );
+  }
+  return (
+    <Navbar brand="logo" right>
+      <NavItem onClick={clickHome}>Home</NavItem>
+      <NavItem>
+        <Modal
+          trigger={<NavItem>Login</NavItem>}
+          header="Login"
+        >
+          <LoginForm handleLogin={handleLogin} />
+        </Modal>
+      </NavItem>
+      {/* for some reason NavItems were not aligning correctly without this ugly hack */}
+      <NavItem>
+        <Modal
+          trigger={<NavItem>Signup</NavItem>}
+          header="Signup"
+        >
+          <SignupForm handleSignup={handleSignup} />
+        </Modal>
+      </NavItem>
+      <Button floating large className="green" waves="light" icon="add" onClick={clickCreateEvent} />
+    </Navbar>
+  );
+};
 
 export default NavbarComp;
 
