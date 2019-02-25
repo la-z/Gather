@@ -213,8 +213,8 @@ class App extends React.Component {
             username={username}
             loggedin={loggedin}
           />
-          <CreateEvent categories={categories} />
-          <Geocoder redirect={this.clickMyEvents} />
+          <CreateEvent />
+          <Geocoder redirect={this.clickMyEvents} categories={categories} />
         </div>
       );
     } if (view === 'myEvents' && loggedin) {
