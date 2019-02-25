@@ -49,9 +49,11 @@ class MyEvents extends React.Component {
     return (
       <Row>
         <Col s={12} m={6}>
+          <h5>My RSVPs</h5>
           <EventList events={myRsvps} size="12" renderClickedEventTitle={renderClickedEventTitle} />
         </Col>
         <Col s={12} m={6}>
+          <h5>My created events</h5>
           <EventList events={myEvents} size="12" renderClickedEventTitle={renderClickedEventTitle} />
         </Col>
         <br />
