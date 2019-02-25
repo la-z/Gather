@@ -18,10 +18,12 @@ const NavbarComp = ({
   clickSignout,
   handleLogin,
   handleSignup,
+  username,
 }) => {
   if (loggedin) {
     return (
       <Navbar className="navbar" brand="logo" right>
+        <NavItem onClick={() => {}}>Welcome back, {username}!</NavItem>
         <NavItem onClick={clickHome}>Home</NavItem>
         <NavItem onClick={clickMyEvents}>
           MyEvents
@@ -37,6 +39,7 @@ const NavbarComp = ({
   }
   return (
     <Navbar className="navbar" brand="logo" right>
+      <NavItem onClick={() => {}}>You are not currently logged in.</NavItem>
       <NavItem onClick={clickHome}>Home</NavItem>
       <NavItem>
         <Modal
