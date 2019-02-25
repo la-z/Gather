@@ -3,7 +3,7 @@ import React from 'react';
 import { Row } from 'react-materialize';
 import EventListEntry from './eventListEntry.jsx';
 
-const EventList = ({ events, renderClickedEventTitle, loggedin }) => (
+const EventList = ({ events, renderClickedEventTitle, loggedin, size }) => (
   <Row className="events-list">
     {events.map(event => (
       <EventListEntry
@@ -11,6 +11,7 @@ const EventList = ({ events, renderClickedEventTitle, loggedin }) => (
         event={event}
         renderClickedEventTitle={renderClickedEventTitle}
         loggedin={loggedin}
+        size={size}
       />
     ))}
   </Row>
