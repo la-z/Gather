@@ -77,7 +77,17 @@ class App extends React.Component {
   }
 
   clickPostComment() {
-    this.setState({ view: 'eventPage' });
+    const { id } = this.state.clickedEvent;
+    this.togglePreloader();
+    axios.get(`/events/${id}`)
+      .then(({ data }) => {
+        this.togglePreloader();
+        this.renderClickedEventTitle(data);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.togglePreloader();
+      });
   }
 
   togglePreloader() {
