@@ -51,9 +51,9 @@ class EventListEntry extends React.Component {
           */}
           {loggedin ? (
             <div>
-              <Button onClick={this.clickHandler}>interested</Button>
-              <Button onClick={this.clickHandler}>going</Button>
-              <Button onClick={this.clickHandler}>attended</Button>
+              <Button className="orange darken-3" onClick={this.clickHandler}>interested</Button>
+              <Button className="orange darken-3" onClick={this.clickHandler}>going</Button>
+              <Button className="orange darken-3" onClick={this.clickHandler}>attended</Button>
             </div>
           )
             : <div />

@@ -125,7 +125,7 @@ class Geocoder extends React.Component {
         <Input required type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
         <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
         <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-        <Button type="submit">
+        <Button className="orange darken-3" type="submit">
           Submit Event
         </Button>
       </form>
