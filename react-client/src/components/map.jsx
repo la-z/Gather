@@ -29,13 +29,14 @@ class Map extends React.Component {
     });
 
     /*
-      this adds a geocoder search bar to within the map, might be able to limit these searches to a dataset/ geoJSON associated with the api key
+    this adds a geocoder search bar to within the map, might be able to limit these \
+    searches to a dataset/ geoJSON associated with the api key
     */
     // map.addControl(new MapboxGeocoder({
     //   accessToken: mapboxgl.accessToken,
     // }));
 
-      // this supposedly load geoJSON data into some mapbox variable viable for later manipulation
+    // this supposedly load geoJSON data into some mapbox variable viable for later manipulation
     // map.on('style.load', () => {
     //   map.addSource('geojson', { type: 'geojson', data: '../mockGeoJson.geojson' });
     // });
@@ -84,11 +85,9 @@ class Map extends React.Component {
   }
 
   render() {
-    const { lng, lat, zoom } = this.state;
     return (
       <div>
-        <div className="inline-block bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
-        </div>
+        <div className="inline-block bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold" />
         <div ref={(el) => { this.mapContainer = el; }} className="mapbox" />
       </div>
     );

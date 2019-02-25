@@ -25,7 +25,7 @@ class EventListEntry extends React.Component {
     // console.log(moment(event.time).toLocaleString().slice(15));
     this.setState({ 
       date: moment(event.time).toLocaleString().slice(0, -18),
-      time: moment(event.time).toLocaleString().slice(15),
+      time: moment(event.time).toLocaleString().slice(15, -12),
     });
   }
 
