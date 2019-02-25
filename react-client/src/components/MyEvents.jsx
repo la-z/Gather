@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import EventList from './eventList.jsx';
-import CommentBox from './CommentBox.jsx';
+
 
 class MyEvents extends React.Component {
   constructor(props) {

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button } from 'react-materialize';
+import axios from 'axios';
 
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authorVal: this.props.username,
+      username: this.props.username,
       eventID: this.props.eventID, 
       comment: '', //this is the value from the field
     };
@@ -20,10 +21,18 @@ class CommentForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    //this.props.onCommentSubmit({author: authorVal, text: textVal});
+    //this.props.onCommentSubmit({author: username, text: textVal});
     // e.target[0].value = '';
     // e.target[1].value = '';
     //put in an ajax request to the server to store the data in the database
+    console.log(this.state);
+    if(!this.state.username){
+      console.log('Please Login to post a comment')
+    }
+    else{
+      axios.put(`/events/${this.state.eventID}/comments`)
+      .then((response) => { console.log(response)} )
+    }
   }
 
   render() {
