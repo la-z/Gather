@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-materialize';
+import { Button, Toast } from 'react-materialize';
 import axios from 'axios';
 
 class CommentForm extends React.Component {
@@ -21,20 +21,20 @@ class CommentForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    //put in an ajax request to the server to store the data in the database
+    // put in an ajax request to the server to store the data in the database
     console.log(this.state);
     if (!this.state.username) {
-      console.log('Please Login to post a comment')
-    }
-    else {
-      const { comment, eventID} = this.state;
+      window.Materialize.toast('Please Login to Comment!', 1000);
+    } else {
+      const { comment, eventID } = this.state;
       const params = {
         body: comment,
       }
       axios.put(`/events/${eventID}/comments`, params)
-      .then((response) => { 
-        this.props.redirect();
-        console.log(response)} )
+        .then((response) => { 
+          this.props.redirect();
+          console.log(response); 
+        });
     }
   }
 
