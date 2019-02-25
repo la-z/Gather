@@ -455,19 +455,7 @@ const requestHandler = {
   */
   getRsvpByUser(req, res) {
     const { user } = req;
-    return db.InterestedEvent.find({
-      where: { UserId: user.id },
-      include: [
-        {
-          model: db.Event,
-          attributes: 'title',
-        },
-        {
-          model: db.User,
-          attributes: 'username',
-        },
-      ],
-    })
+    return user.getEvents()
       .then(interestedEvents => res.status(200).json(interestedEvents))
       .catch(err => errorHandler(req, res, err));
   },
