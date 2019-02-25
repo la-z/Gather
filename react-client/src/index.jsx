@@ -13,6 +13,7 @@ import Geocoder from './components/createEventForm.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Loggedin from './components/loggedin.jsx';
+import Spinner from './components/Preloader.jsx';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -86,8 +87,10 @@ class App extends React.Component {
   }
 
   clickSignout() {
+    this.togglePreloader();
     axios.get('/logout')
       .then(() => {
+        this.togglePreloader();
         this.setState({ view: 'main', loggedin: false });
       })
       .catch((err) => {
@@ -101,8 +104,10 @@ class App extends React.Component {
       username,
       password,
     };
+    this.togglePreloader();
     axios.post('/login', params)
       .then(({ data }) => {
+        this.togglePreloader();
         this.setUserID(data.username, data.id);
       })
       .catch((err) => {
@@ -118,8 +123,10 @@ class App extends React.Component {
       email,
       tel,
     };
+    this.togglePreloader();
     axios.post('/signup', params)
       .then(({ data }) => {
+        this.togglePreloader();
         this.setUserID(data.username, data.userID);
       })
       .catch((err) => {
@@ -137,7 +144,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username,
+      events, clickedEvent, view, userID, loggedin, username, preloader,
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -152,6 +159,7 @@ class App extends React.Component {
     if (view === 'main') {
       return (
         <div>
+          {preloader ? <Spinner /> : null}
           <Navbar />
           <Loggedin
             username={username}
@@ -167,6 +175,7 @@ class App extends React.Component {
     } if (view === 'eventPage') {
       return (
         <div>
+          {preloader ? <Spinner /> : null}
           <Navbar />
           <Loggedin
             username={username}
@@ -181,6 +190,7 @@ class App extends React.Component {
     } if (view === 'createEvent' && loggedin) {
       return (
         <div>
+          {preloader ? <Spinner /> : null}
           <Navbar />
           <Loggedin
             username={username}
@@ -193,6 +203,7 @@ class App extends React.Component {
     } if (view === 'myEvents' && loggedin) {
       return (
         <div>
+          {preloader ? <Spinner /> : null}
           <Navbar />
           <Loggedin
             username={username}
@@ -208,6 +219,7 @@ class App extends React.Component {
     }
     return (
       <div>
+        {preloader ? <Spinner /> : null}
         <Navbar />
         <Loggedin
           username={username}
