@@ -9,6 +9,18 @@ class EventListEntry extends React.Component {
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
+    this.state = {
+      rsvpState : 'n/a',
+    };
+  }
+
+  updateRSVP(params,eventID) {
+    axios.patch(`/events/${eventID}/rsvp`, params)
+      .then((res)=>{ 
+        console.log(res);
+        this.setState({ rsvpState: params.rsvp })
+      })
+      .catch((err)=>{ console.log(err); });
   }
 
   clickHandler(e) {
@@ -16,11 +28,12 @@ class EventListEntry extends React.Component {
     const params = { rsvp: e.target.innerHTML };
     axios.put(`/events/${event.id}/rsvp`, params)
       .then((res) => { console.log(res); })
-      .catch(err => {
+      .catch((err) => {
         // if status code is 401 it already exists
         // prompt the user for an update?
-        console.log(err)
-      })
+        // console.log(err);
+        this.updateRSVP(params, event.id);
+      });
   }
 
   render() {
