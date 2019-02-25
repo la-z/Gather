@@ -75,8 +75,9 @@ class EventListEntry extends React.Component {
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
     const { date, time } = this.state;
+    const size = this.props.size || 6;
     return (
-      <Col s={12} m={6}>
+      <Col s={12} m={size}>
         <Card className="card">
           <h4 className="clickable" onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
           <h4>{event.category}</h4>
@@ -84,6 +85,7 @@ class EventListEntry extends React.Component {
           <p>{event.description}</p>
           <p>{date}</p>
           <p>{time}</p>
+          {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>
