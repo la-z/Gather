@@ -1,3 +1,8 @@
+body {
+  max-width: 1500px;
+  margin: auto;
+}
+
 .marker {
   background-image: url('mapbox-icon.png');
   background-size: cover;
