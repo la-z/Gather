@@ -248,7 +248,7 @@ const requestHandler = {
       .then((comment) => {
         if (comment) {
           comment.update({ body })
-            .then(() => res.send(200))
+            .then(() => res.send(200));
         }
         res.send(403);
       })
@@ -461,28 +461,14 @@ const requestHandler = {
       .catch(err => errorHandler(req, res, err));
   },
 
-// <<<<<<< fix/login-verification
-//   /*
-//   emailSender
-//   on POST /events/:eventId/invite
-//   expects body => {
-//     emails: [String]
-//   }
-//   sends email to each address in array with direct link to event
-//   */
-//   emailSender(req, res) {
-//     const { eventId } = req.params;
-//     const { emails } = req.body;
-//     const { user } = req;
-//     return db.Event.findOne({ where: { id: eventId, UserId: user.id } })
-//       .then(foundEvent => invitation(emails, foundEvent))
-//       .then((sentEmail) => {
-//         console.info(sentEmail);
-//         res.status(201).send('Email sent!');
-//       })
-//       .catch(err => errorHandler(err));
-//   },
-// =======
+  // /*
+  // emailSender
+  // on POST /events/:eventId/invite
+  // expects body => {
+  //   emails: [String]
+  // }
+  // sends email to each address in array with direct link to event
+  // */
   // emailSender(req, res) {
   //   const { eventId } = req.params;
   //   const { emails } = req.body;
@@ -495,7 +481,6 @@ const requestHandler = {
   //     })
   //     .catch(err => errorHandler(err));
   // },
-// >>>>>>> master
 };
 
 module.exports = requestHandler;

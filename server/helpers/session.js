@@ -18,9 +18,7 @@ module.exports = (passport) => {
       .catch(err => done(err));
   }));
 
-  passport.serializeUser((user, done) => {
-    return done(null, user.id);
-  });
+  passport.serializeUser((user, done) => done(null, user.id));
   // saves user id on session
 
   passport.deserializeUser((id, done) => db.User.findOne({ where: { id } })

@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 
-const Comment = props => (
+const Comment = ({ author, text }) => (
   <div className="comment">
-    <p className="author">{props.author} :
-      {' '}{props.text}
+    <p className="author">
+      {author}: {text}
     </p>
   </div>
 );
