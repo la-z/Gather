@@ -1,4 +1,4 @@
-/* eslint-disable import/extensions, react/prop-types */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import {
   Icon,
