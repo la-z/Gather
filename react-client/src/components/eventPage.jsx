@@ -1,4 +1,4 @@
-/* eslint react/prop-types: 0 */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
@@ -9,15 +9,16 @@ import CommentBox from './CommentBox.jsx';
 class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
     super(props);
-    const { event } = this.props;
     this.state = {
-      event,
+      address: '',
+      date: null,
+      time: null,
     };
     this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
 
   componentDidMount() {
-    const { event } = this.state;
+    const { event } = this.props;
     this.reverseGeocodingRequest();
     console.log(moment(event.time).toLocaleString().slice(15));
     this.setState({
@@ -34,35 +35,53 @@ class CurrentlyClickedEvent extends React.Component {
         this.setState({ address: address.slice(0, -15) });
       });
   }
-  
+
   render() {
-    const { event, address, date, time } = this.state;
+    const {
+      event,
+      username,
+      refresh,
+    } = this.props;
+    const {
+      title,
+      category,
+      description,
+      eventID,
+      comments,
+    } = event;
+    const {
+      address,
+      date,
+      time,
+    } = this.state;
     return (
       <Row className="event-page">
-      <div>
-        <h3>{event.title}</h3>
-        <h4>{event.category}</h4>
-        <p>{address}</p>
-        <p>{event.description}</p>
-        <p>When: {date}
-          <br />
-                 {time}</p>
-        {/* 
-          event.private ? <p>This is a private Event</p> : <p>This is Public Event</p>
-         */}
-         <Col s={12} m={6}>
-        <CommentBox 
-          event={this.props.event} 
-          username={this.props.username} 
-          eventID={this.props.event.id} 
-          comments={this.props.event.comments}
-          refresh={this.props.refresh}
-        />
-        </Col>
-        <Col s={12} m={6}>
-        <Map event={event} />
-        </Col>
-      </div>
+        <div>
+          <h3>{title}</h3>
+          <h4>{category}</h4>
+          <p>{address}</p>
+          <p>{description}</p>
+          <p>
+            When: {date}
+            <br />
+            {time}
+          </p>
+          {/*
+            event.private ? <p>This is a private Event</p> : <p>This is Public Event</p>
+          */}
+          <Col s={12} m={6}>
+            <CommentBox
+              event={event}
+              username={username}
+              eventID={eventID}
+              comments={comments}
+              refresh={refresh}
+            />
+          </Col>
+          <Col s={12} m={6}>
+            <Map event={event} />
+          </Col>
+        </div>
       </Row>
     );
   }
