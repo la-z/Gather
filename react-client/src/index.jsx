@@ -77,7 +77,8 @@ class App extends React.Component {
   }
 
   clickPostComment() {
-    const { id } = this.state.clickedEvent;
+    const { clickedEvent } = this.state;
+    const { id } = clickedEvent;
     this.togglePreloader();
     axios.get(`/events/${id}`)
       .then(({ data }) => {
@@ -224,7 +225,7 @@ class App extends React.Component {
           <EventPage
             event={clickedEvent}
             username={username}
-            redirect={this.clickHome}
+            refresh={this.clickHome}
           />
         </div>
       );

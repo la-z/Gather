@@ -1,8 +1,8 @@
 /* eslint-disable import/extensions, react/prop-types */
 import React from 'react';
 import axios from 'axios';
-import EventList from './eventList.jsx';
 import { Row, Col } from 'react-materialize';
+import EventList from './eventList.jsx';
 
 class MyEvents extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class MyEvents extends React.Component {
 
   render() {
     const { myEvents, myRsvps } = this.state;
-    const { renderClickedEventTitle, username } = this.props;
+    const { renderClickedEventTitle } = this.props;
     if (!myEvents.length) {
       return (
         <div>
@@ -42,7 +42,6 @@ class MyEvents extends React.Component {
             <br />
             Click the New Event button to make a new event!
           </p>
-          
         </div>
       );
     }
@@ -57,7 +56,6 @@ class MyEvents extends React.Component {
           <EventList events={myEvents} size="12" renderClickedEventTitle={renderClickedEventTitle} />
         </Col>
         <br />
-        
       </Row>
     );
   }
