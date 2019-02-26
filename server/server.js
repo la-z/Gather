@@ -125,7 +125,7 @@ app.delete('/events/:eventId/comments/:commentId', checkAuthentication, deleteCo
 
 // invitation emails
 
-//app.post('/events/:eventId/invite', checkAuthentication, emailSender);
+// app.post('/events/:eventId/invite', checkAuthentication, emailSender);
 
 app.all('*', (req, res) => {
   console.log('idk what happened');
