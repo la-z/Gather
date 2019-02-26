@@ -224,7 +224,7 @@ class App extends React.Component {
           <EventPage
             event={clickedEvent}
             username={username}
-            redirect={this.clickHome}
+            refresh={this.clickHome}
           />
         </div>
       );

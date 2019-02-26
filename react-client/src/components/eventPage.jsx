@@ -1,10 +1,10 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
-import Map from './map.jsx';
-import CommentBox from './CommentBox.jsx';
 import axios from 'axios';
 import moment from 'moment';
 import { Row, Col } from 'react-materialize';
+import Map from './map.jsx';
+import CommentBox from './CommentBox.jsx';
 
 class CurrentlyClickedEvent extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class CurrentlyClickedEvent extends React.Component {
           username={this.props.username} 
           eventID={this.props.event.id} 
           comments={this.props.event.comments}
-          redirect={this.props.redirect}
+          refresh={this.props.refresh}
         />
         </Col>
         <Col s={12} m={6}>
