@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
 // import geojson from '../mockGeoJson.js';
 
@@ -10,16 +9,18 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1c
 class Map extends React.Component {
   constructor(props) {
     super(props);
+    const { event } = this.props;
     this.state = {
-      lng: this.props.event.long || -90,
-      lat: this.props.event.lat || 30,
+      lng: event.long || -90,
+      lat: event.lat || 30,
       zoom: 17,
     };
   }
 
   componentDidMount() {
+    const { event } = this.props;
     const { lng, lat, zoom } = this.state;
-    const { title } = this.props.event;
+    const { title } = event;
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -42,11 +43,11 @@ class Map extends React.Component {
     // });
 
     map.on('move', () => {
-      const { lng, lat } = map.getCenter();
+      const { newLng, newLat } = map.getCenter();
 
       this.setState({
-        lng: lng.toFixed(4),
-        lat: lat.toFixed(4),
+        lng: newLng.toFixed(4),
+        lat: newLat.toFixed(4),
         zoom: map.getZoom().toFixed(2),
       });
     });
