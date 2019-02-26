@@ -77,7 +77,8 @@ class App extends React.Component {
   }
 
   clickPostComment() {
-    const { id } = this.state.clickedEvent;
+    const { clickedEvent } = this.state;
+    const { id } = clickedEvent;
     this.togglePreloader();
     axios.get(`/events/${id}`)
       .then(({ data }) => {
