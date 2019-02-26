@@ -10,7 +10,6 @@ class CommentBox extends React.Component {
       comments: event.Comments,
       username,
       eventID,
-      data: [],
     };
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
   }
@@ -23,9 +22,9 @@ class CommentBox extends React.Component {
   }
 
   handleCommentSubmit(comment) {
-    let comments = this.state.comments;
-    let newComments = comments.concat([comment]);
-    this.setState({comments: newComments});
+    const { comments } = this.state;
+    const newComments = comments.concat([comment]);
+    this.setState({ comments: newComments });
   }
 
   render() {
