@@ -18,6 +18,7 @@ class Geocoder extends React.Component {
       category: 'Outdoors',
       time: '',
       datetime: '',
+      // submit state set to true
     };
     this.setGeocodeSearch = this.setGeocodeSearch.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -112,6 +113,24 @@ class Geocoder extends React.Component {
     const parsedDateTime = `${parsedDate} ${parsedTime} CST`;
     return parsedDateTime;
   }
+
+  // conditional button based on state
+  // submit true:
+  // function editEventButton(props) {
+  //   return <Button className="orange darken-3" type="submit"> // onclick?
+  //      Submit Event
+  //      </Button>
+  // }
+  // submit false:
+  // function submitEventButton(props) {
+  //   return <Button className="orange darken-3" type="submit"> // change type?
+  //      Edit Event
+  //      </Button>
+  // }
+  //    edit event button on click:
+  //      sends patch req to server w new info
+  //      redirects to event dash
+
 
   render() {
     const { categories } = this.props;
