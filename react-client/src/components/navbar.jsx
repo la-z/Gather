@@ -8,6 +8,7 @@ import {
 } from 'react-materialize';
 import LoginForm from './LoginForm.jsx';
 import SignupForm from './SignupForm.jsx';
+import FriendForm from './addFriendForm.jsx';
 
 const NavbarComp = ({
   loggedin,
@@ -18,6 +19,7 @@ const NavbarComp = ({
   handleLogin,
   handleSignup,
   username,
+  addFriend
 }) => {
   if (loggedin) {
     return (
@@ -52,6 +54,14 @@ const NavbarComp = ({
           header="Login"
         >
           <LoginForm handleLogin={handleLogin} />
+        </Modal>
+      </NavItem>
+      <NavItem>
+        <Modal
+          trigger={<NavItem>Add Friend</NavItem>}
+          header="Add a Friend"
+        >
+          <FriendForm handleLogin={addFriend} />
         </Modal>
       </NavItem>
       {/* for some reason NavItems were not aligning correctly without this ugly hack */}

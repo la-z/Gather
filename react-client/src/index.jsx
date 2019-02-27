@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
-import { Row, Col } from 'react-materialize';
+import { Row, Col, Table } from 'react-materialize';
 
 import NavbarComp from './components/navbar.jsx';
 import Info from './components/Info.jsx';
@@ -15,6 +15,7 @@ import Geocoder from './components/createEventForm.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
+import FriendsList from './components/FriendsList.jsx'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -50,6 +51,26 @@ class App extends React.Component {
     this.getCategory('all', () => {
       this.getCategoryNames(() => this.togglePreloader());
     });
+  }
+
+  //create an addFriend function 
+  //send  a post request to endpoint /addFriend
+  //open a text/input field to enter friend's username
+  //link function to click event on NavItem
+  addFriend(username) {
+    const params = {
+      username
+    };
+    this.togglePreloader();
+    axios.post('/addFriend', params)
+      .then(({ data }) => {
+        this.togglePreloader();
+        this.setUserID(data.username, data.id);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.togglePreloader();
+      });
   }
 
   getCategoryNames(cb = () => {}) {
@@ -194,6 +215,7 @@ class App extends React.Component {
         clickSignout={this.clickSignout}
         handleLogin={this.handleLogin}
         handleSignup={this.handleSignup}
+        addFriend={this.addFriend}
       />
     );
     if (view === 'main') {
@@ -215,13 +237,15 @@ class App extends React.Component {
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
           />
-        </div>
+          <FriendsList />
+          </div>
       );
     } if (view === 'eventPage') {
       return (
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
+          
           <EventPage
             event={clickedEvent}
             username={username}
