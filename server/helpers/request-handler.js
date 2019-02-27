@@ -325,6 +325,14 @@ const requestHandler = {
 
   /*
   rsvpEvent
+  on GET /events/:eventId/rsvp
+  fetches all users from InterestedEvents with corresponding eventId
+  }
+  */
+
+
+  /*
+  rsvpEvent
   on PUT /events/:eventId/rsvp
   expects body => {
     rsvp: ['interested', 'going', or 'attended']
