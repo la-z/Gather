@@ -16,6 +16,7 @@ import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 
+// hello
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
 class App extends React.Component {
@@ -30,6 +31,7 @@ class App extends React.Component {
       userID: null,
       preloader: false,
       categories: [],
+      attendingUsers: [],
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -178,7 +180,14 @@ class App extends React.Component {
       clickedEvent: object,
       view: 'eventPage',
     });
+
+  //    get req to server
+  //    endpoint: /events/${event.id}/rsvp
+  //    send 'going'
+  //    set attending users state to array from server
+  //    send down to eventpage
   }
+
 
   render() {
     const {
@@ -214,6 +223,7 @@ class App extends React.Component {
             loggedin={loggedin}
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
+            view={view}
           />
         </div>
       );
