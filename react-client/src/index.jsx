@@ -30,6 +30,7 @@ class App extends React.Component {
       userID: null,
       preloader: false,
       categories: [],
+      attendingUsers: [],
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -178,7 +179,13 @@ class App extends React.Component {
       clickedEvent: object,
       view: 'eventPage',
     });
+
+  //    get req to server
+  //    endpoint: /events/${event.id}/rsvp
+  //    set attending users state to array from server
+  //    send down to eventpage
   }
+
 
   render() {
     const {

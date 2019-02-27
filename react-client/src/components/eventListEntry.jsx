@@ -41,7 +41,8 @@ class EventListEntry extends React.Component {
       })
       .catch((err) => {
         togglePreloader();
-        console.log(err); });
+        console.log(err);
+      });
   }
 
   clickHandler(e) {
@@ -51,9 +52,10 @@ class EventListEntry extends React.Component {
     togglePreloader();
     axios.put(`/events/${event.id}/rsvp`, params)
       .then((res) => {
-        togglePreloader(); 
+        togglePreloader();
         window.Materialize.toast(`${e.target.innerHTML}`, 1000);
-        console.log(res); })
+        console.log(res);
+      })
       .catch((err) => {
         togglePreloader();
         // if status code is 401 it already exists
@@ -71,6 +73,7 @@ class EventListEntry extends React.Component {
   //   //     this.setState({ address });
   //   //   });
   // }
+
 
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
