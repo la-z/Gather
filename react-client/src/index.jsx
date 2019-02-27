@@ -44,6 +44,7 @@ class App extends React.Component {
     this.togglePreloader = this.togglePreloader.bind(this);
     this.getCategoryNames = this.getCategoryNames.bind(this);
     this.getCategory = this.getCategory.bind(this);
+    this.addFriend = this.addFriend.bind(this);
   }
 
   componentDidMount() {
