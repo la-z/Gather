@@ -33,6 +33,14 @@ const NavbarComp = ({
           Events Dashboard
           <Icon right>ballot</Icon>
         </NavItem>
+        <NavItem>
+          <Modal
+            trigger={<NavItem>Add Friend</NavItem>}
+            header="Add a Friend"
+          >
+            <FriendForm handleLogin={addFriend} />
+          </Modal>
+        </NavItem>
         <NavItem onClick={clickCreateEvent}>
           New Event
           <Icon right>publish</Icon>
@@ -54,14 +62,6 @@ const NavbarComp = ({
           header="Login"
         >
           <LoginForm handleLogin={handleLogin} />
-        </Modal>
-      </NavItem>
-      <NavItem>
-        <Modal
-          trigger={<NavItem>Add Friend</NavItem>}
-          header="Add a Friend"
-        >
-          <FriendForm handleLogin={addFriend} />
         </Modal>
       </NavItem>
       {/* for some reason NavItems were not aligning correctly without this ugly hack */}

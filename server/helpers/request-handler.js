@@ -20,6 +20,16 @@ const requestHandler = {
     });
   },
 
+/*
+adding a Friend
+on POST /addFriend
+expects:
+  req.body: JSON => { "username"}
+if username does not exist in db: 401
+else on addition: add friend, send 200, {username, id}
+*/
+
+
   /*
   signup
   on POST /signup

@@ -9,17 +9,14 @@ class FriendForm extends React.Component {
             username: '',
             password: '',
         };
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        // this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
     }
 
     handleUsernameChange(e) {
         this.setState({ username: e.target.value });
-    }
+    } 
 
-    handlePasswordChange(e) {
-        this.setState({ password: e.target.value });
-    }
 
     render() {
         const { username, password } = this.state;

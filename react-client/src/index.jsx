@@ -237,7 +237,6 @@ class App extends React.Component {
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
           />
-          <FriendsList />
           </div>
       );
     } if (view === 'eventPage') {
