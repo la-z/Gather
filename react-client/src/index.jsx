@@ -223,6 +223,7 @@ class App extends React.Component {
             loggedin={loggedin}
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
+            view={view}
           />
         </div>
       );

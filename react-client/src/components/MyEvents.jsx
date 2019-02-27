@@ -10,6 +10,7 @@ class MyEvents extends React.Component {
     this.state = {
       myEvents: [],
       myRsvps: [],
+      view: this.props.view,
     };
   }
 
@@ -30,16 +31,11 @@ class MyEvents extends React.Component {
       });
   }
 
-  // add 'edit event' button
-  //  onclick call func
-  //    redirect to new event page
-  //    func calls get req to server
-  //    endpoint: 
 
   render() {
     const { myEvents, myRsvps } = this.state;
     const { renderClickedEventTitle } = this.props;
-    if (!myEvents.length) { // && !myRsvps.length
+    if (!myEvents.length && !myRsvps.length) {
       return (
         <div>
           <span id="my-events-title-empty">MyEvents</span>

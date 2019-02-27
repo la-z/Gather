@@ -11,8 +11,9 @@ class EventListEntry extends React.Component {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
     this.state = {
-      rsvpState : 'n/a',
+      rsvpState: 'n/a',
       address: '',
+      view: this.props.view,
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
@@ -77,7 +78,7 @@ class EventListEntry extends React.Component {
 
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
-    const { date, time } = this.state;
+    const { date, time, view } = this.state;
     const size = this.props.size || 6;
     return (
       <Col s={12} m={size}>
