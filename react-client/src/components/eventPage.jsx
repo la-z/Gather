@@ -36,6 +36,27 @@ class CurrentlyClickedEvent extends React.Component {
       });
   }
 
+  // add 'delete event' button
+  //  onclick call func
+  //    func calls delete req to server
+  //    endpoint: /event/${event.eventId}
+  //    req.params.eventId // event.eventId?
+  //    reload page?
+  deleteEvent() {
+    const { event } = this.props;
+    axios.delete(`/events/${event.eventId}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  // add 'edit event' button
+  //  onclick call func from index props
+  //    redirect to new event page
+  //    func calls get req to server
+  //    endpoint: /events/:eventId
+
   render() {
     const {
       event,
@@ -55,19 +76,6 @@ class CurrentlyClickedEvent extends React.Component {
       time,
     } = this.state;
 
-
-    // add 'edit event' button
-    //  onclick call func
-    //    redirect to new event page
-    //    func calls get req to server
-    //    endpoint:
-
-    // add 'delete event' button
-    //  onclick call func
-    //    func calls delete req to server
-    //    endpoint: /event/${event.eventId}
-    //    req.params.eventId // event.eventId?
-    //    reload page?
 
     return (
       <Row className="event-page">

@@ -45,6 +45,7 @@ class App extends React.Component {
     this.togglePreloader = this.togglePreloader.bind(this);
     this.getCategoryNames = this.getCategoryNames.bind(this);
     this.getCategory = this.getCategory.bind(this);
+    this.editEvent = this.editEvent.bind(this);
   }
 
   componentDidMount() {
@@ -175,6 +176,15 @@ class App extends React.Component {
       });
   }
 
+  editEvent() {
+    const { event } = this.props;
+    axios.get(`/events/${event.eventId}`)
+      .then(() => {
+
+      })
+      .catch((err) => { console.log(err); });
+  }
+
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
@@ -193,6 +203,7 @@ class App extends React.Component {
     const {
       events, clickedEvent, view, userID, loggedin, username, preloader, categories,
     } = this.state;
+    const { editEvent } = this.state;
     const Navbar = () => (
       <NavbarComp
         loggedin={loggedin}
@@ -244,7 +255,7 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <CreateEvent />
+          <CreateEvent onClick={editEvent}/>
           <Geocoder redirect={this.clickMyEvents} categories={categories} />
         </div>
       );

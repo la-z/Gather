@@ -149,6 +149,9 @@ class Geocoder extends React.Component {
         <Button className="orange darken-3" type="submit">
           Submit Event
         </Button>
+        <Button className="orange darken-3" type="submit">
+          Edit Event
+        </Button>
       </form>
     );
   }
