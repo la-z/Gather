@@ -182,6 +182,7 @@ class App extends React.Component {
 
   //    get req to server
   //    endpoint: /events/${event.id}/rsvp
+  //    send 'going'
   //    set attending users state to array from server
   //    send down to eventpage
   }
