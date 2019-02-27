@@ -21,6 +21,16 @@ const requestHandler = {
   },
 
   /*
+  event deletion
+  on DELETE /event
+  expects:
+    event id?
+  if event id err: 401
+  else: delete event, send 200
+  */
+
+
+  /*
   signup
   on POST /signup
   expects:
@@ -312,6 +322,44 @@ const requestHandler = {
       .then(() => this.logout(req, res))
       .catch(err => errorHandler(req, res, err));
   },
+
+  /*
+  rsvpEvent
+  on GET /events/:eventId/rsvp
+  fetches all users from InterestedEvents with corresponding eventId
+  }
+  */
+  getRsvpUsers(req, res) {
+    const { event } = req;
+    // user is put directly on req by passport
+    // user => object with props username, id
+
+    db.Event.findAll({
+      where: { EventId: event.id },
+
+      include: [{
+        model: db.User,
+        attributes: ['username'],
+      },
+      // {
+      //   model: db.Comment,
+      //   attributes: ['body'],
+      //   include: [{
+      //     model: db.User,
+      //     attributes: ['username'],
+      //   }],
+      // }
+      ],
+      // include data from join table
+      // above needs to include info from interestedevents join table, not comment
+    })
+      .then((users) => {
+        res.status(200);
+        res.json(users);
+      })
+      .catch(err => errorHandler(req, res, err));
+  },
+
 
   /*
   rsvpEvent
