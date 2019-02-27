@@ -2,7 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { Row, Col } from 'react-materialize';
+import { Row, Col, Button } from 'react-materialize';
 import Map from './map.jsx';
 import CommentBox from './CommentBox.jsx';
 
@@ -81,6 +81,8 @@ class CurrentlyClickedEvent extends React.Component {
           <Col s={12} m={6}>
             <Map event={event} />
           </Col>
+          <Button type="submit" className="btn btn-primary">Delete Event</Button>
+          <Button type="submit" className="btn btn-primary">Edit Event</Button>
         </div>
       </Row>
     );
