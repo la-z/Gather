@@ -21,6 +21,16 @@ const requestHandler = {
   },
 
   /*
+  event deletion
+  on DELETE /event
+  expects:
+    event id?
+  if event id err: 401
+  else: delete event, send 200
+  */
+
+
+  /*
   signup
   on POST /signup
   expects:

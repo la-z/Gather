@@ -54,6 +54,11 @@ class CurrentlyClickedEvent extends React.Component {
       date,
       time,
     } = this.state;
+
+    // add 'delete event button'
+    //  onclick call func
+    //    func calls delete req to server
+    //    endpoint: /event
     return (
       <Row className="event-page">
         <div>

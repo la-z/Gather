@@ -33,7 +33,7 @@ class MyEvents extends React.Component {
   render() {
     const { myEvents, myRsvps } = this.state;
     const { renderClickedEventTitle } = this.props;
-    if (!myEvents.length) {
+    if (!myEvents.length) { // && !myRsvps.length
       return (
         <div>
           <span id="my-events-title-empty">MyEvents</span>
