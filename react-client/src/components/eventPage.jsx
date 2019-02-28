@@ -15,6 +15,8 @@ class CurrentlyClickedEvent extends React.Component {
       time: null,
     };
     this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
+    this.editClick = this.editClick.bind(this);
   }
 
   componentDidMount() {
@@ -108,12 +110,12 @@ class CurrentlyClickedEvent extends React.Component {
               comments={comments}
               refresh={refresh}
             />
+            <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
+            <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
           </Col>
           <Col s={12} m={6}>
             <Map event={event} />
           </Col>
-          <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
-          <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
         </div>
       </Row>
     );
