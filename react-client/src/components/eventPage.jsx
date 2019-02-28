@@ -64,6 +64,9 @@ class CurrentlyClickedEvent extends React.Component {
     //    change state of view in index.jsx
   }
 
+  // <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
+  //         <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
+
   render() {
     const {
       event,
@@ -83,7 +86,6 @@ class CurrentlyClickedEvent extends React.Component {
       time,
       redirect,
     } = this.state;
-    }
 
     return (
       <Row className="event-page">
