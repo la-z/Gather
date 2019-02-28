@@ -15,6 +15,7 @@ import Geocoder from './components/createEventForm.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
+import EditEvent from './components/EditEventForm.jsx';
 
 // hello
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -47,6 +48,7 @@ class App extends React.Component {
     this.getCategoryNames = this.getCategoryNames.bind(this);
     this.getCategory = this.getCategory.bind(this);
     this.editEvent = this.editEvent.bind(this);
+    this.editSubmit = this.editSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -111,9 +113,9 @@ class App extends React.Component {
         console.error(err);
         this.togglePreloader();
       });
-    // this.setState({
-    //   view: 'main',
-    // });
+    this.setState({
+      submit: true,
+    });
   }
 
   clickCreateEvent() {
@@ -177,15 +179,22 @@ class App extends React.Component {
       });
   }
 
-
+  // runs when edit event button is clicked on event page
   editEvent() {
     // send all event info to createeventform page
     //    autofill createeventform fields
 
     // redirect to createeventform page
     this.setState({
-      view: 'createEvent',
+      view: 'editEvent',
       submit: false,
+    });
+  }
+
+  // runs when edit button is clicked on createeventform page
+  editSubmit() {
+    this.setState({
+      submit: true,
     });
   }
 
@@ -205,7 +214,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, editSubmit,
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -259,8 +268,33 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <CreateEvent eventInfo={clickedEvent} submit={submit}/>
-          <Geocoder redirect={this.clickMyEvents} categories={categories} />
+          <CreateEvent
+            eventInfo={clickedEvent}
+            submit={submit}
+            editSubmit={editSubmit}
+          />
+          <Geocoder
+            redirect={this.clickMyEvents}
+            categories={categories}
+            eventInfo={clickedEvent}
+          />
+        </div>
+      );
+    } if (view === 'editEvent' && loggedin) {
+      return (
+        <div>
+          {preloader ? <Spinner /> : null}
+          <Navbar />
+          <CreateEvent
+            eventInfo={clickedEvent}
+            submit={submit}
+            editSubmit={editSubmit}
+          />
+          <EditEvent
+            redirect={this.clickMyEvents}
+            categories={categories}
+            eventInfo={clickedEvent}
+          />
         </div>
       );
     } if (view === 'myEvents' && loggedin) {
