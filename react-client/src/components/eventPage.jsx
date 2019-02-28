@@ -44,6 +44,7 @@ class CurrentlyClickedEvent extends React.Component {
   //    reload page?
   deleteEvent() {
     const { event } = this.props;
+    console.log('delete event');
     axios.delete(`/events/${event.eventId}`)
       .then((res) => {
         console.log(res);
@@ -56,13 +57,18 @@ class CurrentlyClickedEvent extends React.Component {
   //    redirect to new event page
   //    func calls get req to server
   //    endpoint: /events/:eventId
+  editClick() {
+    console.log('edit event');
+
+    // redirect to createEventForm page
+    //    change state of view in index.jsx
+  }
 
   render() {
     const {
       event,
       username,
       refresh,
-      editEvent,
     } = this.props;
     const {
       title,
@@ -75,8 +81,9 @@ class CurrentlyClickedEvent extends React.Component {
       address,
       date,
       time,
+      redirect,
     } = this.state;
-
+    }
 
     return (
       <Row className="event-page">
@@ -106,7 +113,7 @@ class CurrentlyClickedEvent extends React.Component {
             <Map event={event} />
           </Col>
           <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
-          <Button type="submit" className="btn btn-primary" onClick={editEvent}>Edit Event</Button>
+          <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
         </div>
       </Row>
     );

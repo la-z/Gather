@@ -143,6 +143,11 @@ class Geocoder extends React.Component {
   //      sends patch req to server w new info
   //      redirects to event dash
 
+  ///// onclick for submit button
+  // axios.patch(`/events/${id}`)
+  // .then(() => {})
+  // .catch((err) => { console.log(err); });
+
 
   render() {
     const { categories } = this.props;
