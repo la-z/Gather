@@ -105,7 +105,7 @@ class CurrentlyClickedEvent extends React.Component {
             <Map event={event} />
           </Col>
           <Button type="submit" className="btn btn-primary">Delete Event</Button>
-          <Button type="submit" className="btn btn-primary">Edit Event</Button>
+          <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Edit Event</Button>
         </div>
       </Row>
     );
