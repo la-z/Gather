@@ -58,20 +58,13 @@ class App extends React.Component {
   //send  a post request to endpoint /addFriend
   //open a text/input field to enter friend's username
   //link function to click event on NavItem
-  addFriend(username) {
+  async addFriend(username) {
     const params = {
       username
     };
     this.togglePreloader();
-    axios.post('/addFriend', params)
-      .then(({ data }) => {
-        this.togglePreloader();
-        this.setUserID(data.username, data.id);
-      })
-      .catch((err) => {
-        console.error(err);
-        this.togglePreloader();
-      });
+    let response = await axios.post('/addFriend', params)
+    return response;
   }
 
   getCategoryNames(cb = () => {}) {
@@ -207,7 +200,7 @@ class App extends React.Component {
       events, clickedEvent, view, userID, loggedin, username, preloader, categories,
     } = this.state;
     const Navbar = () => (
-      <NavbarComp
+      < NavbarComp
         loggedin={loggedin}
         username={username}
         clickHome={this.clickHome}
