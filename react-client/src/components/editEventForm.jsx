@@ -124,24 +124,6 @@ class Geocoder extends React.Component {
     const { categories } = this.props;
     const { address, duration, title, date, time, description, submit } = this.state;
 
-    if (!submit) {
-      return (
-        <form className="form-inline" onSubmit={this.handleFormSubmit}>
-          <Input required type="select" onChange={this.handleCategoryChange} label="Category">
-            {categories.map(category => <option value={category.name}>{category.name}</option>)}
-          </Input>
-          <input required type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
-          <input required type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
-          <input required type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
-          <Input required type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
-          <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
-          <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-          <Button className="orange darken-3" onClick={this.editEvent}>
-          Edit Event
-          </Button>
-        </form>
-      );
-    }
 
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
