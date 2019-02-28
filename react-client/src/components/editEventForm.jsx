@@ -32,7 +32,6 @@ class EditEvent extends React.Component {
   }
 
   componentDidMount() {
-    // const { event } = this.props;
     const { time } = this.state;
     this.reverseGeocodingRequest();
     console.log(moment(time).toLocaleString().slice(15));
@@ -66,7 +65,8 @@ class EditEvent extends React.Component {
           category,
         };
         axios.put('/events', params)
-          .then((result) => { console.log(result);
+          .then((result) => { 
+            console.log(result);
             this.props.redirect();
           })
           .catch((err) => { console.log(err); });
@@ -134,10 +134,15 @@ class EditEvent extends React.Component {
     return parsedDateTime;
   }
 
+
   editEvent() {
-    const { editSubmit } = this.props;
+    // figure out how to send date and time
     console.log('editing event');
-    editSubmit();
+    const { clickedEvent } = this.props;
+    const { time, geocodedLat, geocodedLong, title, description, date, duration, category } = this.state;
+    axios.patch(`/events/${clickedEvent.id}`, { lat: geocodedLat, long: geocodedLong, title, description, duration, category }) // address, category, date, time not updating
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); });
   }
 
   render() {

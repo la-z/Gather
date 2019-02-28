@@ -192,8 +192,12 @@ class App extends React.Component {
 
   // runs when edit button is clicked on createeventform page
   editSubmit() {
+    const { clickedEvent } = this.state;
     // patch req to server w updated info
     console.log('edit submitted');
+    axios.patch(`/events/${clickedEvent.id}`)
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); });
   }
 
   renderClickedEventTitle(object) {
@@ -288,6 +292,7 @@ class App extends React.Component {
             submit={submit}
           />
           <EditEvent
+            clickedEvent={clickedEvent}
             redirect={this.clickMyEvents}
             categories={categories}
             eventInfo={clickedEvent}
