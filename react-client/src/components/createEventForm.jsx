@@ -119,40 +119,6 @@ class Geocoder extends React.Component {
     editEvent();
   }
 
-  // https://reactjs.org/docs/conditional-rendering.html
-  // conditional button based on state
-  // submit true:
-  // function editEventButton(props) {
-  //   return <Button className="orange darken-3" type="submit"> // onclick?
-  //      Submit Event
-  //      </Button>
-  // }
-  // submit false:
-  // function submitEventButton(props) {
-  //   return <Button className="orange darken-3" type="submit"> // change type?
-  //      Edit Event
-  //      </Button>
-  // }
-//////////// second idea:
-  // if (this.state.submit) {
-  //   button = <Button className="orange darken-3" type="submit"> // onclick?
-  //      Submit Event
-  //      </Button>
-  // } else {
-  //   button = <Button className="orange darken-3" type="submit"> // change type?
-  //      Edit Event
-  //      </Button>
-  // }
-
-  //    edit event button on click:
-  //      sends patch req to server w new info
-  //      redirects to event dash
-
-  ///// onclick for submit button
-  // axios.patch(`/events/${id}`)
-  // .then(() => {})
-  // .catch((err) => { console.log(err); });
-
 
   render() {
     const { categories } = this.props;
