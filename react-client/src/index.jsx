@@ -32,6 +32,7 @@ class App extends React.Component {
       preloader: false,
       categories: [],
       attendingUsers: [],
+      submit: true,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -180,8 +181,11 @@ class App extends React.Component {
   editEvent() {
     // send all event info to createeventform page
     //    autofill createeventform fields
+
+    // redirect to createeventform page
     this.setState({
       view: 'createEvent',
+      submit: false,
     });
   }
 
@@ -201,7 +205,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit,
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -255,7 +259,7 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <CreateEvent eventInfo={clickedEvent} />
+          <CreateEvent eventInfo={clickedEvent} submit={submit}/>
           <Geocoder redirect={this.clickMyEvents} categories={categories} />
         </div>
       );
