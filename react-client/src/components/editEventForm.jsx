@@ -4,7 +4,7 @@ import { Button } from 'react-materialize';
 import Input from 'react-materialize/lib/Input';
 import moment from 'moment';
 
-class Geocoder extends React.Component {
+class EditEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +29,17 @@ class Geocoder extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.processDatetime = this.processDatetime.bind(this);
+  }
+
+  componentDidMount() {
+    // const { event } = this.props;
+    const { time } = this.state;
+    this.reverseGeocodingRequest();
+    console.log(moment(time).toLocaleString().slice(15));
+    this.setState({
+      date: moment(time).toLocaleString().slice(0, -18),
+      time: moment(time).toLocaleString().slice(15, -12),
+    });
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -64,6 +75,15 @@ class Geocoder extends React.Component {
 
   setGeocodeSearch(e) {
     this.setState({ address: e.target.value });
+  }
+
+  reverseGeocodingRequest() {
+    const { geocodedLat, geocodedLong } = this.state;
+    axios.get(`http://api.mapbox.com/geocoding/v5/mapbox.places/${geocodedLong}, ${geocodedLat}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
+      .then(({ data }) => {
+        const address = data.features[0].place_name;
+        this.setState({ address: address.slice(0, -15) });
+      });
   }
 
   handleTitleChange(e) {
@@ -122,7 +142,7 @@ class Geocoder extends React.Component {
 
   render() {
     const { categories } = this.props;
-    const { address, duration, title, date, time, description, submit } = this.state;
+    const { address, duration, title, date, time, description } = this.state;
 
 
     return (
@@ -137,14 +157,11 @@ class Geocoder extends React.Component {
         <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
         <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
         <Button className="orange darken-3" type="submit">
-          Submit Event
-        </Button>
-        {/* <Button className="orange darken-3">
           Edit Event
-        </Button> */}
+        </Button>
       </form>
     );
   }
 }
 
-export default Geocoder;
+export default EditEvent;
