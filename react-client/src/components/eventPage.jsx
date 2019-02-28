@@ -59,13 +59,12 @@ class CurrentlyClickedEvent extends React.Component {
   //    endpoint: /events/:eventId
   editClick() {
     console.log('edit event');
-
+    const { editEvent } = this.props;
+    editEvent();
     // redirect to createEventForm page
     //    change state of view in index.jsx
   }
 
-  // <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
-  //         <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
 
   render() {
     const {
@@ -84,7 +83,6 @@ class CurrentlyClickedEvent extends React.Component {
       address,
       date,
       time,
-      redirect,
     } = this.state;
 
     return (
