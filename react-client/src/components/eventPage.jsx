@@ -52,7 +52,7 @@ class CurrentlyClickedEvent extends React.Component {
   }
 
   // add 'edit event' button
-  //  onclick call func from index props
+  //  onclick call func (this.props.onClick) from index props
   //    redirect to new event page
   //    func calls get req to server
   //    endpoint: /events/:eventId
@@ -62,6 +62,7 @@ class CurrentlyClickedEvent extends React.Component {
       event,
       username,
       refresh,
+      editEvent,
     } = this.props;
     const {
       title,
@@ -105,7 +106,7 @@ class CurrentlyClickedEvent extends React.Component {
             <Map event={event} />
           </Col>
           <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
-          <Button type="submit" className="btn btn-primary">Edit Event</Button>
+          <Button type="submit" className="btn btn-primary" onClick={editEvent}>Edit Event</Button>
         </div>
       </Row>
     );

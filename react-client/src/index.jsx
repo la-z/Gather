@@ -176,6 +176,9 @@ class App extends React.Component {
       });
   }
 
+  // needs to get current event info from eventpage
+  // send that info to createeventform
+  //    autofill the eventform fields with current event info
   editEvent() {
     const { event } = this.props;
     axios.get(`/events/${event.eventId}`)
@@ -247,6 +250,7 @@ class App extends React.Component {
             event={clickedEvent}
             username={username}
             refresh={this.clickHome}
+            editEvent={this.editEvent}
           />
         </div>
       );
@@ -255,7 +259,7 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <CreateEvent onClick={editEvent}/>
+          <CreateEvent onClick={editEvent} />
           <Geocoder redirect={this.clickMyEvents} categories={categories} />
         </div>
       );
