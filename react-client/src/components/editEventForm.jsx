@@ -8,17 +8,16 @@ class EditEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      geocodedLat: null,
-      geocodedLong: null,
+      geocodedLat: props.eventInfo.lat,
+      geocodedLong: props.eventInfo.long,
       title: props.eventInfo.title,
       description: props.eventInfo.description,
       address: '',
       date: '',
       duration: props.eventInfo.duration,
-      category: props.eventInfo.duration,
+      category: props.eventInfo.category,
       time: props.eventInfo.time,
       datetime: '',
-      submit: this.props.submit,
     };
     this.setGeocodeSearch = this.setGeocodeSearch.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -54,7 +53,7 @@ class EditEvent extends React.Component {
     axios.get(` http://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g`)
       .then((geocodedResults) => {
         const latNlongArr = geocodedResults.data.features[0].center;
-        this.setState({geocodedLong: latNlongArr[0], geocodedLat: latNlongArr[1]});
+        this.setState({ geocodedLong: latNlongArr[0], geocodedLat: latNlongArr[1] });
 
         const params = {
           title,
