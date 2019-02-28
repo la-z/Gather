@@ -17,7 +17,6 @@ import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 import EditEvent from './components/EditEventForm.jsx';
 
-// hello
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
 class App extends React.Component {
@@ -193,9 +192,8 @@ class App extends React.Component {
 
   // runs when edit button is clicked on createeventform page
   editSubmit() {
-    this.setState({
-      submit: true,
-    });
+    // patch req to server w updated info
+    console.log('edit submitted');
   }
 
   renderClickedEventTitle(object) {
@@ -288,12 +286,12 @@ class App extends React.Component {
           <CreateEvent
             eventInfo={clickedEvent}
             submit={submit}
-            editSubmit={editSubmit}
           />
           <EditEvent
             redirect={this.clickMyEvents}
             categories={categories}
             eventInfo={clickedEvent}
+            editSubmit={editSubmit}
           />
         </div>
       );

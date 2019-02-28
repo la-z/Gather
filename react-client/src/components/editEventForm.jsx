@@ -28,6 +28,7 @@ class EditEvent extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.processDatetime = this.processDatetime.bind(this);
+    this.editEvent = this.editEvent.bind(this);
   }
 
   componentDidMount() {
@@ -134,9 +135,9 @@ class EditEvent extends React.Component {
   }
 
   editEvent() {
-    const { editEvent } = this.props;
+    const { editSubmit } = this.props;
     console.log('editing event');
-    editEvent();
+    editSubmit();
   }
 
   render() {
@@ -155,7 +156,7 @@ class EditEvent extends React.Component {
         <Input required type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
         <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
         <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-        <Button className="orange darken-3" type="submit">
+        <Button className="orange darken-3" type="button" onClick={this.editEvent}>
           Edit Event
         </Button>
       </form>
