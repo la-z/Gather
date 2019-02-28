@@ -45,7 +45,7 @@ class CurrentlyClickedEvent extends React.Component {
   deleteEvent() {
     const { event } = this.props;
     console.log('delete event');
-    axios.delete(`/events/${event.eventId}`)
+    axios.delete(`/events/${event.id}`)
       .then((res) => {
         console.log(res);
       })
