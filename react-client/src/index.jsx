@@ -64,7 +64,7 @@ class App extends React.Component {
     };
     this.togglePreloader();
     let response = await axios.post('/addFriend', params)
-    return response;
+    return response; 
   }
 
   getCategoryNames(cb = () => {}) {
@@ -286,3 +286,19 @@ ReactDOM.render(
   // eslint-disable-next-line no-undef
   document.getElementById('app'),
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
