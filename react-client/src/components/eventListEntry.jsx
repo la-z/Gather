@@ -13,7 +13,7 @@ class EventListEntry extends React.Component {
     this.state = {
       rsvpState: 'n/a',
       address: '',
-      view: this.props.view,
+      // view: this.props.view,
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }

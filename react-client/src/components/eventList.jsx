@@ -14,7 +14,7 @@ const EventList = ({ events, renderClickedEventTitle, loggedin, togglePreloader,
         loggedin={loggedin}
         togglePreloader={togglePreloader}
         size={size}
-        view={this.props.view}
+        // view={this.props.view}
       />
     ))}
   </Row>
