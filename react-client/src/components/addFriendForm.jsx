@@ -23,7 +23,7 @@ class FriendForm extends React.Component {
         return window.Materialize.toast('friend added!', 2000);
     }
 
-    bothFunc(){
+    bothFunc(){ 
         const { username, password } = this.state;
         const { handleLogin } = this.props;
         handleLogin(username, password);

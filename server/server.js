@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 1128;
 const {
   logout,
   addFriend,
+  getFriends,
   signup,
   getEventsByUser,
   getCategory,
@@ -87,6 +88,8 @@ app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 // })
 app.post('/addFriend', checkAuthentication, addFriend) 
 
+
+app.get('/myFriends/:userId', getFriends)
 
 // categories
 

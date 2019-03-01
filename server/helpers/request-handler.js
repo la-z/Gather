@@ -41,26 +41,31 @@ else on addition: add friend, send 200, {username, id}
       .catch((err) => console.log(err, 'friend doesnt exist?'))
 },
 
-  // makeNewEvent(req, res) {
-  //   const { body } = req;
-  //   const { user } = req;
-  //   let category;
-  //   db.Category.findOne({ where: { name: body.category } })
-  //     .then((foundCategory) => {
-  //       category = foundCategory;
-  //       return db.Event.create(body);
-  //     })
-  //     .then((event) => {
-  //       // need to associate event with creating user immediately
-  //       event.setUser(user);
-  //       event.setCategory(category);
-  //       // doesn't actually save
-  //       return event.save();
-  //       // does actually save
-  //     })
-  //     .then(savedEvent => res.send(200, savedEvent.id))
-  //     .catch(err => errorHandler(req, res, err));
-  // },
+/*
+ getFriends
+ on GET /myFriends
+ expects:
+   req.body =>  
+   returns: JSON [ Event ]
+ */
+  getFriends(req, res){
+    let myId = req.params.userId;
+    db.Friends.findAll({where: {userId: myId}})
+    .then( async (myFriends)=>{
+      // console.log(myFriends)
+      
+      let friends = myFriends.map((friend)=>{
+        let friendId = friend.friendId;
+        // let friends;
+         return friendId
+      })
+      let allFriends = await db.User.findAll({ where: { id: friends } })
+      console.log(allFriends);
+      res.send(allFriends);
+      return friends;
+    })
+  },
+  
 
 
   /*
