@@ -136,15 +136,17 @@ class EditEvent extends React.Component {
 
 
   editEvent() {
-    // const { editSubmit } = this.props;
+    const { editSubmit } = this.props;
     // figure out how to send date and time
     console.log('editing event');
-    // editSubmit();
     const { eventInfo } = this.props;
-    const { time, geocodedLat, geocodedLong, title, description, date, duration, category } = this.state;
-    axios.patch(`/events/${eventInfo.id}`, { lat: geocodedLat, long: geocodedLong, title, description, duration, category }) // address, category, date, time not updating
+    const { time, title, geocodedLat, geocodedLong, description, date, duration, category } = this.state;
+    const lat = geocodedLat;
+    const long = geocodedLong;
+    axios.patch(`/events/${eventInfo.id}`, { lat, long, title, description, duration, category }) // address, category, date, time not updating
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
+    editSubmit();
   }
 
   render() {
@@ -156,7 +158,7 @@ class EditEvent extends React.Component {
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
         <Input required type="select" onChange={this.handleCategoryChange} label="Category">
           {categories.map((category) => {
-            if (category.id === this.state.category) {
+            if (category.id === this.state.category) { // sets category to previously selected category
               return <option selected="selected" value={category.name}>{category.name}</option>;
             }
             return <option value={category.name}>{category.name}</option>;

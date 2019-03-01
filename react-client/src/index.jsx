@@ -103,6 +103,7 @@ class App extends React.Component {
   }
 
   clickHome() {
+    this.forceUpdate();
     this.togglePreloader();
     axios.get('/events/category/all')
       .then(({ data }) => {
@@ -181,19 +182,18 @@ class App extends React.Component {
 
   // runs when edit event button is clicked on event page
   editEvent() {
-    // send all event info to createeventform page
-    //    autofill createeventform fields
-
     // redirect to createeventform page
     this.setState({
       view: 'editEvent',
-      submit: false,
     });
   }
 
   // runs when edit button is clicked on createeventform page
   editSubmit() {
-  // change state of view to redirect
+    console.log('edit submitted');
+
+    // only works on refresh right now
+    // this.forceUpdate();
     this.setState({
       view: 'main',
     });
@@ -215,7 +215,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, editSubmit,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -272,7 +272,6 @@ class App extends React.Component {
           <CreateEvent
             eventInfo={clickedEvent}
             submit={submit}
-            editSubmit={editSubmit}
           />
           <Geocoder
             redirect={this.clickMyEvents}
@@ -294,7 +293,7 @@ class App extends React.Component {
             redirect={this.clickMyEvents}
             categories={categories}
             eventInfo={clickedEvent}
-            editSubmit={editSubmit}
+            editSubmit={this.editSubmit}
           />
         </div>
       );
