@@ -136,11 +136,13 @@ class EditEvent extends React.Component {
 
 
   editEvent() {
+    // const { editSubmit } = this.props;
     // figure out how to send date and time
     console.log('editing event');
-    const { clickedEvent } = this.props;
+    // editSubmit();
+    const { eventInfo } = this.props;
     const { time, geocodedLat, geocodedLong, title, description, date, duration, category } = this.state;
-    axios.patch(`/events/${clickedEvent.id}`, { lat: geocodedLat, long: geocodedLong, title, description, duration, category }) // address, category, date, time not updating
+    axios.patch(`/events/${eventInfo.id}`, { lat: geocodedLat, long: geocodedLong, title, description, duration, category }) // address, category, date, time not updating
       .then((res) => { console.log(res); })
       .catch((err) => { console.log(err); });
   }
