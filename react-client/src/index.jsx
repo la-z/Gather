@@ -60,7 +60,8 @@ class App extends React.Component {
   //link function to click event on NavItem
   async addFriend(username) {
     const params = {
-      username
+      'username': username, 
+      'myId': this.state.userID
     };
     this.togglePreloader();
     let response = await axios.post('/addFriend', params)

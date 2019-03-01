@@ -79,6 +79,13 @@ app.delete('/users/:userId', checkAuthentication, deleteUser);
 
 app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 
+app.post('/addFriend', checkAuthentication, (req, res) => {
+  console.log(req.body)
+  let myId = req.body.myId;
+  let username = req.body.username;
+  
+})
+
 // categories
 
 app.get('/category', getCategories);

@@ -28,7 +28,10 @@ expects:
 if username does not exist in db: 401
 else on addition: add friend, send 200, {username, id}
 */
-
+  addFriend(req, res){
+  const newFriend = req.body;
+  db.Friends.create()
+},
 
   /*
   signup

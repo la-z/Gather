@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     })
     Friends.associate = models => {
         Friends.belongsToMany(models.User, {through: 'username'});
-        Friends.hasMany(models.User, { constraints: false });
+        // Friends.hasMany(models.User, { constraints: false });
     }
     // Friends.sync();
     return Friends;
