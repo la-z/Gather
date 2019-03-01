@@ -248,6 +248,7 @@ class App extends React.Component {
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
             view={view}
+            getEvents={this.getCategory}
           />
         </div>
       );
