@@ -33,7 +33,6 @@ class FriendForm extends React.Component {
 
     render() {
         const { username, password } = this.state;
-        const { handleLogin } = this.props;
         const bothFunc = this.bothFunc;
         return (
             <form>

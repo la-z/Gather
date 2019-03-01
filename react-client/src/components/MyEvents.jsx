@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Row, Col } from 'react-materialize';
 import EventList from './eventList.jsx';
 
+
 class MyEvents extends React.Component {
   constructor(props) {
     super(props);
