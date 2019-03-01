@@ -29,9 +29,36 @@ if username does not exist in db: 401
 else on addition: add friend, send 200, {username, id}
 */
   addFriend(req, res){
-  const newFriend = req.body;
-  db.Friends.create()
+  const myId = req.body.myId;
+  const newFriend = req.body.username;
+  db.User.findOne({where: {username: newFriend}})
+    .then((foundFriend)=>{
+      console.log(foundFriend)
+      let friendId = foundFriend.id
+    }).catch((err) => console.log(err, 'bad request?'))
 },
+
+  // makeNewEvent(req, res) {
+  //   const { body } = req;
+  //   const { user } = req;
+  //   let category;
+  //   db.Category.findOne({ where: { name: body.category } })
+  //     .then((foundCategory) => {
+  //       category = foundCategory;
+  //       return db.Event.create(body);
+  //     })
+  //     .then((event) => {
+  //       // need to associate event with creating user immediately
+  //       event.setUser(user);
+  //       event.setCategory(category);
+  //       // doesn't actually save
+  //       return event.save();
+  //       // does actually save
+  //     })
+  //     .then(savedEvent => res.send(200, savedEvent.id))
+  //     .catch(err => errorHandler(req, res, err));
+  // },
+
 
   /*
   signup
