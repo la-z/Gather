@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
-import { Row, Col } from 'react-materialize';
+import { Row, Col, Table } from 'react-materialize';
 
 import NavbarComp from './components/navbar.jsx';
 import Info from './components/Info.jsx';
@@ -15,6 +15,7 @@ import Geocoder from './components/createEventForm.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
+import FriendsList from './components/FriendsList.jsx'
 
 // hello
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -45,6 +46,7 @@ class App extends React.Component {
     this.togglePreloader = this.togglePreloader.bind(this);
     this.getCategoryNames = this.getCategoryNames.bind(this);
     this.getCategory = this.getCategory.bind(this);
+    this.addFriend = this.addFriend.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +54,20 @@ class App extends React.Component {
     this.getCategory('all', () => {
       this.getCategoryNames(() => this.togglePreloader());
     });
+  }
+
+  //create an addFriend function 
+  //send  a post request to endpoint /addFriend
+  //open a text/input field to enter friend's username
+  //link function to click event on NavItem
+  async addFriend(username) {
+    const params = {
+      'username': username, 
+      'myId': this.state.userID
+    };
+    this.togglePreloader();
+    let response = await axios.post('/addFriend', params)
+    return response; 
   }
 
   getCategoryNames(cb = () => {}) {
@@ -194,7 +210,7 @@ class App extends React.Component {
       events, clickedEvent, view, userID, loggedin, username, preloader, categories,
     } = this.state;
     const Navbar = () => (
-      <NavbarComp
+      < NavbarComp
         loggedin={loggedin}
         username={username}
         clickHome={this.clickHome}
@@ -203,6 +219,7 @@ class App extends React.Component {
         clickSignout={this.clickSignout}
         handleLogin={this.handleLogin}
         handleSignup={this.handleSignup}
+        addFriend={this.addFriend}
       />
     );
     if (view === 'main') {
@@ -225,13 +242,14 @@ class App extends React.Component {
             renderClickedEventTitle={this.renderClickedEventTitle}
             view={view}
           />
-        </div>
+          </div>
       );
     } if (view === 'eventPage') {
       return (
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
+          
           <EventPage
             event={clickedEvent}
             username={username}
@@ -279,3 +297,19 @@ ReactDOM.render(
   // eslint-disable-next-line no-undef
   document.getElementById('app'),
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

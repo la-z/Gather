@@ -13,6 +13,7 @@ const models = [
   'InterestedEvent',
   'Comment',
   'Category',
+  'Friends' 
 ];
 
 models.forEach((model) => {
