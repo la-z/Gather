@@ -34,7 +34,6 @@ class App extends React.Component {
       preloader: false,
       categories: [],
       attendingUsers: [],
-      submit: true,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -70,7 +69,7 @@ class App extends React.Component {
   getCategory(categoryName, cb = () => {}) {
     axios.get(`/events/category/${categoryName}`)
       .then(({ data, headers }) => {
-        console.log(headers);
+        // console.log(headers);
         if (headers.login && headers.user) {
           this.setState({ events: data, loggedin: true, username: headers.user }, cb);
         } else {
@@ -223,25 +222,37 @@ class App extends React.Component {
   // }
 
   renderClickedEventTitle(object) {
+    const {
+      clickedEvent,
+      // attendingUsers
+    } = this.state;
+
     this.setState({
       clickedEvent: object,
       view: 'eventPage',
     });
 
-  //    get req to server
-  //    endpoint: /events/${event.id}/rsvp
-  //    send 'going'
-  //    set attending users state to array from server
-  //    send down to eventpage
+    //    get req to server
+    //    endpoint: /events/${event.id}/rsvp
+    //    send 'going'
+    //    set attending users state to array from server
+    //    send down to eventpage
+
+    axios.get(`/events/${object.id}/rsvp`)
+      .then((res) => {
+        console.log(res);
+        // attendingUsers = res.data;
+      })
+      .catch((err) => { console.log(err); });
   }
-  
+
 
   render() {
     const {
       events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit
     } = this.state;
     const Navbar = () => (
-      < NavbarComp
+      <NavbarComp
         loggedin={loggedin}
         username={username}
         clickHome={this.clickHome}

@@ -29,6 +29,7 @@ const {
   deleteCategory,
   getCategories,
   getRsvpByUser,
+  getRsvpUsers,
   // emailSender,
 } = require('./helpers/request-handler');
 const { checkAuthentication, checkAdmin } = require('./helpers/auth');
@@ -117,6 +118,8 @@ app.delete('/events/:eventId', checkAuthentication, deleteEvent);
 // rsvp events
 
 app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
+
+app.get('/events/:eventId/rsvp', getRsvpUsers); // add checkAuthentication back
 
 app.patch('/events/:eventId/rsvp', checkAuthentication, updateRsvp);
 

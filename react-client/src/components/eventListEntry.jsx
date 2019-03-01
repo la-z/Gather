@@ -13,17 +13,15 @@ class EventListEntry extends React.Component {
     this.state = {
       rsvpState: 'n/a',
       address: '',
-<<<<<<< HEAD
-      // view: this.props.view,
-=======
       view: props.view,
->>>>>>> ebedad72dbf9b32b5152f7c185086d4f87169833
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
   
   componentDidMount() {
     const { event, getEvents } = this.props;
+
+    // need both getEvents calls to render event edits
     getEvents('all', () => {
       console.log('events updated');
     });
