@@ -20,6 +20,49 @@ const requestHandler = {
     });
   },
 
+/*
+adding a Friend
+on POST /addFriend
+expects:
+  req.body: JSON => { "username"}
+if username does not exist in db: 401
+else on addition: add friend, send 200, {username, id}
+*/
+  addFriend(req, res){
+  const userId = req.body.myId;
+  const newFriend = req.body.username;
+  db.User.findOne({where: {username: newFriend}})
+    .then((foundFriend)=>{
+      let friendId = foundFriend.id
+      let addFriendData = {userId, friendId}
+      console.log(addFriendData)
+      return db.Friends.create(addFriendData);
+    }).then(() => console.log('friend added!'))
+      .catch((err) => console.log(err, 'friend doesnt exist?'))
+},
+
+  // makeNewEvent(req, res) {
+  //   const { body } = req;
+  //   const { user } = req;
+  //   let category;
+  //   db.Category.findOne({ where: { name: body.category } })
+  //     .then((foundCategory) => {
+  //       category = foundCategory;
+  //       return db.Event.create(body);
+  //     })
+  //     .then((event) => {
+  //       // need to associate event with creating user immediately
+  //       event.setUser(user);
+  //       event.setCategory(category);
+  //       // doesn't actually save
+  //       return event.save();
+  //       // does actually save
+  //     })
+  //     .then(savedEvent => res.send(200, savedEvent.id))
+  //     .catch(err => errorHandler(req, res, err));
+  // },
+
+
   /*
   event deletion
   on DELETE /event
