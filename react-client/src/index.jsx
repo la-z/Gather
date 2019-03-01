@@ -48,12 +48,9 @@ class App extends React.Component {
     this.togglePreloader = this.togglePreloader.bind(this);
     this.getCategoryNames = this.getCategoryNames.bind(this);
     this.getCategory = this.getCategory.bind(this);
-<<<<<<< HEAD
     this.editEvent = this.editEvent.bind(this);
     this.editSubmit = this.editSubmit.bind(this);
-=======
     this.addFriend = this.addFriend.bind(this);
->>>>>>> c53dac00c2036f57b10a06ab852452d9875779c4
   }
 
   componentDidMount() {
@@ -63,19 +60,6 @@ class App extends React.Component {
     });
   }
 
-  //create an addFriend function 
-  //send  a post request to endpoint /addFriend
-  //open a text/input field to enter friend's username
-  //link function to click event on NavItem
-  async addFriend(username) {
-    const params = {
-      'username': username, 
-      'myId': this.state.userID
-    };
-    this.togglePreloader();
-    let response = await axios.post('/addFriend', params)
-    return response; 
-  }
 
   getCategoryNames(cb = () => {}) {
     axios.get('/category')
@@ -99,6 +83,20 @@ class App extends React.Component {
       userID, username, view: 'main', loggedin: true,
     });
     // this.setState({ username });
+  }
+
+  // create an addFriend function
+  // send  a post request to endpoint /addFriend
+  // open a text/input field to enter friend's username
+  // link function to click event on NavItem
+  async addFriend(username) {
+    const params = {
+      username: username, 
+      myId: this.state.userID
+    };
+    this.togglePreloader();
+    let response = await axios.post('/addFriend', params)
+    return response; 
   }
 
   clickPostComment() {
