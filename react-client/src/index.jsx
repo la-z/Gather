@@ -13,6 +13,7 @@ import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/createEventForm.jsx';
 // import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
+import Edit from './components/EditEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 import EditEvent from './components/EditEventForm.jsx';
@@ -287,12 +288,11 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <CreateEvent
+          <Edit
             eventInfo={clickedEvent}
             submit={submit}
           />
           <EditEvent
-            clickedEvent={clickedEvent}
             redirect={this.clickMyEvents}
             categories={categories}
             eventInfo={clickedEvent}

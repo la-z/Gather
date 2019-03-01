@@ -15,7 +15,7 @@ class EditEvent extends React.Component {
       address: '',
       date: '',
       duration: props.eventInfo.duration,
-      category: props.eventInfo.category,
+      category: props.eventInfo.CategoryId,
       time: props.eventInfo.time,
       datetime: '',
     };
@@ -153,7 +153,12 @@ class EditEvent extends React.Component {
     return (
       <form className="form-inline" onSubmit={this.handleFormSubmit}>
         <Input required type="select" onChange={this.handleCategoryChange} label="Category">
-          {categories.map(category => <option value={category.name}>{category.name}</option>)}
+          {categories.map((category) => {
+            if (category.id === this.state.category) {
+              return <option selected="selected" value={category.name}>{category.name}</option>;
+            }
+            return <option value={category.name}>{category.name}</option>;
+          })}
         </Input>
         <input required type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
         <input required type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
