@@ -2,7 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { Row, Col } from 'react-materialize';
+import { Row, Col, Button } from 'react-materialize';
 import Map from './map.jsx';
 import CommentBox from './CommentBox.jsx';
 
@@ -15,6 +15,8 @@ class CurrentlyClickedEvent extends React.Component {
       time: null,
     };
     this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
+    this.editClick = this.editClick.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +38,36 @@ class CurrentlyClickedEvent extends React.Component {
       });
   }
 
+  // add 'delete event' button
+  //  onclick call func
+  //    func calls delete req to server
+  //    endpoint: /event/${event.eventId}
+  //    req.params.eventId // event.eventId?
+  //    reload page?
+  deleteEvent() {
+    const { event } = this.props;
+    console.log('delete event');
+    axios.delete(`/events/${event.id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  // add 'edit event' button
+  //  onclick call func (this.props.onClick) from index props
+  //    redirect to new event page
+  //    func calls get req to server
+  //    endpoint: /events/:eventId
+  editClick() {
+    console.log('edit event');
+    const { editEvent } = this.props;
+    editEvent();
+    // redirect to createEventForm page
+    //    change state of view in index.jsx
+  }
+
+
   render() {
     const {
       event,
@@ -54,20 +86,6 @@ class CurrentlyClickedEvent extends React.Component {
       date,
       time,
     } = this.state;
-
-
-    // add 'edit event' button
-    //  onclick call func
-    //    redirect to new event page
-    //    func calls get req to server
-    //    endpoint:
-
-    // add 'delete event' button
-    //  onclick call func
-    //    func calls delete req to server
-    //    endpoint: /event/${event.eventId}
-    //    req.params.eventId // event.eventId?
-    //    reload page?
 
     return (
       <Row className="event-page">
@@ -92,6 +110,8 @@ class CurrentlyClickedEvent extends React.Component {
               comments={comments}
               refresh={refresh}
             />
+            <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
+            <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
           </Col>
           <Col s={12} m={6}>
             <Map event={event} />

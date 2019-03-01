@@ -13,11 +13,12 @@ import EventPage from './components/eventPage.jsx';
 import Geocoder from './components/createEventForm.jsx';
 // import ChildComponentHolder from './components/appendChild.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
+import Edit from './components/EditEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
+import EditEvent from './components/EditEventForm.jsx';
 import FriendsList from './components/FriendsList.jsx'
 
-// hello
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
 class App extends React.Component {
@@ -33,6 +34,7 @@ class App extends React.Component {
       preloader: false,
       categories: [],
       attendingUsers: [],
+      submit: true,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -46,7 +48,10 @@ class App extends React.Component {
     this.togglePreloader = this.togglePreloader.bind(this);
     this.getCategoryNames = this.getCategoryNames.bind(this);
     this.getCategory = this.getCategory.bind(this);
+    this.editEvent = this.editEvent.bind(this);
+    this.editSubmit = this.editSubmit.bind(this);
     this.addFriend = this.addFriend.bind(this);
+    // this.eventEditSubmited = this.eventEditSubmited.bind(this);
   }
 
   componentDidMount() {
@@ -56,19 +61,6 @@ class App extends React.Component {
     });
   }
 
-  //create an addFriend function 
-  //send  a post request to endpoint /addFriend
-  //open a text/input field to enter friend's username
-  //link function to click event on NavItem
-  async addFriend(username) {
-    const params = {
-      'username': username, 
-      'myId': this.state.userID
-    };
-    this.togglePreloader();
-    let response = await axios.post('/addFriend', params)
-    return response; 
-  }
 
   getCategoryNames(cb = () => {}) {
     axios.get('/category')
@@ -94,6 +86,20 @@ class App extends React.Component {
     // this.setState({ username });
   }
 
+  // create an addFriend function
+  // send  a post request to endpoint /addFriend
+  // open a text/input field to enter friend's username
+  // link function to click event on NavItem
+  async addFriend(username) {
+    const params = {
+      username: username, 
+      myId: this.state.userID
+    };
+    this.togglePreloader();
+    let response = await axios.post('/addFriend', params)
+    return response; 
+  }
+
   clickPostComment() {
     const { clickedEvent } = this.state;
     const { id } = clickedEvent;
@@ -115,6 +121,7 @@ class App extends React.Component {
   }
 
   clickHome() {
+    this.forceUpdate();
     this.togglePreloader();
     axios.get('/events/category/all')
       .then(({ data }) => {
@@ -125,9 +132,9 @@ class App extends React.Component {
         console.error(err);
         this.togglePreloader();
       });
-    // this.setState({
-    //   view: 'main',
-    // });
+    this.setState({
+      submit: true,
+    });
   }
 
   clickCreateEvent() {
@@ -191,6 +198,30 @@ class App extends React.Component {
       });
   }
 
+  // runs when edit event button is clicked on event page
+  editEvent() {
+    // redirect to createeventform page
+    this.setState({
+      view: 'editEvent',
+    });
+  }
+
+  // runs when edit button is clicked on createeventform page
+  editSubmit() {
+    console.log('edit submitted');
+
+    // only works on refresh right now
+    // this.forceUpdate();
+    this.setState({
+      view: 'main',
+    });
+  }
+
+  // eventEditSubmited(e) {
+  //   console.log(`This is the event: ${e}`);
+  //   console.log(e);
+  // }
+
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
@@ -203,11 +234,11 @@ class App extends React.Component {
   //    set attending users state to array from server
   //    send down to eventpage
   }
-
+  
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit
     } = this.state;
     const Navbar = () => (
       < NavbarComp
@@ -241,8 +272,9 @@ class App extends React.Component {
             events={events}
             renderClickedEventTitle={this.renderClickedEventTitle}
             view={view}
+            getEvents={this.getCategory}
           />
-          </div>
+        </div>
       );
     } if (view === 'eventPage') {
       return (
@@ -254,6 +286,7 @@ class App extends React.Component {
             event={clickedEvent}
             username={username}
             refresh={this.clickHome}
+            editEvent={this.editEvent}
           />
         </div>
       );
@@ -262,8 +295,33 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <CreateEvent />
-          <Geocoder redirect={this.clickMyEvents} categories={categories} />
+          <CreateEvent
+            eventInfo={clickedEvent}
+            submit={submit}
+          />
+          <Geocoder
+            redirect={this.clickMyEvents}
+            categories={categories}
+            eventInfo={clickedEvent}
+          />
+        </div>
+      );
+    } if (view === 'editEvent' && loggedin) {
+      return (
+        <div>
+          {preloader ? <Spinner /> : null}
+          <Navbar />
+          <Edit
+            eventInfo={clickedEvent}
+            submit={submit}
+          />
+          <EditEvent
+            redirect={this.clickMyEvents}
+            categories={categories}
+            eventInfo={clickedEvent}
+            editSubmit={this.editSubmit}
+            eventEditSubmited={this.eventEditSubmited}
+          />
         </div>
       );
     } if (view === 'myEvents' && loggedin) {
