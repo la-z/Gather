@@ -43,7 +43,14 @@ class EditEvent extends React.Component {
 
   // eslint-disable-next-line react/sort-comp
   handleFormSubmit(submitEvent) {
-    const { title, description, address, date, duration, category } = this.state;
+    const {
+      title,
+      description,
+      address,
+      date,
+      duration,
+      category,
+    } = this.state;
     submitEvent.preventDefault();
     console.log('You Clicked Submit', submitEvent);
     /*
@@ -150,7 +157,10 @@ class EditEvent extends React.Component {
   }
 
   render() {
-    const { categories } = this.props;
+    const {
+      categories,
+      // eventEditSubmited
+    } = this.props;
     const { address, duration, title, date, time, description } = this.state;
 
 
@@ -170,7 +180,11 @@ class EditEvent extends React.Component {
         <Input required type="date" name="date" placeholder="Date" value={date} onChange={this.handleDateChange} />
         <Input required type="time" name="time" placeholder="Time" value={time} onChange={this.handleTimeChange} />
         <input required type="text" name="description" placeholder="Description" value={description} onChange={this.handleDescriptionChange} />
-        <Button className="orange darken-3" type="button" onClick={this.editEvent}>
+        <Button className="orange darken-3" type="button" onClick={(event) => {
+          this.editEvent();
+          // eventEditSubmited({ address, duration, title, date, time, description });
+        }}
+        >
           Edit Event
         </Button>
       </form>

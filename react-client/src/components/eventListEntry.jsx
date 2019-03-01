@@ -20,9 +20,9 @@ class EventListEntry extends React.Component {
   
   componentDidMount() {
     const { event, getEvents } = this.props;
-    // getEvents('all', () => {
-    //   console.log('events updated');
-    // });
+    getEvents('all', () => {
+      console.log('events updated');
+    });
 
     const componentDidUpdate = () => {
       // const { getEvents } = this.props;

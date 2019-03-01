@@ -51,6 +51,7 @@ class App extends React.Component {
     this.editEvent = this.editEvent.bind(this);
     this.editSubmit = this.editSubmit.bind(this);
     this.addFriend = this.addFriend.bind(this);
+    // this.eventEditSubmited = this.eventEditSubmited.bind(this);
   }
 
   componentDidMount() {
@@ -216,6 +217,11 @@ class App extends React.Component {
     });
   }
 
+  // eventEditSubmited(e) {
+  //   console.log(`This is the event: ${e}`);
+  //   console.log(e);
+  // }
+
   renderClickedEventTitle(object) {
     this.setState({
       clickedEvent: object,
@@ -228,7 +234,7 @@ class App extends React.Component {
   //    set attending users state to array from server
   //    send down to eventpage
   }
-
+  
 
   render() {
     const {
@@ -268,7 +274,7 @@ class App extends React.Component {
             view={view}
             getEvents={this.getCategory}
           />
-          </div>
+        </div>
       );
     } if (view === 'eventPage') {
       return (
@@ -314,6 +320,7 @@ class App extends React.Component {
             categories={categories}
             eventInfo={clickedEvent}
             editSubmit={this.editSubmit}
+            eventEditSubmited={this.eventEditSubmited}
           />
         </div>
       );
