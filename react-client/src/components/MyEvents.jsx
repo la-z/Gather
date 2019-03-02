@@ -37,6 +37,8 @@ class MyEvents extends React.Component {
     this.setState({myFriends: friendList})
   }
 
+  
+
 
   render() {
     const { myEvents, myRsvps } = this.state;

@@ -121,6 +121,8 @@ app.patch('/events/:eventId', checkAuthentication, editEvent);
 
 app.delete('/events/:eventId', checkAuthentication, deleteEvent);
 
+app.get('events/:friendId', checkAuthentication, getEventsByUser);
+
 // rsvp events
 
 app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
