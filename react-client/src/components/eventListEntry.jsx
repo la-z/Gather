@@ -22,18 +22,18 @@ class EventListEntry extends React.Component {
     const { event, getEvents } = this.props;
 
     // need both getEvents calls to render event edits
-    getEvents('all', () => {
-      console.log('events updated');
-    });
+    // getEvents('all', () => {
+    //   console.log('events updated');
+    // });
 
-    const componentDidUpdate = () => {
-      // const { getEvents } = this.props;
-      getEvents('all', () => {
-        console.log('component did update');
-      });
-    };
+    // const componentDidUpdate = () => {
+    //   // const { getEvents } = this.props;
+    //   getEvents('all', () => {
+    //     console.log('component did update');
+    //   });
+    // };
 
-    componentDidUpdate();
+    //componentDidUpdate();
 
     // this.reverseGeocodingRequest();
 

@@ -244,6 +244,19 @@ class App extends React.Component {
         });
       })
       .catch((err) => { console.log(err); });
+
+      // try nested get req
+      // axios.get('/events/my-events')
+      // .then(({ data }) => {
+      //   console.log(data);
+      //   this.setState({ myEvents: data });
+      //   return axios.get('/user/rsvp');
+      // })
+      // .then(({ data }) => {
+      //   console.log(data);
+      //   this.setState({ myRsvps: data });
+      //   togglePreloader();
+      // });
   }
 
 
@@ -348,6 +361,7 @@ class App extends React.Component {
             userID={userID}
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
+            getEvents={this.getCategory}
           />
         </div>
       );
