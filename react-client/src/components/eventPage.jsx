@@ -111,8 +111,8 @@ class CurrentlyClickedEvent extends React.Component {
               comments={comments}
               refresh={refresh}
             />
-            <Button type="btn" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
-            <Button type="btn" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
+            <Button type="btn" className="btn btn-primary" onClick={this.deleteEvent} style={{ 'margin-top': 20, 'margin-right': 1000 }}>Delete Event</Button>
+            <Button type="btn" className="btn btn-primary" onClick={this.editClick} style={{ 'margin-top': 20 }}>Edit Event</Button>
           </Col>
           <Col s={12} m={6}>
             <Map event={event} />

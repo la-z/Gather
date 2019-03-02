@@ -387,11 +387,8 @@ class App extends React.Component {
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}
-<<<<<<< HEAD
             editSubmit={this.editSubmit}
-=======
             getFriendEventDashboard={this.getFriendEventDashboard}
->>>>>>> a39be884434c24cff35c82cb453aa834134fa093
           />
         </div>
       );
