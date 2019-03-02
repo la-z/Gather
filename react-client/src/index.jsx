@@ -18,6 +18,7 @@ import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 import EditEvent from './components/EditEventForm.jsx';
 import FriendsList from './components/FriendsList.jsx'
+import AttendingUsersList from './components/AttendingUsersList.jsx'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -222,10 +223,6 @@ class App extends React.Component {
   // }
 
   renderClickedEventTitle(object) {
-    const {
-      clickedEvent,
-      // attendingUsers
-    } = this.state;
 
     this.setState({
       clickedEvent: object,
@@ -241,7 +238,10 @@ class App extends React.Component {
     axios.get(`/events/${object.id}/rsvp`)
       .then((res) => {
         console.log(res);
-        // attendingUsers = res.data;
+
+        this.setState({
+          attendingUsers: res.data,
+        });
       })
       .catch((err) => { console.log(err); });
   }
@@ -249,7 +249,7 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, attendingUsers,
     } = this.state;
     const Navbar = () => (
       <NavbarComp
@@ -298,6 +298,9 @@ class App extends React.Component {
             username={username}
             refresh={this.clickHome}
             editEvent={this.editEvent}
+          />
+          <AttendingUsersList
+            attendingUsers={attendingUsers}
           />
         </div>
       );
