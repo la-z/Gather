@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import { Row, Col, Table } from 'react-materialize';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import NavbarComp from './components/navbar.jsx';
 import Info from './components/Info.jsx';
 import Categories from './components/categories.jsx';
@@ -403,7 +403,7 @@ class App extends React.Component {
           <Navbar />
           <FriendEvents
             togglePreloader={this.togglePreloader}
-            userdId={friend.id}
+            userId={friend.id}
             username={friend.user}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}

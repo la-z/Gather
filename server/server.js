@@ -125,7 +125,7 @@ app.patch('/events/:eventId', checkAuthentication, editEvent);
 
 app.delete('/events/:eventId', checkAuthentication, deleteEvent);
 
-app.get('events/:friendId', checkAuthentication, getEventsByFriend);
+app.get('/events/friend/:friendId', checkAuthentication, getEventsByFriend);
 
 
 

@@ -96,17 +96,15 @@ getFriend(req, res){
       returns: JSON [ Event ]
     */
   getEventsByFriend(req, res) {
-    const { user } = req.params;
+    const user = req.params.friendId;
     // user is put directly on req by passport
     // user => object with props username, id
-    const { page, sortBy } = req.query;
+    // const { page, sortBy } = req.query;
     // page, sortBy are Number and String respectively
     db.Event.findAll({
-      where: { UserId: user.id },
-      order: [[sortBy || 'time', 'DESC']],
+      where: { UserId: user },
       limit: 10,
-      // don't want to send all events -- what if there are thousands?
-      offset: page * 10 || 0,
+      // don't want to send all events -- what if there are thousands
       // so we can get a particular slice of events
       // page is 0-indexed
       include: [{

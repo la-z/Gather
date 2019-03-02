@@ -19,21 +19,14 @@ class FriendEvents extends React.Component {
 
     async componentDidMount() {
         // need to pull events thats match the userID that is already passed into this component on props.
-        const { togglePreloader, userID } = this.props;
+        const { togglePreloader, userId } = this.props;
         togglePreloader();
-        axios.get('/events/my-events')
-            .then(({ data }) => {
-                console.log(data);
-                this.setState({ myEvents: data });
-                return axios.get('/user/rsvp');
-            })
-            .then(({ data }) => {
-                console.log(data);
-                this.setState({ myRsvps: data });
-                togglePreloader();
-            });
+        let friendEvents = await axios.get(`/events/friend/${userId}`)
+        console.log(friendEvents)
+        this.setState({ myEvents: friendEvents.data})
 
-        let response = await axios.get(`/myFriends/${userID}`);
+        let response = await axios.get(`/myFriends/${userId}`);
+        // console.log(response)
         let friendList = response.data.map(friend => friend.username)
         this.setState({ myFriends: friendList })
     }
