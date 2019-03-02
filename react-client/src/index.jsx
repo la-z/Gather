@@ -208,10 +208,8 @@ class App extends React.Component {
 
   // runs when edit button is clicked on createeventform page
   editSubmit() {
-    console.log('edit submitted');
+    // console.log('edit submitted');
 
-    // only works on refresh right now
-    // this.forceUpdate();
     this.setState({
       view: 'main',
     });
@@ -237,26 +235,43 @@ class App extends React.Component {
 
     axios.get(`/events/${object.id}/rsvp`)
       .then((res) => {
-        console.log(res);
-
+        // console.log(res.data);
+        const promises = res.data.map((user) => {
+          // console.log(user.UserId, 'USER ID');
+          return axios.get(`/users/${user.UserId}`);
+        });
+        // console.log(promises);
+        return Promise.all(promises);
+      })
+      .catch((err) => { console.log(err); })
+      .then((AttendingUserInfo) => {
+        // console.log(AttendingUserInfo, 'ATTENDING USERS');
+        const usernames = AttendingUserInfo.map((user) => {
+          console.log(user.data[0].username, 'USERNAME');
+          return user.data[0].username;
+        });
         this.setState({
-          attendingUsers: res.data,
+          attendingUsers: usernames,
         });
       })
       .catch((err) => { console.log(err); });
 
-      // try nested get req
-      // axios.get('/events/my-events')
-      // .then(({ data }) => {
-      //   console.log(data);
-      //   this.setState({ myEvents: data });
-      //   return axios.get('/user/rsvp');
-      // })
-      // .then(({ data }) => {
-      //   console.log(data);
-      //   this.setState({ myRsvps: data });
-      //   togglePreloader();
-      // });
+
+    // .then((res) => {
+
+    //   res.data.forEach((user) => {
+    //     console.log(user.UserId);
+    //     return axios.get(`/users/${user.UserId}`);
+    //   });
+    // })
+    // .then((res) => {
+    //   // this.setState({
+    //   //   attendingUsers: res.data,
+    //   // });
+    //   console.log(res,)
+    //   this.state.attendingUsers.push(res);
+    // })
+    // .catch((err) => { console.log(err); });
   }
 
 
