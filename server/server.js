@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 1128;
 const {
   getCategoriesByEventId,
   logout,
+  addFriend,
+  getFriends,
   signup,
   getEventsByUser,
   getCategory,
@@ -79,6 +81,16 @@ app.post('/signup', signup);
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
 app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
+
+// app.post('/addFriend', checkAuthentication, (req, res) => {
+//   console.log(req.body)
+//   let myId = req.body.myId;
+//   let username = req.body.username;
+// })
+app.post('/addFriend', checkAuthentication, addFriend) 
+
+
+app.get('/myFriends/:userId', getFriends)
 
 // categories
 

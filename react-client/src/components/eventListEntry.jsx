@@ -11,20 +11,41 @@ class EventListEntry extends React.Component {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
     this.state = {
-      rsvpState : 'n/a',
+      rsvpState: 'n/a',
       address: '',
       category: '',
+      view: props.view,
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
   
   componentDidMount() {
-    const { event } = this.props;
-    
-    // this.reverseGeocodingRequest();
+    // const { event, getEvents } = this.props;
+    // getEvents('all', () => {
+    //   console.log('events updated');
+    // });
 
-    // console.log(moment(event.time).toLocaleString().slice(15));
-    this.setState({ 
+    // const componentDidUpdate = () => {
+    //   // const { getEvents } = this.props;
+    //   getEvents('all', () => {
+    //     console.log('component did update');
+    //   });
+    
+    // };
+
+    // const componentWillUnmount =  () => {
+    //   return clearInterval(this.props)
+    // }
+
+    // componentDidUpdate();
+
+    // componentWillUnmount();
+      
+    // // this.reverseGeocodingRequest();
+
+    // // console.log(moment(event.time).toLocaleString().slice(15));
+    // setInterval(()=>{})
+    this.setState({
       date: moment(event.time).toLocaleString().slice(0, -18),
       time: moment(event.time).toLocaleString().slice(15, -12),
     });
@@ -43,12 +64,14 @@ class EventListEntry extends React.Component {
       .then((res) => {
         togglePreloader();
         // console.log(res);
+        console.log(res);
         window.Materialize.toast(`${params.rsvp}`, 1000);
         this.setState({ rsvpState: params.rsvp });
       })
       .catch((err) => {
         togglePreloader();
-        console.log(err); });
+        console.log(err);
+      });
   }
 
   clickHandler(e) {
@@ -58,9 +81,10 @@ class EventListEntry extends React.Component {
     togglePreloader();
     axios.put(`/events/${event.id}/rsvp`, params)
       .then((res) => {
-        togglePreloader(); 
+        togglePreloader();
         window.Materialize.toast(`${e.target.innerHTML}`, 1000);
-        console.log(res); })
+        console.log(res);
+      })
       .catch((err) => {
         togglePreloader();
         // if status code is 401 it already exists
@@ -79,9 +103,10 @@ class EventListEntry extends React.Component {
   //   //   });
   // }
 
+
   render() {
-    const { event, renderClickedEventTitle, loggedin, getCategory } = this.props;
-    const { date, time } = this.state;
+    const { event, renderClickedEventTitle, loggedin } = this.props;
+    const { date, time, view } = this.state;
     const size = this.props.size || 6;
     return (
       <Col s={12} m={size}>

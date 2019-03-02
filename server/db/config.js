@@ -2,16 +2,17 @@ require('dotenv').config();
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_PASS, {
+const sequelize = new Sequelize('gather', process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: 'postgres',
 });
+
 
 const User = sequelize.define('user', {
   username: { type: Sequelize.STRING, unique: true },
   password: Sequelize.STRING, // needs hashing
   email: Sequelize.STRING,
-  telephone: Sequelize.STRING,
+  telephone: Sequelize.STRING, 
 });
 
 const Event = sequelize.define('event', {
@@ -49,8 +50,11 @@ Comment.hasOne(Event);
 Comment.hasOne(User);
 ReplyComment.hasOne(Comment);
 ReplyComment.hasOne(User);
-Group.belongsToMany(User, { through: 'groupsUsers' });
+Group.belongsToMany(User, { through: 'groupsUsers' }); 
 User.belongsToMany(Group, { through: 'groupsUsers' });
+Friends.belongsToMany(User);
+User.hasMany(Friends);
+
 
 module.exports = {
   User,
@@ -59,6 +63,7 @@ module.exports = {
   Comment,
   ReplyComment,
   Group,
+  Friends,
 };
 
 sequelize.sync();
