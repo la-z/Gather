@@ -45,13 +45,14 @@ class CurrentlyClickedEvent extends React.Component {
   //    req.params.eventId // event.eventId?
   //    reload page?
   deleteEvent() {
-    const { event } = this.props;
+    const { event, editSubmit } = this.props;
     console.log('delete event');
     axios.delete(`/events/${event.id}`)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => { console.log(err); });
+    editSubmit();
   }
 
   // add 'edit event' button
@@ -110,8 +111,8 @@ class CurrentlyClickedEvent extends React.Component {
               comments={comments}
               refresh={refresh}
             />
-            <Button type="submit" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
-            <Button type="submit" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
+            <Button type="btn" className="btn btn-primary" onClick={this.deleteEvent}>Delete Event</Button>
+            <Button type="btn" className="btn btn-primary" onClick={this.editClick}>Edit Event</Button>
           </Col>
           <Col s={12} m={6}>
             <Map event={event} />
