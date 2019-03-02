@@ -60,7 +60,7 @@ else on addition: add friend, send 200, {username, id}
          return friendId
       })
       let allFriends = await db.User.findAll({ where: { id: friends } })
-      console.log(allFriends);
+      // console.log(allFriends);
       res.send(allFriends);
       return friends;
     })

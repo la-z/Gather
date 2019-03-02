@@ -33,8 +33,14 @@ class MyEvents extends React.Component {
       });
 
     let response = await axios.get(`/myFriends/${userID}`);
-            console.log(response);
-      return response;
+    let friendList = response.data.map((friend)=>{
+      return friend.username
+    })
+    this.setState({myFriends: friendList})
+    // let allFriends = response.map((friend)=>{
+    //   return friend.username
+    // })
+    // this.setState({myFriends: allFriends})
   }
 
 
