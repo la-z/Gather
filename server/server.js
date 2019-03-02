@@ -30,6 +30,7 @@ const {
   getCategories,
   getRsvpByUser,
   getRsvpUsers,
+  getUsernameByUserId,
   // emailSender,
 } = require('./helpers/request-handler');
 const { checkAuthentication, checkAdmin } = require('./helpers/auth');
@@ -79,6 +80,8 @@ app.post('/signup', signup);
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
+app.get('/users/:userId', getUsernameByUserId);
+
 app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 
 // app.post('/addFriend', checkAuthentication, (req, res) => {
@@ -86,7 +89,7 @@ app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 //   let myId = req.body.myId;
 //   let username = req.body.username;
 // })
-app.post('/addFriend', checkAuthentication, addFriend) 
+app.post('/addFriend', checkAuthentication, addFriend);
 
 
 // categories

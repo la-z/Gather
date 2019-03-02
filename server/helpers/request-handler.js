@@ -65,14 +65,19 @@ else on addition: add friend, send 200, {username, id}
 
 
   /*
-  event deletion
-  on DELETE /event
-  expects:
-    event id?
-  if event id err: 401
-  else: delete event, send 200
+  getUsernameByUserId
   */
-
+  getUsernameByUserId(req, res) {
+    const { userId } = req.params;
+    db.User.findAll({
+      where: { UserId: userId },
+    })
+      .then((usernames) => {
+        res.status(200);
+        res.json(usernames);
+      })
+      .catch(err => errorHandler(req, res, err));
+  },
 
   /*
   signup
