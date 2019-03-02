@@ -304,6 +304,7 @@ class App extends React.Component {
             username={username}
             refresh={this.clickHome}
             editEvent={this.editEvent}
+            editSubmit={this.editSubmit}
           />
           <AttendingUsersList
             attendingUsers={attendingUsers}
@@ -355,6 +356,7 @@ class App extends React.Component {
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}
+            editSubmit={this.editSubmit}
           />
         </div>
       );
