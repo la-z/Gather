@@ -47,7 +47,7 @@ else on addition: add friend, send 200, {username, id}
  on GET /myFriends
  expects:
    req.body =>  
-   returns: JSON [ Event ]
+   returns: JSON [ Friends ]
  */
   getFriends(req, res){
     let myId = req.params.userId;
@@ -67,6 +67,24 @@ else on addition: add friend, send 200, {username, id}
     })
   },
   
+/*
+getFriend
+on GET /friend
+expects:
+ req.body =>
+ returns: JSON [ Friend ]
+*/
+
+getFriend(req, res){
+  console.log(req.params);
+  let friendUser = req.params.username
+  db.User.findOne({
+    where: { username: friendUser}
+  }).then((user)=>{
+    console.log(user.id);
+    res.send(user)
+  }).catch((err) => console.log(err))
+},
 
 
   /*

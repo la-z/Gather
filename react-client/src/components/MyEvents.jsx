@@ -37,12 +37,12 @@ class MyEvents extends React.Component {
     this.setState({myFriends: friendList})
   }
 
-  
+
 
 
   render() {
     const { myEvents, myRsvps } = this.state;
-    const { renderClickedEventTitle, getEvents } = this.props;
+    const { renderClickedEventTitle, getEvents, getFriendEventDashboard } = this.props;
     if (!myEvents.length && !myRsvps.length) {
       return (
         <div>
@@ -67,7 +67,7 @@ class MyEvents extends React.Component {
         </Col>
         <Col s={12} m={6}>
           <h5>My Friends List</h5>
-          <FriendsList size="12" friends={this.state.myFriends}/>
+          <FriendsList size="12" friends={this.state.myFriends} getFriendEventDashboard={getFriendEventDashboard}/>
         </Col>
         <br />
       </Row>

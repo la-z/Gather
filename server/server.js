@@ -11,6 +11,7 @@ const {
   logout,
   addFriend,
   getFriends,
+  getFriend,
   signup,
   getEventsByUser,
   getCategory,
@@ -94,6 +95,8 @@ app.post('/addFriend', checkAuthentication, addFriend);
 
 
 app.get('/myFriends/:userId', getFriends)
+
+app.get('/friend/:username', getFriend)
 
 // categories
 

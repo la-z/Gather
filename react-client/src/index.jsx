@@ -35,6 +35,10 @@ class App extends React.Component {
       preloader: false,
       categories: [],
       attendingUsers: [],
+      friend: {
+        user: null,
+        id: null
+      }
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -51,6 +55,7 @@ class App extends React.Component {
     this.editEvent = this.editEvent.bind(this);
     this.editSubmit = this.editSubmit.bind(this);
     this.addFriend = this.addFriend.bind(this);
+    this.getFriendEventDashboard = this.getFriendEventDashboard.bind(this);
     // this.eventEditSubmited = this.eventEditSubmited.bind(this);
   }
 
@@ -59,6 +64,20 @@ class App extends React.Component {
     this.getCategory('all', () => {
       this.getCategoryNames(() => this.togglePreloader());
     });
+  }
+
+  async getFriendEventDashboard(event){
+    // console.log(event.target.innerHTML)
+    let friend = event.target.innerHTML;
+    let response = await axios.get(`/friend/${friend}`);
+    console.log(response)
+    let friendId = response.data.id;
+    let friendUser = response.data.username;
+    this.setState({friend: {
+      user: friendUser,
+      id: friendId
+      } 
+    })
   }
 
 
@@ -359,6 +378,21 @@ class App extends React.Component {
           <MyEvents
             togglePreloader={this.togglePreloader}
             userID={userID}
+            username={username}
+            renderClickedEventTitle={this.renderClickedEventTitle}
+            getEvents={this.getCategory}
+            getFriendEventDashboard={this.getFriendEventDashboard}
+          />
+        </div>
+      );
+    } if (view === 'friendEvents' && loggedin) {
+      return (
+        <div>
+          {preloader ? <Spinner /> : null}
+          <Navbar />
+          <MyEvents
+            togglePreloader={this.togglePreloader}
+            friendID={userID}
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}
