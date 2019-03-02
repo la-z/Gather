@@ -69,8 +69,9 @@ class App extends React.Component {
   async getFriendEventDashboard(event){
     // console.log(event.target.innerHTML)
     let friend = event.target.innerHTML;
+    window.Materialize.toast(`going to ${friend}'s events!`, 1000);
     let response = await axios.get(`/friend/${friend}`);
-    console.log(response)
+    // console.log(response)
     let friendId = response.data.id;
     let friendUser = response.data.username;
     this.setState({
@@ -83,7 +84,7 @@ class App extends React.Component {
       this.setState({
         view: 'friendEvents',
       });
-    }, 1000);
+    }, 700);
   }
 
 

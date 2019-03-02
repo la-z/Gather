@@ -32,6 +32,7 @@ const {
   deleteCategory,
   getCategories,
   getRsvpByUser,
+  getRsvpByFriend,
   getRsvpUsers,
   getUsernameByUserId,
   // emailSender,
@@ -87,6 +88,9 @@ app.get('/users/:userId', getUsernameByUserId);
 
 app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 
+app.get('/user/rsvp/:friend', checkAuthentication, getRsvpByUser);
+
+
 // app.post('/addFriend', checkAuthentication, (req, res) => {
 //   console.log(req.body)
 //   let myId = req.body.myId;
@@ -134,6 +138,7 @@ app.get('/events/friend/:friendId', checkAuthentication, getEventsByFriend);
 app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
 
 app.get('/events/:eventId/rsvp', getRsvpUsers); // add checkAuthentication back
+
 
 app.patch('/events/:eventId/rsvp', checkAuthentication, updateRsvp);
 
