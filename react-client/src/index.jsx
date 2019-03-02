@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import { Row, Col, Table } from 'react-materialize';
-
+// import { Redirect } from 'react-router-dom';
 import NavbarComp from './components/navbar.jsx';
 import Info from './components/Info.jsx';
 import Categories from './components/categories.jsx';
@@ -17,7 +17,7 @@ import Edit from './components/EditEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 import EditEvent from './components/EditEventForm.jsx';
-import FriendsList from './components/FriendsList.jsx'
+import FriendEvents from './components/FriendEvents.jsx'
 import AttendingUsersList from './components/AttendingUsersList.jsx'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -35,6 +35,10 @@ class App extends React.Component {
       preloader: false,
       categories: [],
       attendingUsers: [],
+      friend: {
+        user: null,
+        id: null
+      }
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -51,6 +55,7 @@ class App extends React.Component {
     this.editEvent = this.editEvent.bind(this);
     this.editSubmit = this.editSubmit.bind(this);
     this.addFriend = this.addFriend.bind(this);
+    this.getFriendEventDashboard = this.getFriendEventDashboard.bind(this);
     // this.eventEditSubmited = this.eventEditSubmited.bind(this);
   }
 
@@ -59,6 +64,27 @@ class App extends React.Component {
     this.getCategory('all', () => {
       this.getCategoryNames(() => this.togglePreloader());
     });
+  }
+
+  async getFriendEventDashboard(event){
+    // console.log(event.target.innerHTML)
+    let friend = event.target.innerHTML;
+    window.Materialize.toast(`going to ${friend}'s events!`, 1000);
+    let response = await axios.get(`/friend/${friend}`);
+    // console.log(response)
+    let friendId = response.data.id;
+    let friendUser = response.data.username;
+    this.setState({
+    friend: {
+      user: friendUser,
+      id: friendId
+      } 
+    })
+    setTimeout(() => {
+      this.setState({
+        view: 'friendEvents',
+      });
+    }, 700);
   }
 
 
@@ -255,8 +281,11 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, attendingUsers,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, attendingUsers, friend, redirect
     } = this.state;
+    if (redirect === true) {
+      return <Redirect to={{ pathname: '/events/my-events' }} />;
+    }
     const Navbar = () => (
       <NavbarComp
         loggedin={loggedin}
@@ -353,14 +382,35 @@ class App extends React.Component {
           <MyEvents
             togglePreloader={this.togglePreloader}
             userID={userID}
+            friendId={friend.id}
+            friendUsername={friend.user}
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}
+<<<<<<< HEAD
             editSubmit={this.editSubmit}
+=======
+            getFriendEventDashboard={this.getFriendEventDashboard}
+>>>>>>> a39be884434c24cff35c82cb453aa834134fa093
           />
         </div>
       );
-    }
+    } if (view === 'friendEvents' && loggedin) {
+      return (
+        <div>
+          {preloader ? <Spinner /> : null}
+          <Navbar />
+          <FriendEvents
+            togglePreloader={this.togglePreloader}
+            userId={friend.id}
+            username={friend.user}
+            renderClickedEventTitle={this.renderClickedEventTitle}
+            getEvents={this.getCategory}
+            getFriendEventDashboard={this.getFriendEventDashboard}
+          />
+        </div>
+      );
+    } 
     return (
       <div>
         {preloader ? <Spinner /> : null}
