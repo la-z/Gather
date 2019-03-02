@@ -93,7 +93,7 @@ app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 app.post('/addFriend', checkAuthentication, addFriend);
 
 
-app.get('/myFriends/:userId', getFriends)
+app.get('/myFriends/:userId', getFriends);
 
 // categories
 

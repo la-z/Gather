@@ -208,10 +208,8 @@ class App extends React.Component {
 
   // runs when edit button is clicked on createeventform page
   editSubmit() {
-    console.log('edit submitted');
+    // console.log('edit submitted');
 
-    // only works on refresh right now
-    // this.forceUpdate();
     this.setState({
       view: 'main',
     });
@@ -229,34 +227,29 @@ class App extends React.Component {
       view: 'eventPage',
     });
 
-    //    get req to server
-    //    endpoint: /events/${event.id}/rsvp
-    //    send 'going'
-    //    set attending users state to array from server
-    //    send down to eventpage
-
+    // get all user ids of users attending event
     axios.get(`/events/${object.id}/rsvp`)
       .then((res) => {
-        console.log(res);
-
+        const promises = res.data.map((user) => {
+          // get each username using the userid
+          // this will make an array of promises that will each resolve to a username
+          return axios.get(`/users/${user.UserId}`);
+        });
+        // return all those promises as one promise
+        return Promise.all(promises);
+      })
+      .catch((err) => { console.log(err); })
+      .then((AttendingUserInfo) => {
+        // make an array of just usernames
+        const usernames = AttendingUserInfo.map((user) => {
+          return user.data[0].username;
+        });
+        // update state to usernames
         this.setState({
-          attendingUsers: res.data,
+          attendingUsers: usernames,
         });
       })
       .catch((err) => { console.log(err); });
-
-      // try nested get req
-      // axios.get('/events/my-events')
-      // .then(({ data }) => {
-      //   console.log(data);
-      //   this.setState({ myEvents: data });
-      //   return axios.get('/user/rsvp');
-      // })
-      // .then(({ data }) => {
-      //   console.log(data);
-      //   this.setState({ myRsvps: data });
-      //   togglePreloader();
-      // });
   }
 
 
