@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Table } from 'react-materialize';
 
-function FriendsList(props) {
+function FriendsList({friends, size}) {
     return <div>
         <Table>
             <thead>
@@ -10,10 +10,9 @@ function FriendsList(props) {
                 </tr>
             </thead>
             <tbody>
-                <tr>Alvin</tr>
-                <tr>Simon</tr>
-                <tr>Theodore</tr>
-                <tr>Dave!</tr>
+                {
+                friends.map((friend) => <tr>{friend}</tr>)    
+                }
             </tbody>
         </Table>
     </div>
