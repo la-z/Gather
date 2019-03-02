@@ -47,7 +47,7 @@ else on addition: add friend, send 200, {username, id}
  on GET /myFriends
  expects:
    req.body =>  
-   returns: JSON [ Event ]
+   returns: JSON [ Friends ]
  */
   getFriends(req, res){
     let myId = req.params.userId;
@@ -67,6 +67,66 @@ else on addition: add friend, send 200, {username, id}
     })
   },
   
+/*
+getFriend
+on GET /friend
+expects:
+ req.body =>
+ returns: JSON [ Friend ]
+*/
+
+getFriend(req, res){
+  console.log(req.params);
+  let friendUser = req.params.username
+  db.User.findOne({
+    where: { username: friendUser}
+  }).then((user)=>{
+    console.log(user.id);
+    res.send(user)
+  }).catch((err) => console.log(err))
+},
+
+  /*
+    getEventsByFriend
+    on GET /events/my-events
+    expects:
+      req.user => created by passport
+      req.query =>  page, 0 indexed, indicates which subset of events desired
+                    sortBy, string => property of Event model
+      returns: JSON [ Event ]
+    */
+  getEventsByFriend(req, res) {
+    const user = req.params.friendId;
+    // user is put directly on req by passport
+    // user => object with props username, id
+    // const { page, sortBy } = req.query;
+    // page, sortBy are Number and String respectively
+    db.Event.findAll({
+      where: { UserId: user },
+      limit: 10,
+      // don't want to send all events -- what if there are thousands
+      // so we can get a particular slice of events
+      // page is 0-indexed
+      include: [{
+        model: db.User,
+        attributes: ['username'],
+      },
+      {
+        model: db.Comment,
+        attributes: ['body'],
+        include: [{
+          model: db.User,
+          attributes: ['username'],
+        }],
+      }],
+      // include data from join table
+    })
+      .then((events) => {
+        res.status(200);
+        res.json(events);
+      })
+      .catch(err => errorHandler(req, res, err));
+  },
 
 
   /*
@@ -151,6 +211,7 @@ else on addition: add friend, send 200, {username, id}
       })
       .catch(err => errorHandler(req, res, err));
   },
+
 
   /*
   getEvent
@@ -544,6 +605,19 @@ else on addition: add friend, send 200, {username, id}
   */
   getRsvpByUser(req, res) {
     const { user } = req;
+    return user.getEvents()
+      .then(interestedEvents => res.status(200).json(interestedEvents))
+      .catch(err => errorHandler(req, res, err));
+  },
+
+  /*
+  getRsvpByUser
+  on GET /user/rsvp
+  finds all InterestedEvents associated with user, with event titles
+  response body => [InterestedEvent]
+  */
+  getRsvpByFriend(req, res) {
+    const user  = req.params.friend;
     return user.getEvents()
       .then(interestedEvents => res.status(200).json(interestedEvents))
       .catch(err => errorHandler(req, res, err));

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Table } from 'react-materialize';
 
-function FriendsList({friends, size}) {
+function FriendsList({ friends, size, getFriendEventDashboard}) {
     return <div>
         <Table>
             <thead>
@@ -11,7 +11,7 @@ function FriendsList({friends, size}) {
             </thead>
             <tbody>
                 {
-                friends.map((friend) => <tr>{friend}</tr>)    
+                    friends.map((friend) => <tr onClick={getFriendEventDashboard}>{friend}</tr>)    
                 }
             </tbody>
         </Table>
