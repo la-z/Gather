@@ -99,7 +99,7 @@ app.get('/user/rsvp/:friend', checkAuthentication, getRsvpByUser);
 app.post('/addFriend', checkAuthentication, addFriend);
 
 
-app.get('/myFriends/:userId', getFriends)
+app.get('/myFriends/:userId', getFriends);
 
 app.get('/friend/:username', getFriend)
 

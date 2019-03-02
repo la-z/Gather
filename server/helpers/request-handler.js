@@ -133,13 +133,14 @@ getFriend(req, res){
   getUsernameByUserId
   */
   getUsernameByUserId(req, res) {
+    console.log(req.params, 'PARAMS');
     const { userId } = req.params;
     db.User.findAll({
-      where: { UserId: userId },
+      where: { id: userId },
     })
-      .then((usernames) => {
+      .then((username) => {
         res.status(200);
-        res.json(usernames);
+        res.json(username);
       })
       .catch(err => errorHandler(req, res, err));
   },

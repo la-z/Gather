@@ -11,18 +11,11 @@ class AttendingListEntry extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  // // get req for usernames
-  //   axios.get(`/users/${attendingUsers}`)
-  //     .then(() => {})
-  //     .catch(() => {});
-  // }
-
   render() {
     const { user } = this.props;
     return (
       <div>
-        {user.UserId}
+        {user}
       </div>
     );
   }
