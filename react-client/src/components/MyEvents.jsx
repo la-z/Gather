@@ -33,14 +33,8 @@ class MyEvents extends React.Component {
       });
 
     let response = await axios.get(`/myFriends/${userID}`);
-    let friendList = response.data.map((friend)=>{
-      return friend.username
-    })
+    let friendList = response.data.map(friend => friend.username)
     this.setState({myFriends: friendList})
-    // let allFriends = response.map((friend)=>{
-    //   return friend.username
-    // })
-    // this.setState({myFriends: allFriends})
   }
 
 
@@ -71,7 +65,7 @@ class MyEvents extends React.Component {
         </Col>
         <Col s={12} m={6}>
           <h5>My Friends List</h5>
-          <FriendsList size="12" />
+          <FriendsList size="12" friends={this.state.myFriends}/>
         </Col>
         <br />
       </Row>
