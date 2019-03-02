@@ -8,6 +8,7 @@ require('./helpers/session')(passport);
 
 const PORT = process.env.PORT || 1128;
 const {
+  getCategoriesByEventId,
   logout,
   signup,
   getEventsByUser,
@@ -88,6 +89,10 @@ app.put('/category', checkAuthentication, checkAdmin, addCategory);
 app.patch('/category', checkAuthentication, checkAdmin, editCategory);
 
 app.delete('/category', checkAuthentication, checkAdmin, deleteCategory);
+
+app.get('/category/:eventId', (req, res) => {
+  // getCategoriesByEventId(req, res);
+});
 
 // events
 

@@ -13,6 +13,7 @@ class EventListEntry extends React.Component {
     this.state = {
       rsvpState : 'n/a',
       address: '',
+      category: '',
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
@@ -29,13 +30,19 @@ class EventListEntry extends React.Component {
     });
   }
 
+  getCategoriesByGivenEventId(eventId, cb = () => {}) {
+    axios.get(`/category/${eventId}`)
+      .then(({ data }) => this.setState({category: data[0].name }, cb))
+      .catch(err => console.log(err));
+  }
+
   updateRSVP(params, eventID) {
     const { togglePreloader } = this.props;
     togglePreloader();
     axios.patch(`/events/${eventID}/rsvp`, params)
       .then((res) => {
         togglePreloader();
-        //console.log(res);
+        // console.log(res);
         window.Materialize.toast(`${params.rsvp}`, 1000);
         this.setState({ rsvpState: params.rsvp });
       })
@@ -73,18 +80,19 @@ class EventListEntry extends React.Component {
   // }
 
   render() {
-    const { event, renderClickedEventTitle, loggedin } = this.props;
+    const { event, renderClickedEventTitle, loggedin, getCategory } = this.props;
     const { date, time } = this.state;
     const size = this.props.size || 6;
     return (
       <Col s={12} m={size}>
         <Card className="card">
           <h4 className="clickable" onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
-          <h4>{event.category}</h4>
+          {/* <h4>{event.CategoryId}</h4> */}
           {/* <p> {this.state.address}</p> */}
           <p>{event.description}</p>
           <p>{date}</p>
           <p>{time}</p>
+          {/* <p>{getCategory(event.CategoryId)}</p> */}
           {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page

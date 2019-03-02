@@ -3,7 +3,7 @@ import React from 'react';
 import { Row } from 'react-materialize';
 import EventListEntry from './eventListEntry.jsx';
 
-const EventList = ({ events, renderClickedEventTitle, loggedin, togglePreloader, size }) => (
+const EventList = ({ events, renderClickedEventTitle, loggedin, togglePreloader, size, getCategory }) => (
   <Row className="events-list">
     {events.map(event => (
       <EventListEntry
