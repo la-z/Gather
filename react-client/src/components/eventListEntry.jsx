@@ -19,23 +19,31 @@ class EventListEntry extends React.Component {
   }
   
   componentDidMount() {
-    const { event, getEvents } = this.props;
-    getEvents('all', () => {
-      console.log('events updated');
-    });
+    // const { event, getEvents } = this.props;
+    // getEvents('all', () => {
+    //   console.log('events updated');
+    // });
 
-    const componentDidUpdate = () => {
-      // const { getEvents } = this.props;
-      getEvents('all', () => {
-        console.log('component did update');
-      });
-    };
+    // const componentDidUpdate = () => {
+    //   // const { getEvents } = this.props;
+    //   getEvents('all', () => {
+    //     console.log('component did update');
+    //   });
+    
+    // };
 
-    componentDidUpdate();
+    // const componentWillUnmount =  () => {
+    //   return clearInterval(this.props)
+    // }
 
-    // this.reverseGeocodingRequest();
+    // componentDidUpdate();
 
-    // console.log(moment(event.time).toLocaleString().slice(15));
+    // componentWillUnmount();
+      
+    // // this.reverseGeocodingRequest();
+
+    // // console.log(moment(event.time).toLocaleString().slice(15));
+    // setInterval(()=>{})
     this.setState({
       date: moment(event.time).toLocaleString().slice(0, -18),
       time: moment(event.time).toLocaleString().slice(15, -12),
