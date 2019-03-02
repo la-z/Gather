@@ -324,7 +324,7 @@ else on addition: add friend, send 200, {username, id}
     db.Event.destroy({ where: { id: eventId, UserId: user.id } })
       .then((destroyedCount) => {
         if (destroyedCount) return res.send(200);
-        return res.send(403);
+        return res.send(403, req);
       })
       .catch(err => errorHandler(req, res, err));
   },

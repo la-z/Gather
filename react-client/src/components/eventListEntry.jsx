@@ -13,22 +13,43 @@ class EventListEntry extends React.Component {
     this.state = {
       rsvpState: 'n/a',
       address: '',
-      view: this.props.view,
+      view: props.view,
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
   
   componentDidMount() {
-    const { event } = this.props;
-    
-    // this.reverseGeocodingRequest();
+    // const { event, getEvents } = this.props;
+    // getEvents('all', () => {
+    //   console.log('events updated');
+    // });
 
-    // console.log(moment(event.time).toLocaleString().slice(15));
-    this.setState({ 
+    // const componentDidUpdate = () => {
+    //   // const { getEvents } = this.props;
+    //   getEvents('all', () => {
+    //     console.log('component did update');
+    //   });
+    
+    // };
+
+    // const componentWillUnmount =  () => {
+    //   return clearInterval(this.props)
+    // }
+
+    // componentDidUpdate();
+
+    // componentWillUnmount();
+      
+    // // this.reverseGeocodingRequest();
+
+    // // console.log(moment(event.time).toLocaleString().slice(15));
+    // setInterval(()=>{})
+    this.setState({
       date: moment(event.time).toLocaleString().slice(0, -18),
       time: moment(event.time).toLocaleString().slice(15, -12),
     });
   }
+
 
   updateRSVP(params, eventID) {
     const { togglePreloader } = this.props;
@@ -36,7 +57,7 @@ class EventListEntry extends React.Component {
     axios.patch(`/events/${eventID}/rsvp`, params)
       .then((res) => {
         togglePreloader();
-        //console.log(res);
+        console.log(res);
         window.Materialize.toast(`${params.rsvp}`, 1000);
         this.setState({ rsvpState: params.rsvp });
       })
