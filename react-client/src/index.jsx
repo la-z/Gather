@@ -227,51 +227,29 @@ class App extends React.Component {
       view: 'eventPage',
     });
 
-    //    get req to server
-    //    endpoint: /events/${event.id}/rsvp
-    //    send 'going'
-    //    set attending users state to array from server
-    //    send down to eventpage
-
+    // get all user ids of users attending event
     axios.get(`/events/${object.id}/rsvp`)
       .then((res) => {
-        // console.log(res.data);
         const promises = res.data.map((user) => {
-          // console.log(user.UserId, 'USER ID');
+          // get each username using the userid
+          // this will make an array of promises that will each resolve to a username
           return axios.get(`/users/${user.UserId}`);
         });
-        // console.log(promises);
+        // return all those promises as one promise
         return Promise.all(promises);
       })
       .catch((err) => { console.log(err); })
       .then((AttendingUserInfo) => {
-        // console.log(AttendingUserInfo, 'ATTENDING USERS');
+        // make an array of just usernames
         const usernames = AttendingUserInfo.map((user) => {
-          console.log(user.data[0].username, 'USERNAME');
           return user.data[0].username;
         });
+        // update state to usernames
         this.setState({
           attendingUsers: usernames,
         });
       })
       .catch((err) => { console.log(err); });
-
-
-    // .then((res) => {
-
-    //   res.data.forEach((user) => {
-    //     console.log(user.UserId);
-    //     return axios.get(`/users/${user.UserId}`);
-    //   });
-    // })
-    // .then((res) => {
-    //   // this.setState({
-    //   //   attendingUsers: res.data,
-    //   // });
-    //   console.log(res,)
-    //   this.state.attendingUsers.push(res);
-    // })
-    // .catch((err) => { console.log(err); });
   }
 
 
