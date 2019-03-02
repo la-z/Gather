@@ -18,6 +18,7 @@ import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 import EditEvent from './components/EditEventForm.jsx';
 import FriendsList from './components/FriendsList.jsx'
+import AttendingUsersList from './components/AttendingUsersList.jsx'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
 
@@ -34,7 +35,6 @@ class App extends React.Component {
       preloader: false,
       categories: [],
       attendingUsers: [],
-      submit: true,
     };
     this.renderClickedEventTitle = this.renderClickedEventTitle.bind(this);
     this.clickHome = this.clickHome.bind(this);
@@ -70,7 +70,7 @@ class App extends React.Component {
   getCategory(categoryName, cb = () => {}) {
     axios.get(`/events/category/${categoryName}`)
       .then(({ data, headers }) => {
-        console.log(headers);
+        // console.log(headers);
         if (headers.login && headers.user) {
           this.setState({ events: data, loggedin: true, username: headers.user }, cb);
         } else {
@@ -223,25 +223,49 @@ class App extends React.Component {
   // }
 
   renderClickedEventTitle(object) {
+
     this.setState({
       clickedEvent: object,
       view: 'eventPage',
     });
 
-  //    get req to server
-  //    endpoint: /events/${event.id}/rsvp
-  //    send 'going'
-  //    set attending users state to array from server
-  //    send down to eventpage
+    //    get req to server
+    //    endpoint: /events/${event.id}/rsvp
+    //    send 'going'
+    //    set attending users state to array from server
+    //    send down to eventpage
+
+    axios.get(`/events/${object.id}/rsvp`)
+      .then((res) => {
+        console.log(res);
+
+        this.setState({
+          attendingUsers: res.data,
+        });
+      })
+      .catch((err) => { console.log(err); });
+
+      // try nested get req
+      // axios.get('/events/my-events')
+      // .then(({ data }) => {
+      //   console.log(data);
+      //   this.setState({ myEvents: data });
+      //   return axios.get('/user/rsvp');
+      // })
+      // .then(({ data }) => {
+      //   console.log(data);
+      //   this.setState({ myRsvps: data });
+      //   togglePreloader();
+      // });
   }
-  
+
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, attendingUsers,
     } = this.state;
     const Navbar = () => (
-      < NavbarComp
+      <NavbarComp
         loggedin={loggedin}
         username={username}
         clickHome={this.clickHome}
@@ -287,6 +311,9 @@ class App extends React.Component {
             username={username}
             refresh={this.clickHome}
             editEvent={this.editEvent}
+          />
+          <AttendingUsersList
+            attendingUsers={attendingUsers}
           />
         </div>
       );
@@ -334,6 +361,7 @@ class App extends React.Component {
             userID={userID}
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
+            getEvents={this.getCategory}
           />
         </div>
       );
