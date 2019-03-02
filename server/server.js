@@ -12,6 +12,7 @@ const {
   addFriend,
   getFriends,
   getFriend,
+  getEventsByFriend,
   signup,
   getEventsByUser,
   getCategory,
@@ -124,7 +125,9 @@ app.patch('/events/:eventId', checkAuthentication, editEvent);
 
 app.delete('/events/:eventId', checkAuthentication, deleteEvent);
 
-app.get('events/:friendId', checkAuthentication, getEventsByUser);
+app.get('events/:friendId', checkAuthentication, getEventsByFriend);
+
+
 
 // rsvp events
 

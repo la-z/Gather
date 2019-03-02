@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import { Row, Col, Table } from 'react-materialize';
-
+import { Redirect } from 'react-router-dom';
 import NavbarComp from './components/navbar.jsx';
 import Info from './components/Info.jsx';
 import Categories from './components/categories.jsx';
@@ -17,7 +17,7 @@ import Edit from './components/EditEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
 import EditEvent from './components/EditEventForm.jsx';
-import FriendsList from './components/FriendsList.jsx'
+import FriendEvents from './components/FriendEvents.jsx'
 import AttendingUsersList from './components/AttendingUsersList.jsx'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3NrbGFkeiIsImEiOiJjanNkaDZvMGkwNnFmNDRuczA1cnkwYzBlIn0.707UUYmzztGHU2aVoZAq4g';
@@ -73,11 +73,17 @@ class App extends React.Component {
     console.log(response)
     let friendId = response.data.id;
     let friendUser = response.data.username;
-    this.setState({friend: {
+    this.setState({
+    friend: {
       user: friendUser,
       id: friendId
       } 
     })
+    setTimeout(() => {
+      this.setState({
+        view: 'friendEvents',
+      });
+    }, 1000);
   }
 
 
@@ -281,8 +287,11 @@ class App extends React.Component {
 
   render() {
     const {
-      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, attendingUsers,
+      events, clickedEvent, view, userID, loggedin, username, preloader, categories, submit, attendingUsers, friend, redirect
     } = this.state;
+    if (redirect === true) {
+      return <Redirect to={{ pathname: '/events/my-events' }} />;
+    }
     const Navbar = () => (
       <NavbarComp
         loggedin={loggedin}
@@ -378,6 +387,8 @@ class App extends React.Component {
           <MyEvents
             togglePreloader={this.togglePreloader}
             userID={userID}
+            friendId={friend.id}
+            friendUsername={friend.user}
             username={username}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}
@@ -390,16 +401,17 @@ class App extends React.Component {
         <div>
           {preloader ? <Spinner /> : null}
           <Navbar />
-          <MyEvents
+          <FriendEvents
             togglePreloader={this.togglePreloader}
-            friendID={userID}
-            username={username}
+            userdId={friend.id}
+            username={friend.user}
             renderClickedEventTitle={this.renderClickedEventTitle}
             getEvents={this.getCategory}
+            getFriendEventDashboard={this.getFriendEventDashboard}
           />
         </div>
       );
-    }
+    } 
     return (
       <div>
         {preloader ? <Spinner /> : null}

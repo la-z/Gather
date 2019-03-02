@@ -14,6 +14,7 @@ class MyEvents extends React.Component {
       myFriends: [],
       view: this.props.view,
     };
+    // this.getFriendEvents = this.getFriendEvents.bind(this);
   }
 
   async componentDidMount() {
@@ -38,11 +39,10 @@ class MyEvents extends React.Component {
   }
 
 
-
-
   render() {
-    const { myEvents, myRsvps } = this.state;
+    const { myEvents, myRsvps, redirect } = this.state;
     const { renderClickedEventTitle, getEvents, getFriendEventDashboard } = this.props;
+   
     if (!myEvents.length && !myRsvps.length) {
       return (
         <div>
