@@ -16,7 +16,7 @@ import CreateEvent from './components/CreateEvent.jsx';
 import Edit from './components/EditEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
-import EditEvent from './components/EditEventForm.jsx';
+import EditEvent from './components/editEventForm.jsx';
 import FriendEvents from './components/FriendEvents.jsx'
 import AttendingUsersList from './components/AttendingUsersList.jsx'
 
