@@ -202,30 +202,10 @@ else on addition: add friend, send 200, {username, id}
   getCategoriesByEventId(req, res) {
     const { eventId } = req.params;
     const { page, sortBy } = req.query;
-    db.EventCategories.findAll({
-      where: eventId === 'all' ? { private: false } : { eventId: eventId, private: false },
-      // we don't want private events here
-      order: [[sortBy || 'time', 'DESC']],
-      limit: 10,
-      offset: page * 10 || 0,
-      include: [{
-        model: db.User,
-        attributes: ['username'],
-      },
-      {
-        model: db.Comment,
-        attributes: ['body'],
-        include: [{
-          model: db.User,
-          attributes: ['username'],
-        }],
-      }],
-    })
-      .then((categories) => {
-        res.status(200);
-        res.json(categories);
-      })
-      .catch(err => errorHandler(req, res, err));
+    db.EventCategories.findAll({ where: { eventId } })
+      .then(() => {
+
+      });
   },
 
   /*

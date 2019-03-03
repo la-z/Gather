@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Category.associate = (models) => {
     Category.hasMany(models.Event);
+    Category.belongsToMany(models.Event, { through: models.EventCategories });
     Category.belongsTo(models.Category, { as: 'ParentCategory', constraints: false });
   };
 
