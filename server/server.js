@@ -12,6 +12,8 @@ const {
   logout,
   addFriend,
   getFriends,
+  getFriend,
+  getEventsByFriend,
   signup,
   getEventsByUser,
   getCategory,
@@ -31,6 +33,9 @@ const {
   deleteCategory,
   getCategories,
   getRsvpByUser,
+  getRsvpByFriend,
+  getRsvpUsers,
+  getUsernameByUserId,
   // emailSender,
 } = require('./helpers/request-handler');
 const { checkAuthentication, checkAdmin } = require('./helpers/auth');
@@ -80,17 +85,24 @@ app.post('/signup', signup);
 
 app.delete('/users/:userId', checkAuthentication, deleteUser);
 
+app.get('/users/:userId', getUsernameByUserId);
+
 app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
+
+app.get('/user/rsvp/:friend', checkAuthentication, getRsvpByUser);
+
 
 // app.post('/addFriend', checkAuthentication, (req, res) => {
 //   console.log(req.body)
 //   let myId = req.body.myId;
 //   let username = req.body.username;
 // })
-app.post('/addFriend', checkAuthentication, addFriend) 
+app.post('/addFriend', checkAuthentication, addFriend);
 
 
-app.get('/myFriends/:userId', getFriends)
+app.get('/myFriends/:userId', getFriends);
+
+app.get('/friend/:username', getFriend)
 
 // categories
 
@@ -122,9 +134,16 @@ app.patch('/events/:eventId', checkAuthentication, editEvent);
 
 app.delete('/events/:eventId', checkAuthentication, deleteEvent);
 
+app.get('/events/friend/:friendId', checkAuthentication, getEventsByFriend);
+
+
+
 // rsvp events
 
 app.put('/events/:eventId/rsvp', checkAuthentication, rsvpEvent);
+
+app.get('/events/:eventId/rsvp', getRsvpUsers); // add checkAuthentication back
+
 
 app.patch('/events/:eventId/rsvp', checkAuthentication, updateRsvp);
 

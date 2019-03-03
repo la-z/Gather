@@ -14,6 +14,7 @@ class MyEvents extends React.Component {
       myFriends: [],
       view: this.props.view,
     };
+    // this.getFriendEvents = this.getFriendEvents.bind(this);
   }
 
   async componentDidMount() {
@@ -39,8 +40,9 @@ class MyEvents extends React.Component {
 
 
   render() {
-    const { myEvents, myRsvps } = this.state;
-    const { renderClickedEventTitle } = this.props;
+    const { myEvents, myRsvps, redirect } = this.state;
+    const { renderClickedEventTitle, getEvents, getFriendEventDashboard } = this.props;
+   
     if (!myEvents.length && !myRsvps.length) {
       return (
         <div>
@@ -57,15 +59,15 @@ class MyEvents extends React.Component {
       <Row>
         <Col s={12} m={6}>
           <h5>My RSVPs</h5>
-          <EventList events={myRsvps} size="12" renderClickedEventTitle={renderClickedEventTitle} />
+          <EventList events={myRsvps} size="12" renderClickedEventTitle={renderClickedEventTitle} getEvents={getEvents} />
         </Col>
         <Col s={12} m={6}>
           <h5>My created events</h5>
-          <EventList events={myEvents} size="12" renderClickedEventTitle={renderClickedEventTitle} />
+          <EventList events={myEvents} size="12" renderClickedEventTitle={renderClickedEventTitle} getEvents={getEvents} />
         </Col>
         <Col s={12} m={6}>
           <h5>My Friends List</h5>
-          <FriendsList size="12" friends={this.state.myFriends}/>
+          <FriendsList size="12" friends={this.state.myFriends} getFriendEventDashboard={getFriendEventDashboard}/>
         </Col>
         <br />
       </Row>
