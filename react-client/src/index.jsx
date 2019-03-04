@@ -16,7 +16,7 @@ import CreateEvent from './components/CreateEvent.jsx';
 import Edit from './components/EditEvent.jsx';
 import MyEvents from './components/MyEvents.jsx';
 import Spinner from './components/Preloader.jsx';
-import EditEvent from './components/EditEventForm.jsx';
+import EditEvent from './components/editEventForm.jsx';
 import FriendEvents from './components/FriendEvents.jsx'
 import AttendingUsersList from './components/AttendingUsersList.jsx'
 
@@ -56,6 +56,7 @@ class App extends React.Component {
     this.editSubmit = this.editSubmit.bind(this);
     this.addFriend = this.addFriend.bind(this);
     this.getFriendEventDashboard = this.getFriendEventDashboard.bind(this);
+    this.getEventsByCategoryIds = this.getEventsByCategoryIds.bind(this);
     // this.eventEditSubmited = this.eventEditSubmited.bind(this);
   }
 
@@ -66,7 +67,7 @@ class App extends React.Component {
     });
   }
 
-  async getFriendEventDashboard(event){
+  async getFriendEventDashboard(event) {
     // console.log(event.target.innerHTML)
     let friend = event.target.innerHTML;
     window.Materialize.toast(`going to ${friend}'s events!`, 1000);
@@ -75,11 +76,11 @@ class App extends React.Component {
     let friendId = response.data.id;
     let friendUser = response.data.username;
     this.setState({
-    friend: {
-      user: friendUser,
-      id: friendId
+      friend: {
+        user: friendUser,
+        id: friendId,
       } 
-    })
+    });
     setTimeout(() => {
       this.setState({
         view: 'friendEvents',
@@ -87,14 +88,8 @@ class App extends React.Component {
     }, 700);
   }
 
-
-  getCategoryNames(cb = () => {}) {
-    axios.get('/category')
-      .then(({ data }) => this.setState({ categories: data }, cb));
-  }
-
-  getCategory(categoryName, cb = () => {}) {
-    axios.get(`/events/category/${categoryName}`)
+  getEventsByCategoryIds(categoryIds, cb = () => {}) {
+    axios.get('/events/categories', categoryIds)
       .then(({ data, headers }) => {
         // console.log(headers);
         if (headers.login && headers.user) {
@@ -103,6 +98,63 @@ class App extends React.Component {
           this.setState({ events: data }, cb);
         }
       });
+  }
+
+  getCategoryNames(cb = () => {}) {
+    axios.get('/category')
+      .then(({ data }) => this.setState({ categories: data }, cb));
+  }
+
+  getCategory(categoryName, cb = () => {}) {
+    if (typeof (categoryName) === 'object' && Object.keys(categoryName).length !== 0) {
+      let events = [];
+      let loggedin;
+      let username;
+      const eventPromises = Object.keys(categoryName).map(category => axios.get(`/events/category/${category}`));
+      Promise.all(eventPromises)
+        .then((getRequests) => {
+          getRequests.forEach(({ data, headers }) => {
+            if (headers.login && headers.user) {
+              loggedin = true;
+              username = headers.user;
+            }
+            events = events.concat(data);
+          });
+          setTimeout(() => {
+            const newEvents = [];
+            for (let i = 0; i < events.length; i++) {
+              let unique = true;
+              for (let j = i + 1; j < events.length; j++) {
+                if (events[i].id === events[j].id) {
+                  unique = false;
+                }
+              }
+              if (unique) {
+                newEvents.push(events[i]);
+              }
+            }
+            events = newEvents;
+            if (loggedin && username !== undefined) {
+              this.setState({ events, loggedin, username }, cb);
+            } else {
+              this.setState({ events }, cb);
+            }
+          }, 1000);
+        });
+    } else {
+      if (Object.keys(categoryName).length === 0) {
+        categoryName = 'all';
+      }
+      axios.get(`/events/category/${categoryName}`)
+        .then(({ data, headers }) => {
+          // console.log(headers);
+          if (headers.login && headers.user) {
+            this.setState({ events: data, loggedin: true, username: headers.user }, cb);
+          } else {
+            this.setState({ events: data }, cb);
+          }
+        });
+    }
   }
 
   setUserID(username, userID) {
@@ -309,7 +361,7 @@ class App extends React.Component {
               <Info />
             </Col>
             <Col s={12} m={6}>
-              <Categories categories={categories} getCategory={this.getCategory} />
+              <Categories categories={categories} getEvents={this.getCategory} />
             </Col>
           </Row>
           <EventList

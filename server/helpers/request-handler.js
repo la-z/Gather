@@ -49,22 +49,22 @@ else on addition: add friend, send 200, {username, id}
    req.body =>  
    returns: JSON [ Friends ]
  */
-  getFriends(req, res){
+  getFriends(req, res) {
     let myId = req.params.userId;
     db.Friends.findAll({where: {userId: myId}})
-    .then( async (myFriends)=>{
+      .then(async (myFriends)=>{
       // console.log(myFriends)
       
-      let friends = myFriends.map((friend)=>{
-        let friendId = friend.friendId;
-        // let friends;
-         return friendId
-      })
-      let allFriends = await db.User.findAll({ where: { id: friends } })
-      // console.log(allFriends);
-      res.send(allFriends);
-      return friends;
-    })
+        let friends = myFriends.map((friend) => {
+          const friendId = friend.friendId;
+          // let friends;
+          return friendId;
+        });
+        const allFriends = await db.User.findAll({ where: { id: friends } });
+        // console.log(allFriends);
+        res.send(allFriends);
+        return friends;
+      });
   },
   
 /*
@@ -241,28 +241,83 @@ getFriend(req, res){
   getCategory(req, res) {
     const { categoryId } = req.params;
     const { page, sortBy } = req.query;
-    db.Event.findAll({
-      where: categoryId === 'all' ? { private: false } : { CategoryId: categoryId, private: false },
-      // we don't want private events here
-      order: [[sortBy || 'time', 'DESC']],
-      limit: 10,
-      offset: page * 10 || 0,
-      include: [{
-        model: db.User,
-        attributes: ['username'],
-      },
-      {
-        model: db.Comment,
-        attributes: ['body'],
+    if (categoryId !== 'all') {
+      let events = [];
+      db.EventCategories.findAll({ where: { CategoryId: categoryId } })
+        .then((eventCats) => {
+          const eventProms = eventCats.map((eventCat) => {
+            const { EventId } = eventCat;
+            return db.Event.findAll({
+              where: { id: EventId, private: false },
+              // we don't want private events here
+              order: [[sortBy || 'time', 'DESC']],
+              limit: 10,
+              offset: page * 10 || 0,
+              include: [{
+                model: db.User,
+                attributes: ['username'],
+              },
+              {
+                model: db.Comment,
+                attributes: ['body'],
+                include: [{
+                  model: db.User,
+                  attributes: ['username'],
+                }],
+              }],
+            });
+          });
+          return Promise.all(eventProms);
+        })
+        .then((eventProms) => {
+          eventProms.forEach((eventList) => {
+            events = events.concat(eventList);
+          });
+          res.status(200).json(events);
+        })
+        .catch(err => errorHandler(req, res, err));
+    } else {
+      db.Event.findAll({
+        where: categoryId === 'all' ? { private: false } : { CategoryId: categoryId, private: false },
+        // we don't want private events here
+        order: [[sortBy || 'time', 'DESC']],
+        limit: 10,
+        offset: page * 10 || 0,
         include: [{
           model: db.User,
           attributes: ['username'],
+        },
+        {
+          model: db.Comment,
+          attributes: ['body'],
+          include: [{
+            model: db.User,
+            attributes: ['username'],
+          }],
         }],
-      }],
-    })
-      .then((events) => {
-        res.status(200);
-        res.json(events);
+      })
+        .then((events) => {
+          res.status(200);
+          res.json(events);
+        })
+        .catch(err => errorHandler(req, res, err));
+    }
+  },
+
+  getCategoriesByEventId(req, res) {
+    const { eventId } = req.params;
+    const { page, sortBy } = req.query;
+    return db.EventCategories.findAll({ where: { EventId: eventId } })
+      .then((categories) => {
+        const catPromises = categories.map(category => category.CategoryId);
+        return Promise.all(catPromises);
+      })
+      .then((categoryIds) => {
+        const categories = categoryIds.map(id => db.Category.findOne({ where: { id } }));
+        return Promise.all(categories);
+      })
+      .then((categories) => {
+        res.status(200).json(categories);
       })
       .catch(err => errorHandler(req, res, err));
   },
@@ -286,17 +341,32 @@ getFriend(req, res){
     const { body } = req;
     const { user } = req;
     let category;
-    db.Category.findOne({ where: { name: body.category } })
-      .then((foundCategory) => {
-        category = foundCategory;
+    let categories;
+    const catPromises = Object.keys(body.categories).map((cat) => {
+      return db.Category.findOne({ where: { name: cat } });
+    });
+    Promise.all(catPromises)
+      .then((fullCats) => {
+        categories = fullCats.map((fullCat) => {
+          return fullCat.id;
+        });
         return db.Event.create(body);
       })
+    // db.Category.findOne({ where: { name: body.category } })
+    //   .then((foundCategory) => {
+    //     category = foundCategory;
+    //     return db.Event.create(body);
+    //   })
       .then((event) => {
         // need to associate event with creating user immediately
         event.setUser(user);
-        event.setCategory(category);
+        const eventCatCreations = categories.map((cat) => {
+          return db.EventCategories.create({ EventId: event.id, CategoryId: cat });
+        });
+        return Promise.all(eventCatCreations)
+          .then(() => event.save());
+        // event.setCategory(category);
         // doesn't actually save
-        return event.save();
         // does actually save
       })
       .then(savedEvent => res.send(200, savedEvent.id))
@@ -617,7 +687,7 @@ getFriend(req, res){
   response body => [InterestedEvent]
   */
   getRsvpByFriend(req, res) {
-    const user  = req.params.friend;
+    const user = req.params.friend;
     return user.getEvents()
       .then(interestedEvents => res.status(200).json(interestedEvents))
       .catch(err => errorHandler(req, res, err));

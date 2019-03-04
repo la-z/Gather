@@ -10,6 +10,7 @@ class Geocoder extends React.Component {
     this.state = {
       geocodedLat: null,
       geocodedLong: null,
+      categories: {},
       title: '',
       description: '',
       address: '',
@@ -30,9 +31,13 @@ class Geocoder extends React.Component {
     this.processDatetime = this.processDatetime.bind(this);
   }
 
+  componentDidMount() {
+    
+  }
+
   // eslint-disable-next-line react/sort-comp
   handleFormSubmit(submitEvent) {
-    const { title, description, address, date, duration, category } = this.state;
+    const { title, description, address, date, duration, category, categories } = this.state;
     submitEvent.preventDefault();
     console.log('You Clicked Submit', submitEvent);
     /*
@@ -51,7 +56,7 @@ class Geocoder extends React.Component {
           long: latNlongArr[0],
           time: moment(this.processDatetime()).format(),
           duration,
-          category,
+          categories,
         };
         axios.put('/events', params)
           .then((result) => { console.log(result);
@@ -123,12 +128,35 @@ class Geocoder extends React.Component {
   render() {
     const { categories } = this.props;
     const { address, duration, title, date, time, description } = this.state;
+    const categoriesToAdd = {};
+    function changeCategories(e) {
+      if (categoriesToAdd[e.target.value]) {
+        delete categoriesToAdd[e.target.value];
+      } else {
+        categoriesToAdd[e.target.value] = e.target.value;
+      }
+    }
+    const submit = (event) => {
+      event.preventDefault();
+      this.setState({ categories: categoriesToAdd }, () => {
+        // console.log(this.state.categories);
+        this.handleFormSubmit(event);
+      });
+    }
 
     return (
-      <form className="form-inline" onSubmit={this.handleFormSubmit}>
-        <Input required type="select" onChange={this.handleCategoryChange} label="Category">
+      <form className="form-inline" onSubmit={submit}>
+        {/* <Input required type="select" onChange={this.handleCategoryChange} label="Category">
           {categories.map(category => <option value={category.name}>{category.name}</option>)}
-        </Input>
+        </Input> */}
+        {categories.map((category) => {
+          return (
+            <div>
+              <Input name="group1" type="checkbox" value={category.name} label={category.name} onChange={changeCategories} />
+            </div>
+          );
+        })}
+
         <input required type="text" name="address" placeholder="address" value={address} onChange={this.setGeocodeSearch} />
         <input required type="text" name="duration" placeholder="duration in number of hours" value={duration} onChange={this.handleDurationChange} />
         <input required type="text" name="title" placeholder="Title" value={title} onChange={this.handleTitleChange} />
