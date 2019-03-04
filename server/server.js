@@ -8,6 +8,7 @@ require('./helpers/session')(passport);
 
 const PORT = process.env.PORT || 1128;
 const {
+  getCategoriesByEventId,
   logout,
   addFriend,
   getFriends,
@@ -90,7 +91,6 @@ app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 
 app.get('/user/rsvp/:friend', checkAuthentication, getRsvpByUser);
 
-
 // app.post('/addFriend', checkAuthentication, (req, res) => {
 //   console.log(req.body)
 //   let myId = req.body.myId;
@@ -101,7 +101,7 @@ app.post('/addFriend', checkAuthentication, addFriend);
 
 app.get('/myFriends/:userId', getFriends);
 
-app.get('/friend/:username', getFriend)
+app.get('/friend/:username', getFriend);
 
 // categories
 
@@ -113,6 +113,8 @@ app.patch('/category', checkAuthentication, checkAdmin, editCategory);
 
 app.delete('/category', checkAuthentication, checkAdmin, deleteCategory);
 
+app.get('/category/:eventId', getCategoriesByEventId);
+
 // events
 
 app.get('/events/my-events', checkAuthentication, getEventsByUser);
@@ -120,6 +122,10 @@ app.get('/events/my-events', checkAuthentication, getEventsByUser);
 app.get('/events/category/:categoryId', (req, res) => {
   getCategory(req, res);
 });
+
+// app.get('/events/categories', (req, res) => {
+  
+// });
 
 app.get('/events/:eventId', checkAuthentication, getEvent);
 

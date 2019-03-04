@@ -5,6 +5,7 @@ import React from 'react';
 import { Card, Col, Button, Toast } from 'react-materialize';
 import axios from 'axios';
 import moment from 'moment';
+import Chip from 'react-materialize/lib/Chip';
 
 class EventListEntry extends React.Component {
   constructor(props) {
@@ -13,23 +14,24 @@ class EventListEntry extends React.Component {
     this.state = {
       rsvpState: 'n/a',
       address: '',
+      categories: [],
       view: props.view,
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
   }
   
   componentDidMount() {
-
     const { event, getEvents } = this.props;
-    getEvents('all', () => {
-      console.log('events updated');
-    });
+    this.getCategoriesByGivenEventId(event.id);
+    // getEvents('all', () => {
+    //   console.log('events updated');
+    // });
 
     const componentDidUpdate = () => {
       // const { getEvents } = this.props;
-      getEvents('all', () => {
-        console.log('component did update');
-      });
+      // getEvents('all', () => {
+      //   console.log('component did update');
+      // });
     };
 
     componentDidUpdate();
@@ -43,6 +45,14 @@ class EventListEntry extends React.Component {
     });
   }
 
+  getCategoriesByGivenEventId(eventId, cb = () => {}) {
+    axios.get(`/category/${eventId}`)
+      .then(({ data }) => {
+        const categoryNames = data.map(({ name }) => name);
+        this.setState({ categories: categoryNames }, cb);
+      })
+      .catch(err => console.log(err));
+  }
 
   updateRSVP(params, eventID) {
     const { togglePreloader } = this.props;
@@ -50,6 +60,7 @@ class EventListEntry extends React.Component {
     axios.patch(`/events/${eventID}/rsvp`, params)
       .then((res) => {
         togglePreloader();
+        // console.log(res);
         console.log(res);
         window.Materialize.toast(`${params.rsvp}`, 1000);
         this.setState({ rsvpState: params.rsvp });
@@ -92,18 +103,20 @@ class EventListEntry extends React.Component {
 
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
-    const { date, time, view } = this.state;
+    const { date, time, view, categories } = this.state;
     const size = this.props.size || 6;
     return (
       <Col s={12} m={size}>
         <Card className="card">
           <h4 className="clickable" onClick={() => renderClickedEventTitle(event)}>{event.title}</h4>
-          <h4>{event.category}</h4>
+          {/* <h4>{event.CategoryId}</h4> */}
           {/* <p> {this.state.address}</p> */}
           <p>{event.description}</p>
           <p>{date}</p>
           <p>{time}</p>
           {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
+          <h5>Tags:</h5>
+          {categories.map(category => <Chip>{category}</Chip>)}
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>
