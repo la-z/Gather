@@ -13,7 +13,7 @@ class EventListEntry extends React.Component {
     this.state = {
       rsvpState: 'n/a',
       address: '',
-      category: '',
+      categories: [],
       view: props.view,
     };
     // this.reverseGeocodingRequest = this.reverseGeocodingRequest.bind(this);
@@ -46,7 +46,10 @@ class EventListEntry extends React.Component {
 
   getCategoriesByGivenEventId(eventId, cb = () => {}) {
     axios.get(`/category/${eventId}`)
-      .then(({ data }) => this.setState({category: data[0].name }, cb))
+      .then(({ data }) => {
+        const categoryNames = Object.keys(data).map(({ name }) => name);
+        this.setState({ categories: categoryNames }, cb);
+      })
       .catch(err => console.log(err));
   }
 
@@ -99,7 +102,7 @@ class EventListEntry extends React.Component {
 
   render() {
     const { event, renderClickedEventTitle, loggedin } = this.props;
-    const { date, time, view } = this.state;
+    const { date, time, view, categories } = this.state;
     const size = this.props.size || 6;
     return (
       <Col s={12} m={size}>
@@ -110,8 +113,8 @@ class EventListEntry extends React.Component {
           <p>{event.description}</p>
           <p>{date}</p>
           <p>{time}</p>
-          {/* <p>{getCategory(event.CategoryId)}</p> */}
           {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
+          <h5>{categories}</h5>
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>

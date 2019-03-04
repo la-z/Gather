@@ -123,6 +123,10 @@ app.get('/events/category/:categoryId', (req, res) => {
   getCategory(req, res);
 });
 
+// app.get('/events/categories', (req, res) => {
+  
+// });
+
 app.get('/events/:eventId', checkAuthentication, getEvent);
 
 app.put('/events', checkAuthentication, makeNewEvent);
