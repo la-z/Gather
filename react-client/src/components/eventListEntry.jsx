@@ -5,6 +5,7 @@ import React from 'react';
 import { Card, Col, Button, Toast } from 'react-materialize';
 import axios from 'axios';
 import moment from 'moment';
+import Chip from 'react-materialize/lib/Chip';
 
 class EventListEntry extends React.Component {
   constructor(props) {
@@ -20,17 +21,17 @@ class EventListEntry extends React.Component {
   }
   
   componentDidMount() {
-
     const { event, getEvents } = this.props;
-    getEvents('all', () => {
-      console.log('events updated');
-    });
+    this.getCategoriesByGivenEventId(event.id);
+    // getEvents('all', () => {
+    //   console.log('events updated');
+    // });
 
     const componentDidUpdate = () => {
       // const { getEvents } = this.props;
-      getEvents('all', () => {
-        console.log('component did update');
-      });
+      // getEvents('all', () => {
+      //   console.log('component did update');
+      // });
     };
 
     componentDidUpdate();
@@ -47,7 +48,7 @@ class EventListEntry extends React.Component {
   getCategoriesByGivenEventId(eventId, cb = () => {}) {
     axios.get(`/category/${eventId}`)
       .then(({ data }) => {
-        const categoryNames = Object.keys(data).map(({ name }) => name);
+        const categoryNames = data.map(({ name }) => name);
         this.setState({ categories: categoryNames }, cb);
       })
       .catch(err => console.log(err));
@@ -114,7 +115,8 @@ class EventListEntry extends React.Component {
           <p>{date}</p>
           <p>{time}</p>
           {event.InterestedEvent ? <p className="rsvp">{event.InterestedEvent.rsvp}</p> : null}
-          <h5>{categories}</h5>
+          <h5>Tags:</h5>
+          {categories.map(category => <Chip>{category}</Chip>)}
           {/*
           Would be nice to have a conitional that makes this show up only on the MyEvents Page
           <button>Delete</button>

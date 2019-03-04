@@ -121,6 +121,19 @@ class App extends React.Component {
             events = events.concat(data);
           });
           setTimeout(() => {
+            const newEvents = [];
+            for (let i = 0; i < events.length; i++) {
+              let unique = true;
+              for (let j = i + 1; j < events.length; j++) {
+                if (events[i].id === events[j].id) {
+                  unique = false;
+                }
+              }
+              if (unique) {
+                newEvents.push(events[i]);
+              }
+            }
+            events = newEvents;
             if (loggedin && username !== undefined) {
               this.setState({ events, loggedin, username }, cb);
             } else {

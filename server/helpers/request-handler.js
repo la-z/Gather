@@ -247,7 +247,6 @@ getFriend(req, res){
         .then((eventCats) => {
           const eventProms = eventCats.map((eventCat) => {
             const { EventId } = eventCat;
-            console.log(EventId, '===========================================');
             return db.Event.findAll({
               where: { id: EventId, private: false },
               // we don't want private events here
