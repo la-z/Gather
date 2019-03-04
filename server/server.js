@@ -91,7 +91,6 @@ app.get('/user/rsvp', checkAuthentication, getRsvpByUser);
 
 app.get('/user/rsvp/:friend', checkAuthentication, getRsvpByUser);
 
-
 // app.post('/addFriend', checkAuthentication, (req, res) => {
 //   console.log(req.body)
 //   let myId = req.body.myId;
@@ -102,7 +101,7 @@ app.post('/addFriend', checkAuthentication, addFriend);
 
 app.get('/myFriends/:userId', getFriends);
 
-app.get('/friend/:username', getFriend)
+app.get('/friend/:username', getFriend);
 
 // categories
 
@@ -114,9 +113,7 @@ app.patch('/category', checkAuthentication, checkAdmin, editCategory);
 
 app.delete('/category', checkAuthentication, checkAdmin, deleteCategory);
 
-app.get('/category/:eventId', (req, res) => {
-  // getCategoriesByEventId(req, res);
-});
+app.get('/category/:eventId', getCategoriesByEventId);
 
 // events
 

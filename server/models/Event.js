@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     Event.belongsTo(models.User, { constraints: false });
     Event.hasMany(models.Comment);
     Event.belongsToMany(models.Category, { through: models.EventCategories });
-    Event.hasMany(models.Category, { constraints: false });
+    // Event.hasMany(models.Category, { constraints: false });
   };
 
   return Event;

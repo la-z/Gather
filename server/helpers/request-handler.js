@@ -270,10 +270,19 @@ getFriend(req, res){
   getCategoriesByEventId(req, res) {
     const { eventId } = req.params;
     const { page, sortBy } = req.query;
-    db.EventCategories.findAll({ where: { eventId } })
-      .then(() => {
-
-      });
+    return db.EventCategories.findAll({ where: { EventId: eventId } })
+      .then((categories) => {
+        const catPromises = categories.map(category => category.CategoryId);
+        return Promise.all(catPromises);
+      })
+      .then((categoryIds) => {
+        const categories = categoryIds.map(id => db.Category.findOne({ where: { id } }));
+        return Promise.all(categories);
+      })
+      .then((categories) => {
+        res.status(200).json(categories);
+      })
+      .catch(err => errorHandler(req, res, err));
   },
 
   /*
@@ -295,17 +304,32 @@ getFriend(req, res){
     const { body } = req;
     const { user } = req;
     let category;
-    db.Category.findOne({ where: { name: body.category } })
-      .then((foundCategory) => {
-        category = foundCategory;
+    let categories;
+    const catPromises = Object.keys(body.categories).map((cat) => {
+      return db.Category.findOne({ where: { name: cat } });
+    });
+    Promise.all(catPromises)
+      .then((fullCats) => {
+        categories = fullCats.map((fullCat) => {
+          return fullCat.id;
+        });
         return db.Event.create(body);
       })
+    // db.Category.findOne({ where: { name: body.category } })
+    //   .then((foundCategory) => {
+    //     category = foundCategory;
+    //     return db.Event.create(body);
+    //   })
       .then((event) => {
         // need to associate event with creating user immediately
         event.setUser(user);
-        event.setCategory(category);
+        const eventCatCreations = categories.map((cat) => {
+          return db.EventCategories.create({ EventId: event.id, CategoryId: cat });
+        });
+        return Promise.all(eventCatCreations)
+          .then(() => event.save());
+        // event.setCategory(category);
         // doesn't actually save
-        return event.save();
         // does actually save
       })
       .then(savedEvent => res.send(200, savedEvent.id))
@@ -626,7 +650,7 @@ getFriend(req, res){
   response body => [InterestedEvent]
   */
   getRsvpByFriend(req, res) {
-    const user  = req.params.friend;
+    const user = req.params.friend;
     return user.getEvents()
       .then(interestedEvents => res.status(200).json(interestedEvents))
       .catch(err => errorHandler(req, res, err));
